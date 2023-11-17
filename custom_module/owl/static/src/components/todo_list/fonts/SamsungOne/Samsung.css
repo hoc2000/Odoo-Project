@@ -1,0 +1,8 @@
+@font-face {
+    font-family: SamSungFont;
+    src: url(SamsungOne-400.ttf);
+}
+
+* {
+  font-family: SamSungFont Arial, Helvetica, sans-serif;
+}

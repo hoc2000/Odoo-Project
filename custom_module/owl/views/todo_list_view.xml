@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="todolist_view_tree" model="ir.ui.view">
+        <field name="name">todolist_view_tree</field>
+        <field name="model">owl.todo.list</field>
+        <field name="arch" type="xml">
+            <tree string="_tree" sample="1">
+                <field name="name"/>
+                <field name="color" widget="color"/>
+                <field name="completed"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="todolist_view_form" model="ir.ui.view">
+        <field name="name">todolist_view_form</field>
+        <field name="model">owl.todo.list</field>
+        <field name="arch" type="xml">
+            <form string="_form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="color" widget="color"/>
+                        <field name="completed"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    window action normal by python-->
+    <record id="_action_todo_list" model="ir.actions.act_window">
+        <field name="name">To Do List</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">owl.todo.list</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--    client action by owl fw-->
+    <record id="_action_owl_todo_list" model="ir.actions.client">
+        <field name="name">To Do List Owl</field>
+        <!--        lấy tag đc khai báo ở js component-->
+        <field name="tag">owl.action_todo_list_js</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="menu_todo_list_root" name="OWL-ToDo" web_icon="owl,static/description/icon.png" sequence="2">
+        <menuitem id="menu_todo_list_basic" name="Todo List" action="_action_todo_list" sequence="0" />
+        <menuitem id="menu_owl_todo_list_basic" name="Todo Owl List" action="_action_owl_todo_list" sequence="0" />
+    </menuitem>
+
+
+</odoo>

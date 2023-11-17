@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ansv__project.access_project_ansv,access_project_ansv,ansv__project.model_project_ansv,base.group_user,1,1,1,1
+ansv__project.access_product_ansv,access_product_ansv,ansv__project.model_product_ansv,base.group_user,1,1,1,1
+ansv__project.access_product_in_project,access_product_in_project,ansv__project.model_product_in_project,base.group_user,1,1,1,1
+ansv__project.access_component_product_ansv,access_component_product_ansv,ansv__project.model_component_product_ansv,base.group_user,1,1,1,1
+ansv__project.access_component_version,access_component_version,ansv__project.model_component_version,base.group_user,1,1,1,1

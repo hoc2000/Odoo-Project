@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="component_1" model="component.product.ansv">
+            <field name="name">GVP</field>
+            <field name="version">0.0</field>
+        </record>
+
+        <record id="component_2" model="component.product.ansv">
+            <field name="name">SIP</field>
+            <field name="version">0.0</field>
+        </record>
+
+        <record id="component_3" model="component.product.ansv">
+            <field name="name">DB</field>
+            <field name="version">0.0</field>
+        </record>
+
+        <record id="component_4" model="component.product.ansv">
+            <field name="name">Composer</field>
+            <field name="version">0.0</field>
+        </record>
+    </data>
+
+</odoo>

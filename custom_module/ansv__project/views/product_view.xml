@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ansv_product_action" model="ir.actions.act_window">
+            <field name="name">ANSV Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.ansv</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!--    form view-->
+        <record id="product_form_view_form" model="ir.ui.view">
+            <field name="name">product_form_view_form</field>
+            <field name="model">product.ansv</field>
+            <field name="arch" type="xml">
+                <form string="product_form_form">
+                    <sheet>
+                        <group>
+                            <field name="product_name"/>
+                        </group>
+                        <notebook>
+                            <page name="components" string="Components">
+                                <field name="components_list_id">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="version_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="ansv__project.menu_2"
+                  name="Product"
+                  parent="ansv__project.menu_root"
+                  action="ansv_product_action"
+                  sequence="1"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,105 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="ansv_project_list">
+            <field name="name">ANSV Project list</field>
+            <field name="model">project.ansv</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="project_name"/>
+                    <field name="value"/>
+                    <field name="value2"/>
+                    <field name="color" widget="color_picker"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        form view-->
+        <record id="ansv_project_view_form" model="ir.ui.view">
+            <field name="name">ANSV Project Form</field>
+            <field name="model">project.ansv</field>
+            <field name="arch" type="xml">
+                <form string="_form">
+                    <sheet>
+                        <group>
+                            <field name="project_name"/>
+                            <field name="value"/>
+                            <field name="value2"/>
+                            <field name="color" widget="color_picker"/>
+
+                        </group>
+
+                        <notebook>
+                            <page name="description" string="Description">
+                                <field name="description_project" placeholder="enter your description here"/>
+                            </page>
+                            <page name="product" string="Product">
+                                <field name="product_lines_id">
+                                    <!--    khai báo tree trong page-->
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                    <!--    form pop up-->
+                                    <form>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="quantity"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="ansv__project.action_window">
+            <field name="name">ANSV Project</field>
+            <field name="res_model">project.ansv</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- server action to the one above -->
+        <!--
+            <record model="ir.actions.server" id="ansv__project.action_server">
+              <field name="name">ANSV_Project server</field>
+              <field name="model_id" ref="model_ansv__project_ansv__project"/>
+              <field name="state">code</field>
+              <field name="code">
+                action = {
+                  "type": "ir.actions.act_window",
+                  "view_mode": "tree,form",
+                  "res_model": model._name,
+                }
+              </field>
+            </record>
+        -->
+
+        <!-- Top menu item -->
+
+        <menuitem name="ANSV Project"
+                  id="ansv__project.menu_root"
+                  web_icon="ansv__project,static/description/icon.png"
+                  sequence="0"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Project"
+                  id="ansv__project.menu_1"
+                  parent="ansv__project.menu_root"
+                  action="ansv__project.action_window"
+                  sequence="0"/>
+        <!-- actions -->
+        <!--
+            <menuitem name="List" id="ansv__project.menu_1_list" parent="ansv__project.menu_1"
+                      action="ansv__project.action_window"/>
+            <menuitem name="Server to list" id="ansv__project" parent="ansv__project.menu_2"
+                      action="ansv__project.action_server"/>
+        -->
+    </data>
+</odoo>
