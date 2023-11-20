@@ -33,7 +33,10 @@
     "application": True,
     "assets": {
         "web.assets_backend": [
-            "mockdesk/static/src/*/*.scss",
+            "mockdesk/static/src/scss/*.scss",
+            "mockdesk/static/src/components/dashboard/*.js",
+            "mockdesk/static/src/components/dashboard/*.xml",
+            "mockdesk/static/src/components/dashboard/*.css",
         ],
     },
     "auto_install": False,
