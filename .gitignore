@@ -47,3 +47,7 @@ package.json
 /man/
 /share/
 /src/
+
+#file config
+odoo-bin
+odoo.conf
