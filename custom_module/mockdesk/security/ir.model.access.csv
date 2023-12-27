@@ -23,3 +23,4 @@ mockdesk.do_access_helpdesk_teams,do_access_helpdesk_teams,mockdesk.model_helpde
 
 mockdesk.access_helpdesk_ticket_type,access_helpdesk_ticket_type,mockdesk.model_helpdesk_ticket_type,base.group_user,1,1,1,1
 mockdesk.access_sla_policy_ansv,access_sla_policy_ansv,mockdesk.model_sla_policy_ansv,base.group_user,1,1,1,1
+mockdesk.access_individual_ticket_sla,access_individual_ticket_sla,mockdesk.model_individual_ticket_sla,base.group_user,1,1,1,1

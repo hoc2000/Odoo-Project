@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="owl.ProjectDashboard" owl="1">
+        <div class="vh-100 overflow-auto bg-muted">
+            <div class="row m-3">
+                <div class="col-lg-7">
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="shadow-sm border m-2 p-4 bg-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h1 class="text-primary fw-bold">Project Dashboard</h1>
+                                    <div>
+                                        <!-- tự động thay đổi giá trị state theo value select -->
+                                        <select class="form-select" style="border-radius:5px"
+                                            t-model="state.period"
+                                            t-on-change="onChangePeriod">
+                                            <option value="0">Select Period</option>
+                                            <option value="7">Last 7 Days</option>
+                                            <option value="30">Last 30 Days</option>
+                                            <option value="90">Last 90 Days</option>
+                                            <option value="365">Last 365 Days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- KPI -->
+                    <div class="row">
+                        <KpiCard onClick.bind="viewTasks" name="'All Tasks'"
+                            value="this.state.task.value" />
+                        <KpiCard onClick.bind="viewIncompletedTasks" name="'Incomplated Tasks'"
+                            value="this.state.incompletedtask.value" />
+                        <KpiCard onClick.bind="viewCompletedTasks" name="'Completed Tasks'"
+                            value="this.state.completedtask.value" />
+                        <KpiCard onClick.bind="viewMyTasks" name="'My Tasks'"
+                            value="this.state.mytask.value" />
+                    </div>
+                    <!-- Chart -->
+                    <div class="row">
+                        <div class="col-lg-6 m-0 p-0">
+                            <div class="border m-2 p-4 bg-white" style="border-radius:5px">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Top Project</h3>
+                                    <div class="px-3 py-1 bg-primary cursor-pointer">
+                                        <span class="fa fa-arrow-right text-white" />
+                                    </div>
+                                </div>
+                                <ChartRenderer type="'doughnut'" title="'Tasks in Top Project'"
+                                    config="state.topProject" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6 m-0 p-0">
+                            <div class="border m-2 p-4 bg-white" style="border-radius:5px">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Top Product</h3>
+                                    <div class="px-3 py-1 bg-primary cursor-pointer">
+                                        <span class="fa fa-arrow-right text-white" />
+                                    </div>
+                                </div>
+                                <ChartRenderer type="'pie'" title="'Product In Top Project'"
+                                    config="state.topProduct" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right-side -->
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="shadow-sm border m-2 p-4 bg-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Tasks by Status</h3>
+                                    <div class="px-3 py-1 bg-primary cursor-pointer">
+                                        <span class="fa fa-arrow-right text-white" />
+                                    </div>
+                                </div>
+                                <ChartRenderer type="'bar'" title="'Tasks by Status Report'"
+                                    config="state.taskByStatus" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="shadow-sm border m-2 p-4 bg-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Tasks by Priority</h3>
+                                    <div class="px-3 py-1 bg-primary cursor-pointer">
+                                        <span class="fa fa-arrow-right text-white" />
+                                    </div>
+                                </div>
+                                <ChartRenderer type="'bar'" title="'Tasks by Priority Report'"
+                                    config="state.taskPriority" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

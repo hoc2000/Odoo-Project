@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--    component window-->
+    <!--    view window-->
     <record id="component_window_action" model="ir.actions.act_window">
         <field name="name">Component Window View</field>
         <field name="type">ir.actions.act_window</field>
@@ -9,7 +9,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <!--    version window-->
     <record id="version_window_action" model="ir.actions.act_window">
         <field name="name">Component Version View</field>
         <field name="type">ir.actions.act_window</field>
@@ -17,7 +16,21 @@
         <field name="view_mode">tree</field>
     </record>
 
-    <!--        tree of component-->
+    <record id="tags_window_action" model="ir.actions.act_window">
+        <field name="name">Project Tags Views</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.ansv.tags</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="category_window_action" model="ir.actions.act_window">
+        <field name="name">Product Category Views</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">category.product</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!--        tree view-->
     <record id="component_product_view_tree" model="ir.ui.view">
         <field name="name">Component</field>
         <field name="model">component.product.ansv</field>
@@ -41,19 +54,42 @@
         </field>
     </record>
 
+    <record id="project_tags_view_tree" model="ir.ui.view">
+        <field name="name">project_tags_view_tree</field>
+        <field name="model">project.ansv.tags</field>
+        <field name="arch" type="xml">
+            <tree string="Version"
+                  editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
 
+    <record id="category_view_tree" model="ir.ui.view">
+        <field name="name">category_view_tree</field>
+        <field name="model">category.product</field>
+        <field name="arch" type="xml">
+            <tree string="Version"
+                  editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
     <menuitem id="configuration_menu"
               name="Configuration"
               parent="ansv__project.menu_root"
-              sequence="2"/>
-    <!-- This Menu Item must have a parent and an action -->
-    <menuitem id="ansv_component_menu"
-              name="Components"
-              parent="configuration_menu" action="component_window_action"
-              sequence="1"/>
+              sequence="10">
+        <menuitem id="ansv_component_menu" name="Components"
+                  action="component_window_action" sequence="1"/>
+        <menuitem id="version_component_menu" name="Version" action="version_window_action"
+                  sequence="2" groups="base.group_no_one"/>
+        <menuitem id="tags_project_menu" name="Tags" action="tags_window_action"
+                  sequence="3"/>
+        <menuitem id="category_project_menu" name="Category" action="category_window_action"
+                  sequence="5"/>
+    </menuitem>
 
-    <menuitem id="version_component_menu"
-              name="Version"
-              parent="configuration_menu" action="version_window_action"
-              sequence="2"/>
 </odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tasks_graph_view" model="ir.ui.view">
+        <field name="name">task.graph.view.tree</field>
+        <field name="model">task.project.ansv</field>
+        <field name="arch" type="xml">
+            <graph sample="1">
+                <!-- x-axis-->
+                <field name="project_id"/>
+                <!--y-axis-->
+                <field name="stage_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="project_burndown_chart_view" model="ir.ui.view">
+        <field name="name">task.graph.view.tree</field>
+        <field name="model">task.project.ansv</field>
+        <field name="arch" type="xml">
+            <graph string="Burndown Chart" type="line" sample="1" disable_linking="1" js_class="burndown_chart">
+                <field name="create_date" string="Date" interval="month"/>
+                <field name="stage_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="reporting_graph_action" model="ir.actions.act_window">
+        <field name="name">ansv.reporting.graph.action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">task.project.ansv</field>
+        <field name="view_mode">graph</field>
+    </record>
+
+    <record id="reporting_burndown_chart_graph_action" model="ir.actions.act_window">
+        <field name="name">burndown.chart.graph.action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">task.project.ansv</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="project_burndown_chart_view"/>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem name="Reporting"
+              id="menu_reporting_master"
+              parent="ansv__project.menu_root"
+              sequence="9"/>
+
+    <menuitem id="task_analyst_reporting"
+              name="Tasks Analyst"
+              parent="menu_reporting_master"
+              action="reporting_graph_action"
+              sequence="0"/>
+
+    <menuitem id="burndown_chart_analyst"
+              name="Burndown Chart"
+              parent="menu_reporting_master"
+              action="reporting_burndown_chart_graph_action"
+              sequence="1"/>
+
+
+</odoo>

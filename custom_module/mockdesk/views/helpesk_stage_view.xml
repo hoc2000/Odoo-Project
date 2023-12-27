@@ -5,38 +5,50 @@
         <field name="name">stages_view_tree</field>
         <field name="model">helpdesk.stage</field>
         <field name="arch" type="xml">
-            <tree editable ="bottom" string="Stages" multi_edit="1" create="0" delete="0">
-                <field name="sequence" widget="handle"  />
+            <tree string="Stages" multi_edit="1" create="0" delete="0">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
+                <field name="fold" string="Fold in Kanban"/>
             </tree>
         </field>
     </record>
 
-     <!--    kanban-view-->
-<!--    <record id="stage_view_kanban" model="ir.ui.view">-->
-<!--        <field name="name">stage_view_kanban</field>-->
-<!--        <field name="model">helpdesk.stage</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <kanban records_draggable="1"-->
-<!--                    on_create="quick_create">-->
-<!--                <field name="sequence" widget="handle" />-->
-<!--                <field name="name"/>-->
-<!--                <templates>-->
-<!--                    <t t-name="kanban-box">-->
-<!--                        <div t-attf-class="oe_kanban_global_click ">-->
-<!--                            <div class="o_kanban_details">-->
-<!--                                <strong class="o_kanban_record_title">-->
-<!--                                    <b>-->
-<!--                                        <field name="name"/>-->
-<!--                                    </b>-->
-<!--                                </strong>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </t>-->
-<!--                </templates>-->
-<!--            </kanban>-->
-<!--        </field>-->
-<!--    </record>-->
+    <!--    form-view-->
+    <record id="ticket_stage_view_form" model="ir.ui.view">
+        <field name="name">ticket_stage_view_form</field>
+        <field name="model">helpdesk.stage</field>
+        <field name="arch" type="xml">
+            <form string="Stage of Ticket">
+                <field name="active" invisible="1"/>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Stage name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="fold" string="Fold in Kanban" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group string="Email and Description">
+                        <group>
+                            <p class="text-muted" colspan="2">
+                                At each stage, The Email can be send to notify user.
+                                If you want to send by emal template.
+                            </p>>
+                            <field name="mail_template_id" string="Email Template Use"/>
+                            <p class="text-muted" colspan="2">
+                                Descript the Stage so the member can understand clearly
+                                what the stage mean for
+                            </p>
+                            <field name="description" string="Description"
+                                   placeholder="Tell something about this stages..."/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
 
     <!--    window-action-->
@@ -44,7 +56,7 @@
         <field name="name">Stages</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">helpdesk.stage</field>
-        <field name="view_mode">tree,kanban</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_sailing_face">
@@ -57,7 +69,7 @@
     <menuitem id="menu_stages"
               name="Stages"
               action="stages_window_action"
-              parent="menu_configuration_master"
+              parent="menu_small_component_config"
               sequence="110"/>
 
 

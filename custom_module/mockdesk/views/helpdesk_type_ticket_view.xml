@@ -22,7 +22,7 @@
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="menu_type_ticket"
                   name="Types"
-                  parent="menu_configuration_master"
+                  parent="menu_small_component_config"
                   action="type_ticket_action"
                   sequence="120"/>
 

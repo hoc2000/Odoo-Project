@@ -12,20 +12,27 @@
     "category": "Helpdesk",
     "version": "0.1",
     # any module necessary for this one to work correctly
-    "depends": ["mail", "base", "ansv__project"],
+    "depends": ["ansv__project"],
     # always loaded
     "data": [
         # khai bao group luon phai de dang truoc
         "security/security_group.xml",
         "security/ir.model.access.csv",
+
+        "data/sequence_data.xml",
+        "data/mail_template.xml",
+        "data/cron.xml",
+
         "views/helpdesk_menu_view.xml",
         "views/helpdesk_all_ticket_view.xml",
+        "views/helpdesk_my_ticket_view.xml",
         "views/helpdesk_ticket_tag_view.xml",
         "views/helpesk_stage_view.xml",
         "views/helpdesk_type_ticket_view.xml",
         "views/helpdesk_team_view.xml",
         "views/helpdesk_dashboard_view.xml",
         "views/helpdesk_sla_policy_view.xml",
+        "views/graphs_view.xml",
 
     ],
     "demo": [],
@@ -33,10 +40,10 @@
     "application": True,
     "assets": {
         "web.assets_backend": [
-            "mockdesk/static/src/scss/*.scss",
-            "mockdesk/static/src/components/dashboard/*.js",
-            "mockdesk/static/src/components/dashboard/*.xml",
-            "mockdesk/static/src/components/dashboard/*.css",
+            "mockdesk/static/src/**/*.js",
+            "mockdesk/static/src/**/*.xml",
+            "mockdesk/static/src/**/*.css",
+            # "mockdesk/static/src/scss/*.scss",
         ],
     },
     "auto_install": False,

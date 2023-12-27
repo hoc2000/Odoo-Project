@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="task_stage_window_action" model="ir.actions.act_window">
+        <field name="name">Tasks Stage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stage.tasks</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--    tree view-->
+    <record id="task_stage_view_tree" model="ir.ui.view">
+        <field name="name">Task Stages</field>
+        <field name="model">stage.tasks</field>
+        <field name="arch" type="xml">
+            <tree string="Stages_Tasks">
+                <field name="sequence" widget="handle" optional="show"/>
+                <field name="name"/>
+                <field name="fold" string="Fold in Kanban" widget="boolean_toggle" optional="show"/>
+                <field name="mail_template_id" string="Mail Template" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    <!--    form-view-->
+
+    <record id="task_stage_view_form" model="ir.ui.view">
+        <field name="name">task_stage_view_form</field>
+        <field name="model">stage.tasks</field>
+        <field name="arch" type="xml">
+            <form string="Stage of Tasks">
+                <field name="active" invisible="1"/>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Stage name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="fold" string="Fold in Kanban" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group string="Email and Description">
+                        <group>
+                            <p class="text-muted" colspan="2">
+                                At each stage, The Email can be send to notify user.
+                                If you want to send by emal template.
+                            </p>>
+                            <field name="mail_template_id" string="Email Template Use"/>
+                            <p class="text-muted" colspan="2">
+                                Descript the Stage so the member can understand clearly
+                                what the stage mean for
+                            </p>
+                            <field name="description" string="Description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="task_stage_project_menu"
+              name="Task Stages"
+              action="task_stage_window_action"
+              parent="configuration_menu"
+              sequence="4"/>
+</odoo>

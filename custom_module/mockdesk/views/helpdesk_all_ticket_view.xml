@@ -7,15 +7,18 @@
         <field name="arch" type="xml">
             <tree default_order='create_date desc'
                   string="all_ticket_tree"
-                  limit="40"
-                  multi_edit="1">
+                  limit="30"
+                  multi_edit="1"
+                  sample="1">
+                <field name="ref" readonly="1"/>
                 <field name="priority" widget="priority" readonly="1"/>
                 <field name="name"/>
+                <field name="project_id" string="Project"/>
                 <field name="team_id"/>
                 <field name="assign_to" widget="many2one_avatar_user"/>
                 <field name="department"/>
                 <field name="customer_id"/>
-                <field name="deadline" widget="remaining_days" string="Remaining Day"/>
+                <field name="deadline" widget="remaining_days" string="SLA Deadline"/>
                 <field string="tags" name="tag_id" widget="many2many_tags" optional="hide"/>
                 <field string="Stage" name="stage_id" widget="badge" optional="show"/>
                 <field name="create_date" string="Created Date" optional="show"/>
@@ -29,13 +32,12 @@
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
 
-            <kanban records_draggable="1"
-                    on_create="quick_create"
-                    default_group_by="stage_id"
-            >
+            <kanban on_create="quick_create"
+                    default_group_by="stage_id">
                 <field name="id"/>
                 <field name="name"/>
                 <field name="email"/>
+                <field name="customer_id"/>
                 <field name="priority"/>
                 <field name="stage_id"/>
                 <templates>
@@ -47,11 +49,13 @@
                                         <field name="name"/>
                                     </b>
                                 </strong>
-                                <div>Email:
-                                    <field name="email"/>
+                                <div t-if="record.customer_id.value">
+                                    <b>Customer: </b>
+                                    <field name="customer_id"/>
                                 </div>
                                 <div>
-                                    <field name="tag_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    <field name="tag_id" widget="many2many_tags"
+                                           options="{'color_field': 'color'}"/>
                                 </div>
                                 <field name="stage_id"
                                        widget="badge"
@@ -82,19 +86,31 @@
             <form>
                 <header>
                     <field name="stage_current_string" invisible="1"/>
-                    <button name="action_in_progress" class="oe_highlight" string="Progress" type="object"
-                            attrs="{'invisible':[('stage_current_string','in',['In Progress','Cancelled','Solved'])]}"/>
+                    <div class="d-flex">
+                        <button name="action_in_progress" class="oe_highlight" string="In Progress"
+                                type="object"
+                                attrs="{'invisible':[('stage_current_string','in',['In Progress','Cancelled','Solved'])]}"
+                                invisible="1"/>
 
-                    <button name="action_done" class="oe_highlight" string="Solved" type="object"
-                            attrs="{'invisible':[('stage_current_string','in',['Cancelled','New','Solved',''])]}"/>
+                        <button name="action_done" class="oe_highlight" string="Solved" type="object"
+                                attrs="{'invisible':[('stage_current_string','in',['Cancelled','New','Solved',''])]}"
+                                invisible="1"/>
 
-                    <button name="action_cancel" class="btn-danger" string="Cancel" type="object"
-                            attrs="{'invisible':[('stage_current_string','in',['Cancelled','New','Solved',''])]}"/>
+                        <button name="action_in_return_new" class="oe_highlight" string="Return New"
+                                type="object"
+                                attrs="{'invisible':[('stage_current_string','in',['Cancelled','New','Solved',''])]}"
+                                invisible="1"/>
+
+                        <button name="action_cancel" class="btn-danger" string="Cancel" type="object"
+                                attrs="{'invisible':[('stage_current_string','in',['Cancelled','New','Solved',''])]}"
+                                invisible="1"/>
+                    </div>
                     <field name="stage_id"
                            widget="statusbar"
                            context="{'order_display': 'sequence desc' }"
                            statusbar_visible="draft,in_progress,done"
-                           options="{'clickable':'1'}"/>
+                           options="{'clickable': '1'}"/>
+                    <!--                    options="{'clickable': '1'}"-->
                 </header>
                 <sheet>
                     <!--ribbon-->
@@ -111,26 +127,28 @@
                         </h1>
                     </div>
                     <div class="d-flex mb-4">
-                        <field name="sla_deadline" string="SLA" widget="many2many_tags"
+                        <field name="sla_status_id" string="SLA" widget="many2many_tags"
                                options="{'color_field': 'color','no_edit_color': True}" readonly="1"
-                               attrs="{'invisible': [('sla_deadline', '=', [])]}"/>
-                        <div attrs="{'invisible': [('sla_deadline', '=', False)]}"
+                               attrs="{'invisible': [('sla_status_id', '=', [])]}"/>
+                        <div attrs="{'invisible': [('sla_status_id', '=', [])]}"
                              class="mx-2 text-muted d-inline-flex align-items-center h-100">
-                            <i class="fa fa-lg fa-clock-o me-2 mt-1" aria-label="Sla Deadline" title="Sla Deadline"/>
+                            <i class="fa fa-lg fa-clock-o me-2 mt-1" aria-label="Sla Deadline"
+                               title="Sla Deadline"/>
                             <field name="deadline" class="mb-0" widget="remaining_days"/>
                         </div>
                     </div>
                     <group>
                         <group>
                             <field name="active" invisible="1"/>
+                            <field name="ref" invisible="1"/>
                             <field name="team_id"/>
                             <field name="project_id"/>
                             <field name="assign_to" widget="many2one_avatar_user"/>
-                            <field name="priority" widget="priority"/>
-                            <field name="deadline" String="Deadline"
-                                   attrs="{'invisible': [('sla_deadline', '!=', [])]}"/>
+                            <field name="priority" widget="priority" options="{'autosave': False}"/>
+                            <field name="deadline" String="Deadline"/>
                             <field name="type" String="Type"/>
-                            <field name="tag_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="tag_id" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
                         </group>
                         <group>
                             <field name="customer_id"/>
@@ -138,7 +156,11 @@
                             <field name="email" widget="email"/>
                             <field name="cc"/>
                             <field name="working_time_total"/>
-                            <!--                            <button type="object" class="oe_highlight" name="action_color_sla" string="Action" invisible="1"/>-->
+<!--                            <button name="action_send_mail_card" class="oe_highlight"-->
+<!--                                    string="Send email" type="object"/>-->
+
+                            <!--                            <button type="object" class="oe_highlight" name="action_color_sla"
+                            string="Action" invisible="1"/>-->
                         </group>
                     </group>
                     <notebook name="Description note">
@@ -151,8 +173,6 @@
                             <group name="container_row_2">
                                 <group>
                                     <field name="project_name"/>
-                                    <field name="value"/>
-                                    <field name="value2"/>
                                 </group>
                                 <group>
                                     <field name="product_ticket_id" String="Product"/>
@@ -187,7 +207,8 @@
 
                             <notebook>
                                 <page name="description" string="Description">
-                                    <field name="description_project" placeholder="enter your description here"/>
+                                    <field name="description_project"
+                                           placeholder="enter your description here"/>
                                 </page>
                             </notebook>
                         </page>

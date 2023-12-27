@@ -1,0 +1,61 @@
+.sk-thumbnail {
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: calc(.62 * 100%)
+}
+
+.sk-thumbnail img {
+    height: auto;
+    position: absolute;
+    top: calc(50% + 1px);
+    left: calc(50% + 1px);
+    -webkit-transform: scale(1.01) translate(-50%, -50%);
+    transform: scale(1.01) translate(-50%, -50%);
+    display: block;
+    width: 100%;
+    max-height: none;
+    max-width: none;
+    -webkit-transition: -webkit-filter .3s;
+    transition: -webkit-filter .3s;
+    transition: filter .3s;
+    transition: filter .3s, -webkit-filter .3s
+}
+
+.img-ratio-9 {
+    padding-bottom: calc(.694 * 100%)
+}
+
+.card-zoom {
+    overflow: hidden !important;
+    border-radius: inherit
+}
+
+.card-zoom>[class*=card-img] {
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    -webkit-transform-origin: center center;
+    transform-origin: center center
+}
+
+.card:hover>.card-zoom>[class*=card-img] {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1)
+}
+
+.custom_img_form img {
+    height: 90px;
+    width: 190px;
+ }
+
+.o_kanban_record {
+    width: 100%;
+    padding-top:5px !important
+}
+
+.o_kanban_renderer.o_project_ansv_kanban {
+    --KanbanRecord-width: 350px;
+}

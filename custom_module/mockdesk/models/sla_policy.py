@@ -8,7 +8,7 @@ class SLA(models.Model):
     _order = 'sequence asc'
 
     color = fields.Integer()
-    name = fields.Char(string="SLA Name", required=True)
+    name = fields.Char(string="SLA Name", required=True, copy=False)
     description = fields.Html()
     team_id = fields.Many2one('helpdesk.teams', string="Team", required=True)
     priority = fields.Selection([
@@ -18,6 +18,8 @@ class SLA(models.Model):
         ('3', 'Critical')], string="Priority", required=True)
     type_id = fields.Many2one('helpdesk.ticket.type', string="Type", editable=False, required=True)
     tag_id = fields.Many2many('ticket.tag', string="Tags")
+    project_id = fields.Many2one('project.ansv', string="Project")
+
     # Target calculated
     reach_stage = fields.Many2one('helpdesk.stage', string="Reach Stage")
     sequence = fields.Integer(string="Sequence")
@@ -28,3 +30,15 @@ class SLA(models.Model):
     def sequence_sla(self):
         for rec in self:
             rec.sequence = rec.reach_stage.sequence
+
+
+class SLA_RELATION(models.Model):
+    _name = "individual.ticket.sla"
+    _inherit = ["sla.policy.ansv"]
+    _rec_name = 'name'
+    _order = 'sequence asc'
+
+    ticket_id = fields.Many2one('helpdesk.ticket',string="Ticket")
+    ticket_ref = fields.Char(string="Ticket Ref")
+    deadline = fields.Date(String="Deadline")
+    sla_failed = fields.Boolean(string="Failed SLA")

@@ -28,7 +28,6 @@
             <field name="category_id" ref="module_helpdesk_category"/>
         </record>
 
-
         <!--    record rule-->
         <record id="member_record_rule" model="ir.rule">
             <field name="name">See only member ticket</field>

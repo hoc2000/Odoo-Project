@@ -14,6 +14,7 @@ class HelpTeams(models.Model):
     unassigned_tickets = fields.Integer(string="UST", compute="get_unassgined_ticket")
     urgent_ticket = fields.Integer(string="urgent ticket", compute="get_urgent_ticket")
     sla_failed = fields.Integer(string="sla failed", compute="get_sla_failed_ticket")
+    closed_ticket = fields.Integer(string="closed ticket", compute="get_closed_ticket")
 
     def action_view_ticket(self):
         for rec in self:
@@ -28,6 +29,7 @@ class HelpTeams(models.Model):
                 'domain': [('team_id', '=', currTeam)],
 
             }
+
     # def print_name(self):
     #     print(self.customer_id)
     # Các giá trị đếm
@@ -54,3 +56,9 @@ class HelpTeams(models.Model):
             count_sla_failed = rec.env['helpdesk.ticket'].search_count(
                 [('stage_id.name', '=', 'Cancelled'), ('team_id', '=', rec.id)])
             rec.sla_failed = count_sla_failed
+
+    def get_closed_ticket(self):
+        for rec in self:
+            count_closed_ticket = rec.env['helpdesk.ticket'].search_count(
+                [('is_closed', '=', True), ('team_id', '=', rec.id)])
+            rec.closed_ticket = count_closed_ticket

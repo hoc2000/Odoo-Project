@@ -83,7 +83,7 @@
     <menuitem id="menu_team"
               name="Teams"
               action="helpdesk_team_view_action"
-              parent="menu_configuration_master"
+              parent="menu_small_component_config"
               sequence="1"/>
 
 

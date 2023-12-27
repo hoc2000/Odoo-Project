@@ -1,57 +1,275 @@
 <odoo>
     <data>
         <!-- explicit list view definition -->
-
+        <!--        tree view-->
         <record model="ir.ui.view" id="ansv_project_list">
             <field name="name">ANSV Project list</field>
             <field name="model">project.ansv</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="project_name"/>
-                    <field name="value"/>
-                    <field name="value2"/>
                     <field name="color" widget="color_picker"/>
                 </tree>
             </field>
         </record>
+        <!--        kanban view-->
+        <record id="ansv_project_view_kanban" model="ir.ui.view">
+            <field name="name">ansv.project.view.kanban</field>
+            <field name="model">project.ansv</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_dashboard o_project_ansv_kanban oe_kanban_card" records_draggable="1"
+                        action="action_view_tasks" type="object">
+                    <field name="project_name"/>
+                    <field name="manager_id"/>
+                    <field name="partner_ids"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="color"/>
+                    <field name="tag_ids"/>
+                    <field name="product_count"/>
+                    <field name="task_count"/>
+                    <field name="label_tasks"/>
+                    <field name="sequence" widget="handle"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click">
+                                <!-- main content-->
+                                <div class="kanban_main" style="max-width: 350px">
+                                    <div class="o_kanban_card_content mw-100" style="margin-left:12px">
+                                        <div class="o_kanban_primary_left">
+                                            <div class="o_primary">
+                                                <span class="o_text_overflow o_kanban_record_title"
+                                                      t-att-title="record.project_name.raw_value">
+                                                    <t t-esc="record.project_name.raw_value"/>
+                                                </span>
+                                                <!-- Nếu có partner-->
+                                                <span class="o_text_overflow text-muted"
+                                                      t-if="record.partner_ids.value">
+                                                    <span class="fa fa-user me-2" aria-label="Partner" title="Partner"/>
+                                                    <t t-esc="record.partner_ids.value"/>
+                                                </span>
+                                                <!-- Nếu có date-->
+                                                <div t-if="record.date_end.raw_value or record.date_start.raw_value"
+                                                     class="text-muted o_row">
+                                                    <span class="fa fa-clock-o me-2" title="Dates"/>
+                                                    <field name="date_start"/>
+                                                    <i t-if="record.date_end.raw_value and record.date_start.raw_value"
+                                                       class="fa fa-long-arrow-right mx-2 oe_read_only"
+                                                       aria-label="Arrow icon"
+                                                       title="Arrow"/>
+                                                    <field name="date_end"/>
+                                                </div>
+                                                <!-- Thành phần tags-->
+                                                <field name="tag_ids" widget="many2many_tags"
+                                                       options="{'color_field': 'color'}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Edit Menu -->
+                                    <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu"
+                                         groups="base.group_user">
+                                        <div class="row">
+                                            <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                                <div role="menuitem" class="o_kanban_card_manage_title">
+                                                    <span>View</span>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="action_view_tasks" type="object">Tasks</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="action_view_products" type="object">Products</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 o_kanban_card_manage_section o_kanban_manage_reporting">
+                                                <div role="menuitem" class="o_kanban_card_manage_title">
+                                                    <span>Reporting</span>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="" type="object">Tasks Analysis
+                                                    </a>
+                                                </div>
+                                                <div role="menuitem" name="project_burndown_menu">
+                                                    <a name="" type="object">
+                                                        Burndown Chart
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="o_kanban_card_manage_settings row">
+                                            <div role="menuitem" aria-haspopup="true" class="col-6">
+                                                <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                            </div>
+                                            <div role="menuitem" class="col-6">
+                                                <a class="dropdown-item" role="menuitem" name="1217" type="action">Share
+                                                </a>
+                                                <a class="dropdown-item" role="menuitem" type="edit">Project Detail</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="o_kanban_manage_toggle_button o_dropdown_kanban" href="#"
+                                       groups="base.group_user">
+                                        <i class="fa fa-bars" role="img" aria-label="Manage" title="Manage"/>
+                                    </a>
+                                    <span>
+                                        <field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1"/>
+                                    </span>
+                                </div>
+                                <!--footer kanban-->
+                                <div class="o_kanban_record_bottom mt-3">
+                                    <!-- left side-->
+                                    <div class="oe_kanban_bottom_left">
+                                        <div class="border rounded d-flex align-items-baseline p-2"
+                                             attrs="{'invisible':[('product_count','=',0)]}">
+                                            <a class="o_project_kanban_box" name="action_view_products" type="object">
+                                                <div>
+                                                    <span class="o_value">
+                                                        <t t-esc="record.product_count.value"/>
+                                                    </span>
+                                                    <span class="o_label ms-1">
+                                                        Products
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
 
+                                        <div class="border rounded d-flex align-items-baseline p-2">
+                                            <a class="o_project_kanban_box" name="action_view_tasks" type="object">
+                                                <div>
+                                                    <span class="o_value">
+                                                        <t t-esc="record.task_count.value"/>
+                                                    </span>
+                                                    <span class="o_label ms-1">
+                                                        <t t-esc="record.label_tasks.raw_value"/>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                                    <!-- right side-->
+                                    <div class="oe_kanban_bottom_right">
+                                        <!--                                    <field t-if="widget.editable"-->
+                                        <!--                                           name="last_update_status" widget="project_state_selection"-->
+                                        <!--                                           options="{'color_field': 'last_update_color', 'hide_label': 1}"/>-->
+                                        <!--                                    <span t-if="!widget.editable"-->
+                                        <!--                                          t-att-class="'o_status_bubble mx-0 o_color_bubble_' + record.last_update_color.value"-->
+                                        <!--                                          t-att-title="record.last_update_status.value"/>-->
+                                        <div class="d-flex align-items-end">
+                                            <span style="font-size:11px">
+                                                manager:
+                                            </span>
+                                            <field name="manager_id" widget="many2one_avatar_user"
+                                                   t-if="record.manager_id.raw_value"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
         <!--        form view-->
         <record id="ansv_project_view_form" model="ir.ui.view">
             <field name="name">ANSV Project Form</field>
             <field name="model">project.ansv</field>
             <field name="arch" type="xml">
                 <form string="_form">
-                    <sheet>
+                    <sheet string="Project">
+                        <div class="oe_title">
+                            <h1 class="d-flex flex-row">
+                                <field name="is_favorite" nolabel="1" widget="boolean_favorite" class="me-2"/>
+                                <field name="project_name" class="o_text_overflow" placeholder="e.g. Project example"/>
+
+                            </h1>
+                        </div>
                         <group>
-                            <field name="project_name"/>
-                            <field name="value"/>
-                            <field name="value2"/>
-                            <field name="color" widget="color_picker"/>
-
+                            <group>
+                                <field name="label_tasks" string="Name of the tasks"/>
+                                <field name="partner_ids"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="manager_id" string="Project Manager" widget="many2one_avatar_user"
+                                       attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+                                <label for="date_start" string="Planned Date"/>
+                                <div name="dates" class="o_row">
+                                    <field name="date_start" widget="daterange"
+                                           options="{'related_end_date': 'date_end'}"/>
+                                    <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon"
+                                       title="Arrow"/>
+                                    <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon"
+                                       title="Arrow"
+                                       attrs="{'invisible': [('date_start', '=', False), ('date_end', '=', False)]}"/>
+                                    <field name="date_end" widget="daterange"
+                                           options="{'related_start_date': 'date_start'}"/>
+                                </div>
+                            </group>
                         </group>
-
                         <notebook>
                             <page name="description" string="Description">
                                 <field name="description_project" placeholder="enter your description here"/>
                             </page>
                             <page name="product" string="Product">
-                                <field name="product_lines_id">
+                                <field name="product_lines_id" widget="many2many"
+                                       domain="[('project_id', '=', False)]">
                                     <!--    khai báo tree trong page-->
-                                    <tree editable="bottom">
-                                        <field name="product_id"/>
-                                        <field name="quantity"/>
-                                    </tree>
-                                    <!--    form pop up-->
-                                    <form>
-                                        <group>
-                                            <field name="product_id"/>
-                                            <field name="quantity"/>
-                                        </group>
-                                    </form>
+                                    <!--                                    <tree edit="0">-->
+                                    <!--                                        <field name="product_name"-->
+                                    <!--                                               options="{'no_create': True, 'no_create_edit':True}"/>-->
+                                    <!--                                        <field name="product_ref"/>-->
+                                    <!--                                        <field name="count_component"/>-->
+                                    <!--                                    </tree>-->
+                                    <kanban>
+                                        <field name="product_name"/>
+                                        <field name="image"/>
+                                        <field name="product_ref"/>
+                                        <field name="count_component"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_card border oe_kanban_global_click">
+                                                    <div class="o_kanban_image me-1">
+                                                        <img t-att-src="kanban_image('product.ansv', 'image', record.id.raw_value)"
+                                                             alt="Product" class="o_image_64_contain"/>
+                                                    </div>
+                                                    <div class="oe_kanban_details">
+                                                        <div class="o_kanban_record_top mb-0">
+                                                            <div class="o_kanban_record_headings">
+                                                                <b class="o_kanban_record_title"
+                                                                   style="font-size: 15px;">
+                                                                    <field name="product_name"/>
+                                                                </b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-muted">
+                                                            <field name="product_ref"
+                                                                   attrs="{'invisible': [('product_ref', '=', 'False')]}"/>
+                                                        </div>
+                                                        <div attrs="{'invisible': [('count_component', '&lt;', '1')]}">
+                                                            <strong>
+                                                                <field name="count_component"/>
+                                                                Components
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                    <!--                                        form pop up-->
                                 </field>
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               help="Follow this project to automatically track the events associated to tasks and issues of this project."
+                               groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -60,25 +278,10 @@
 
         <record model="ir.actions.act_window" id="ansv__project.action_window">
             <field name="name">ANSV Project</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">project.ansv</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
         </record>
-
-        <!-- server action to the one above -->
-        <!--
-            <record model="ir.actions.server" id="ansv__project.action_server">
-              <field name="name">ANSV_Project server</field>
-              <field name="model_id" ref="model_ansv__project_ansv__project"/>
-              <field name="state">code</field>
-              <field name="code">
-                action = {
-                  "type": "ir.actions.act_window",
-                  "view_mode": "tree,form",
-                  "res_model": model._name,
-                }
-              </field>
-            </record>
-        -->
 
         <!-- Top menu item -->
 
