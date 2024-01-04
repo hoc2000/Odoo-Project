@@ -10,7 +10,7 @@ class TicketStages(models.Model):
 
     active = fields.Boolean(default=True)
     sequence = fields.Integer(string="Sequence")
-    name = fields.Char(string="Stages", readonly="1")
+    name = fields.Char(string="Stages")
     # domain = [('model', '=', 'task.project.ansv')],
     mail_template_id = fields.Many2one(
         'mail.template',
@@ -18,5 +18,6 @@ class TicketStages(models.Model):
         domain=[('model', '=', 'helpdesk.ticket')],
         help="If set, an email will be automatically sent to the customer when the task reaches this stage.")
     fold = fields.Boolean(string='Folded in Kanban',
-                          help='This stage is folded in the kanban view when there are no records in that stage to display.')
+                          help='This stage is folded in the kanban view when there are no records in that stage to '
+                               'display.')
     description = fields.Text(string="Description")

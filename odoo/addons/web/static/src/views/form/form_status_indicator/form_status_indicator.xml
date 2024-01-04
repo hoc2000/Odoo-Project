@@ -12,7 +12,7 @@
                     t-on-click.stop="save"
                     data-tooltip="Save manually"
                     aria-label="Save manually">
-                    <i class="fa fa-cloud-upload fa-fw" />
+                    <i class="fa fa-floppy-o fa-fw" />
                 </button>
                 <button
                     type="button"

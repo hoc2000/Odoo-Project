@@ -15,6 +15,8 @@
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="color"/>
+                <field name="success_rated"/>
+                <field name="average_rating"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} card border shadow">
@@ -53,11 +55,22 @@
                                         </div>
                                         <div class="mb4">
                                             <a name="action_view_success_rate" type="object"
-                                               title="Ratio of tickets whose SLA has successfully been reached on time compared to the total number of tickets closed in the past 7 days."
+                                               title="Ratio of tickets whose SLA has successfully been reached on time compared to the total number of tickets closed"
                                                class="justify-content-between flex-nowrap d-inline-flex w-100">
                                                 <span>Success Rate</span>
                                                 <span class="ms-3">
-                                                    <!--                                                        <field name="success_rate"/>-->
+                                                    <field name="success_rated"/>
+                                                    %
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="action_view_average_rating" type="object"
+                                               title="Ratio of total point rating ticket to the total max point of rating"
+                                               class="justify-content-between flex-nowrap d-inline-flex w-100">
+                                                <span>Average rating</span>
+                                                <span class="ms-3">
+                                                    <field name="average_rating"/>
                                                     %
                                                 </span>
                                             </a>

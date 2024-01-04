@@ -1,0 +1,8 @@
+self.env['ir.module.module'].search([('name','=','web_responsive')])
+=================
+self.env['ir.module.module'].search([('name','=','web_responsive')]).button_immediate_uninstall()
+
+trong owl :
+Nếu như state mà được tự tạo ra mà không sử dụng useState thì khi gọi bên template thì sẽ không cần
+phải gọi this. nếu như có sử dụng useSTate và tạo 1 giá trị mặc định thì sẽ cần phải sử dụng this trong
+compeonet tự tạo đó 

@@ -33,6 +33,8 @@
         "views/helpdesk_dashboard_view.xml",
         "views/helpdesk_sla_policy_view.xml",
         "views/graphs_view.xml",
+        "views/website_form.xml",
+        "views/website_homepage.xml",
 
     ],
     "demo": [],

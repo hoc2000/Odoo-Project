@@ -31,8 +31,8 @@
         <field name="name">all_ticket_view_kanban</field>
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
-
-            <kanban on_create="quick_create"
+            <kanban quick_create_view="mockdesk.quick_kanban_view_form"
+                    on_create="quick_create"
                     default_group_by="stage_id">
                 <field name="id"/>
                 <field name="name"/>
@@ -50,7 +50,7 @@
                                     </b>
                                 </strong>
                                 <div t-if="record.customer_id.value">
-                                    <b>Customer: </b>
+                                    <b>Customer:</b>
                                     <field name="customer_id"/>
                                 </div>
                                 <div>
@@ -78,6 +78,21 @@
             </kanban>
         </field>
     </record>
+
+    <!--    mininal form quick View-->
+    <record id="quick_kanban_view_form" model="ir.ui.view">
+        <field name="name">quick_kanban_view_form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <form string="quick_kanban_form">
+                <group>
+                    <field name="name"/>
+                    <field name="assign_to"/>
+                    <field name="customer_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
     <!--    form-view-->
     <record id="all_ticket_view_form" model="ir.ui.view">
         <field name="name">all_ticket_view_form</field>
@@ -85,6 +100,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="test_button" type="object">Test Button</button>
                     <field name="stage_current_string" invisible="1"/>
                     <div class="d-flex">
                         <button name="action_in_progress" class="oe_highlight" string="In Progress"
@@ -113,13 +129,50 @@
                     <!--                    options="{'clickable': '1'}"-->
                 </header>
                 <sheet>
+                    <field name="rating_avg" invisible="1"/>
+                    <field name="rating_count" invisible="1"/>
+                    <!-- rating-->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_ratings" type="object"
+                                attrs="{'invisible': [('rating_count', '=', 0)]}"
+                                class="oe_stat_button" icon="">
+                            <i class="fa fa-fw o_button_icon fa-smile-o text-success"
+                               attrs="{'invisible': [('rating_avg', '&lt;', 3.66)]}" title="Satisfied"/>
+                            <i class="fa fa-fw o_button_icon fa-meh-o text-warning"
+                               attrs="{'invisible': ['|', ('rating_avg', '&lt;', 2.33), ('rating_avg', '&gt;=', 3.66)]}"
+                               title="Okay"/>
+                            <i class="fa fa-fw o_button_icon fa-frown-o text-danger"
+                               attrs="{'invisible': [('rating_avg', '&gt;=', 2.33)]}" title="Dissatisfied"/>
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="rating_avg_text" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">Rating</span>
+                            </div>
+                        </button>
+                        <!--                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket"-->
+                        <!--                                icon="fa-life-ring"-->
+                        <!--                                attrs="{'invisible': ['|', ('partner_id', '=', False), ('partner_ticket_count', '=', 0)]}">-->
+                        <!--                            <div class="o_field_widget o_stat_info">-->
+                        <!--                                <span class="o_stat_value">-->
+                        <!--                                    <field name="partner_ticket_count" nolabel="1"/>-->
+                        <!--                                    <span class="text-secondary fw-normal">Tickets</span>-->
+                        <!--                                </span>-->
+                        <!--                                <span class="o_stat_value">-->
+                        <!--                                    <field name="partner_open_ticket_count" nolabel="1"/>-->
+                        <!--                                    <span class="text-secondary fw-normal">Open</span>-->
+                        <!--                                </span>-->
+                        <!--                            </div>-->
+                        <!--                        </button>-->
+                    </div>
                     <!--ribbon-->
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"/>
                     <div class="selection">
                         <field name="department"
                                widget="radio" options="{'horizontal': true}"
-                               groups="mockdesk.group_TASC_helpdesk"/>
+                               groups="mockdesk.group_TASC_helpdesk"
+                               invisible="1"/>
                     </div>
                     <div class="oe_title">
                         <h1>
@@ -137,8 +190,12 @@
                             <field name="deadline" class="mb-0" widget="remaining_days"/>
                         </div>
                     </div>
+                    <!--  body-->
                     <group>
                         <group>
+                            <field name="is_failed" invisible="1"/>
+                            <field name="is_closed" invisible="1"/>
+                            <field name="rating_avg" invisible="1"/>
                             <field name="active" invisible="1"/>
                             <field name="ref" invisible="1"/>
                             <field name="team_id"/>
@@ -152,12 +209,13 @@
                         </group>
                         <group>
                             <field name="customer_id"/>
+                            <field name="partner_id" invisible="1"/>
                             <field name="phone" widget="phone"/>
                             <field name="email" widget="email"/>
                             <field name="cc"/>
                             <field name="working_time_total"/>
-<!--                            <button name="action_send_mail_card" class="oe_highlight"-->
-<!--                                    string="Send email" type="object"/>-->
+                            <!--                            <button name="action_send_mail_card" class="oe_highlight"-->
+                            <!--                                    string="Send email" type="object"/>-->
 
                             <!--                            <button type="object" class="oe_highlight" name="action_color_sla"
                             string="Action" invisible="1"/>-->
@@ -165,7 +223,7 @@
                     </group>
                     <notebook name="Description note">
                         <page string="Description">
-                            <field name="description" placeholder="enter your prescription here"/>
+                            <field name="description" placeholder="enter your prescription here" widget="html"/>
                         </page>
                         <!--  project detail-->
                         <page name="project" string="Project Detail"
@@ -204,13 +262,10 @@
 
                                 </page>
                             </notebook>
-
-                            <notebook>
-                                <page name="description" string="Description">
-                                    <field name="description_project"
-                                           placeholder="enter your description here"/>
-                                </page>
-                            </notebook>
+                            <group string="Project Description">
+                                <field name="description_project"
+                                       placeholder="enter your description here" widget="html" string=""/>
+                            </group>
                         </page>
                     </notebook>
 
@@ -238,12 +293,62 @@
             </p>
         </field>
     </record>
+    <record id="rating_rating_action_my_model" model="ir.actions.act_window">
+        <field name="name">Customer Ratings</field>
+        <field name="res_model">rating.rating</field>
+        <field name="view_mode">kanban,tree,pivot,graph,form</field>
+        <!--        <field name="view_id" ref="mockdesk.ticket_mockdesk_view_form_inherit_rating"/>-->
+        <field name="domain">[('res_model', '=', 'helpdesk.ticket'), ('consumed', '=', True)]</field>
+    </record>
+
+    <record id="ticket_mockdesk_view_form_inherit_rating" model="ir.ui.view">
+        <field name="name">rating.rating_rating_mockdesk</field>
+        <field name="model">rating.rating</field>
+        <field name="inherit_id" ref="rating.rating_rating_view_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="resource_ref" position="attributes">
+                    <attribute name="string">Ticket</attribute>
+                </field>
+                <field name="parent_ref" position="attributes">
+                    <attribute name="string">Helpdesk Team</attribute>
+                </field>
+                <field name="rated_partner_id" position="attributes">
+                    <attribute name="string">Assigned to</attribute>
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="create_date" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="feedback" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <div name="rating_image_container" position="replace">
+                    <label for="rating_text"/>
+                    <div name="rating_image_container">
+                        <field name="rating_text" decoration-danger="rating_text == 'ko'"
+                               decoration-warning="rating_text == 'ok'" decoration-success="rating_text == 'top'"
+                               class="fw-bold"/>
+                    </div>
+                </div>
+            </data>
+        </field>
+    </record>
 
     <!-- This is all ticket menu has action -->
     <menuitem id="menu_all_ticket"
               name="All Tickets"
               action="all_ticket_action"
               parent="menu_ticket_master"
+              sequence="1"/>
+
+    <menuitem id="menu_rating_test_ticket"
+              name="Rating Ticket"
+              parent="menu_reporting_master"
+              action="rating_rating_action_my_model"
               sequence="1"/>
 
 

@@ -9,6 +9,7 @@ def get_default_stage(self):
     default_stage = self.env['helpdesk.stage'].search([('sequence', '=', '0')], limit=1)
     return default_stage
 
+
 class HelpDeskTicket(models.Model):
     # fold in kanban get all stage id
     @api.model
@@ -16,14 +17,15 @@ class HelpDeskTicket(models.Model):
         return self.env['helpdesk.stage'].search([], order=order)
 
     _name = 'helpdesk.ticket'
-    _inherit = ['project.ansv']  # project_ansv đã có sẵn mail.mixin.activiy và thread của mail
+    _inherit = ['project.ansv', 'rating.mixin']  # project_ansv đã có sẵn mail.mixin.activiy và thread của
     _description = 'Ticket of MockDesk'
     _rec_name = 'name'
 
     ref = fields.Char(string="Ref")
     active = fields.Boolean(string="Active", default=True)
+    create_date_js = fields.Char(string="DateTime", compute="date_to_js")
     name = fields.Char(string="Ticket Name", required=True)
-    team_id = fields.Many2one('helpdesk.teams', String='Team', required=True)
+    team_id = fields.Many2one('helpdesk.teams', String='Team')
     priority = fields.Selection([
         ('0', 'No Rate'),
         ('1', 'Minor'),
@@ -46,8 +48,10 @@ class HelpDeskTicket(models.Model):
         ('BGD', 'BGD'),
         ('AM', 'AM')
     ], string="Department", default="DO")
-    description = fields.Html()
+    description = fields.Text()
     customer_id = fields.Many2one('res.partner', string="Customer")
+    partner_id = fields.Many2one('res.partner', 'Customer Partner', compute="customer_to_partner")
+    user_id = fields.Many2one('res.users', 'Assign to as Partner', compute="assignee_to_user")
     # module khác
     project_id = fields.Many2one('project.ansv', string="Project")
     # selection của product
@@ -59,14 +63,22 @@ class HelpDeskTicket(models.Model):
     sla_status_id = fields.Many2many('individual.ticket.sla', string="SLA Deadline ID", readonly=True)
     # Tổng thời gian hiện tại của SLA đơn
     working_time_total = fields.Float(string="Working Time", digit=(12, 1))
-    is_closed = fields.Boolean(String="Ticket is Closed", default=False)
+    is_closed = fields.Boolean(String="Ticket is Closed", required=False, default=False, compute="check_ticket_opened",
+                               store=True)
+    is_failed = fields.Boolean(string="Ticket Failed SLA", required=False, default=False, compute="check_ticket_failed",
+                               store=True)
+    rating_count = fields.Integer('Rating count', compute="_compute_rating_stats", compute_sudo=True, store=True)
 
     # Bảng individual of ticket and sla
     # Các trường được inherit từ model project
+
+    def test_button(self):
+        for sla in self.sla_status_id:
+            print(sla)
+
     @api.onchange('project_id')
     def _detail_project(self):
         for rec in self:
-            rec.project_name = rec.project_id.project_name
             rec.description_project = rec.project_id.description_project
 
     @api.onchange('stage_id')
@@ -125,58 +137,61 @@ class HelpDeskTicket(models.Model):
         # Gán Ref
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('ticket.helpdesk')
-
-        sla_list = self.env['sla.policy.ansv'].search(
-            [('priority', '=', vals['priority']), ('project_id', '=', vals['project_id']),
-             ('team_id', '=', vals['team_id'])
-             ])
-        # Lấy stage mới tạo default ó nó sẽ là 'NEW'
-        working_time = 0
-        if sla_list:
-            next_stage = int(self.stage_id.sequence) + 1
-            sla_reach = self.env['sla.policy.ansv'].search(
+        if 'priority' in vals and 'project_id' in vals and 'team_id' in vals:
+            sla_list = self.env['sla.policy.ansv'].search(
                 [('priority', '=', vals['priority']), ('project_id', '=', vals['project_id']),
-                 ('team_id', '=', vals['team_id']), ('reach_stage.sequence', '=', next_stage)])
-            print(sla_reach.id)
-            # Cần check nếu như SLA chỉ có duy nhất mà nó cách ra Reach Stage khởi tạo thì cần tìm SLA thỏa mãn
-            while not sla_reach.id:
-                next_stage += 1
-                sla_reach_new = self.env['sla.policy.ansv'].search(
+                 ('team_id', '=', vals['team_id'])
+                 ])
+            # Lấy stage mới tạo default ó nó sẽ là 'NEW'
+            working_time = 0
+            if sla_list:
+                next_stage = int(self.stage_id.sequence) + 1
+                sla_reach = self.env['sla.policy.ansv'].search(
                     [('priority', '=', vals['priority']), ('project_id', '=', vals['project_id']),
                      ('team_id', '=', vals['team_id']), ('reach_stage.sequence', '=', next_stage)])
-                sla_reach = sla_reach_new
-                print(sla_reach_new)
+                print(sla_reach.id)
+                # Cần check nếu như SLA chỉ có duy nhất mà nó cách ra Reach Stage khởi tạo thì cần tìm SLA thỏa mãn
+                while not sla_reach.id:
+                    next_stage += 1
+                    sla_reach_new = self.env['sla.policy.ansv'].search(
+                        [('priority', '=', vals['priority']), ('project_id', '=', vals['project_id']),
+                         ('team_id', '=', vals['team_id']), ('reach_stage.sequence', '=', next_stage)])
+                    sla_reach = sla_reach_new
+                    print(sla_reach_new)
 
-            working_time = sla_reach.working_time
+                working_time = sla_reach.working_time
 
-        sla_id = []
-        for sla in sla_list:
-            # Tạo 1  sla riêng biệt ?? cho ticket
-            indi_sla_val = {}
-            indi_sla_val.update({
-                'color': sla.color,
-                'name': sla.name,
-                'project_id': sla.project_id.id,
-                'team_id': sla.team_id.id,
-                'priority': sla.priority,
-                'type_id': sla.type_id.id,
-                'reach_stage': sla.reach_stage.id,
-                'sequence': sla.sequence,
-                'working_time': sla.working_time,
-                'stages_excluded_id': sla.stages_excluded_id.id,
-                'ticket_ref': vals['ref']
-            })
-            self.env['individual.ticket.sla'].create(indi_sla_val)
-        # Gắn giá trị individual vào
-        sla_individual = self.env['individual.ticket.sla'].search(
-            [('ticket_ref', '=', vals['ref']), ])
+            sla_id = []
+            stage_excluded = []
+            for sla in sla_list:
+                for stage in sla.stages_excluded_id:
+                    stage_excluded.append(stage.id)
+                # Tạo 1  sla riêng biệt ?? cho ticket
+                indi_sla_val = {}
+                indi_sla_val.update({
+                    'color': sla.color,
+                    'name': sla.name,
+                    'project_id': sla.project_id.id,
+                    'team_id': sla.team_id.id,
+                    'priority': sla.priority,
+                    'type_id': sla.type_id.id,
+                    'reach_stage': sla.reach_stage.id,
+                    'sequence': sla.sequence,
+                    'working_time': sla.working_time,
+                    'stages_excluded_id': [(6, 0, stage_excluded)],
+                    'ticket_ref': vals['ref']
+                })
+                self.env['individual.ticket.sla'].create(indi_sla_val)
+            # Gắn giá trị individual vào
+            sla_individual = self.env['individual.ticket.sla'].search(
+                [('ticket_ref', '=', vals['ref']), ])
 
-        for sla_inv in sla_individual:
-            sla_id.append(sla_inv.id)
-        # Thêm vào vals của hàm write
-        sla_value = [(6, 0, sla_id)]
-        # print(sla_value)
-        vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
+            for sla_inv in sla_individual:
+                sla_id.append(sla_inv.id)
+            # Thêm vào vals của hàm write
+            sla_value = [(6, 0, sla_id)]
+            # print(sla_value)
+            vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
         return super(HelpDeskTicket, self).create(vals)
 
     # WRITE Cập nhật SLA
@@ -220,12 +235,16 @@ class HelpDeskTicket(models.Model):
                     [('ticket_ref', '=', rec.ref)])
                 sla_id = []
                 sla_exist_name = []
+                stage_excluded = []
                 if sla_list:
                     for sla_exist in sla_individual_existed:
                         sla_exist_name.append(sla_exist.name)
                     for sla in sla_list:
+                        # print(sla.stages_excluded_id)
                         if sla.name in sla_exist_name:
                             break
+                        for stage in sla.stages_excluded_id:
+                            stage_excluded.append(stage.id)
                         else:
                             # print(sla)
                             indi_sla_val = {}
@@ -239,7 +258,7 @@ class HelpDeskTicket(models.Model):
                                 'reach_stage': sla.reach_stage.id,
                                 'sequence': sla.sequence,
                                 'working_time': sla.working_time,
-                                'stages_excluded_id': sla.stages_excluded_id.id,
+                                'stages_excluded_id': [(6, 0, stage_excluded)],
                                 'ticket_ref': rec.ref
                             })
                             rec.env['individual.ticket.sla'].create(indi_sla_val)
@@ -357,6 +376,40 @@ class HelpDeskTicket(models.Model):
             else:
                 rec.deadline = False
 
+    @api.depends('create_date')
+    def date_to_js(self):
+        for rec in self:
+            rec.create_date_js = rec.create_date.isoformat()
+
+    @api.depends('sla_status_id')
+    def check_ticket_failed(self):
+        for rec in self:
+            if rec.sla_status_id:
+                for sla in rec.sla_status_id:
+                    if sla.sla_failed:
+                        rec.is_failed = True
+            else:
+                rec.is_failed = False
+
+    @api.depends('stage_id')
+    def check_ticket_opened(self):
+        for rec in self:
+            for stage in rec.stage_id:
+                if stage.name in ['Solved', 'Cancelled']:
+                    rec.is_closed = True
+                else:
+                    rec.is_closed = False
+
+    @api.depends('customer_id')
+    def customer_to_partner(self):
+        for rec in self:
+            rec.partner_id = rec.customer_id
+
+    @api.depends('assign_to')
+    def assignee_to_user(self):
+        for rec in self:
+            rec.user_id = rec.assign_to
+
     @api.model
     def test_cron_job(self):
         today = datetime.today().date()
@@ -370,7 +423,6 @@ class HelpDeskTicket(models.Model):
         print("update Cron OK")
 
     def action_send_mail_card(self, template_id):
-        print("sending email")
         # Lấy template email
         # template_id = self.env.ref('mockdesk.ticket_card_mail_templates').id
         template = self.env["mail.template"].browse(template_id)
@@ -379,3 +431,18 @@ class HelpDeskTicket(models.Model):
             force_send=True,
             raise_exception=False
         )
+        return True
+
+    # ACTION OPEN:
+    def action_open_ratings(self):
+        for rec in self:
+            currTicket = rec.name
+            return {
+                'name': currTicket,
+                'type': 'ir.actions.act_window',
+                'view_mode': 'kanban,form',
+                'res_model': 'rating.rating',
+                'view_type': 'form',
+                'target': 'current',
+                'domain': [('res_id', '=', rec.id)]
+            }

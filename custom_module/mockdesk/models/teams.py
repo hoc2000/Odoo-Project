@@ -15,6 +15,14 @@ class HelpTeams(models.Model):
     urgent_ticket = fields.Integer(string="urgent ticket", compute="get_urgent_ticket")
     sla_failed = fields.Integer(string="sla failed", compute="get_sla_failed_ticket")
     closed_ticket = fields.Integer(string="closed ticket", compute="get_closed_ticket")
+    success_rated = fields.Float(string="Success Rate",
+                                 help="calculated the percent rate of ticket closed that success sla on time."
+                                      "(Total number ticket closed success SLA on time) / (total number closed ticket)",
+                                 compute="cal_success_rate_ticket")
+
+    average_rating = fields.Float(string="Average rating",
+                                  help="average sum up point of rating percent to max point rating = 5",
+                                  compute="cal_average_rating")
 
     def action_view_ticket(self):
         for rec in self:
@@ -54,7 +62,7 @@ class HelpTeams(models.Model):
     def get_sla_failed_ticket(self):
         for rec in self:
             count_sla_failed = rec.env['helpdesk.ticket'].search_count(
-                [('stage_id.name', '=', 'Cancelled'), ('team_id', '=', rec.id)])
+                [('is_failed', '=', 'false'), ('team_id', '=', rec.id)])
             rec.sla_failed = count_sla_failed
 
     def get_closed_ticket(self):
@@ -62,3 +70,34 @@ class HelpTeams(models.Model):
             count_closed_ticket = rec.env['helpdesk.ticket'].search_count(
                 [('is_closed', '=', True), ('team_id', '=', rec.id)])
             rec.closed_ticket = count_closed_ticket
+
+    def cal_success_rate_ticket(self):
+        for rec in self:
+            closed_ticket = rec.env['helpdesk.ticket'].search_count(
+                [('is_closed', '=', 'true'), ('team_id', '=', rec.id)])
+            closed_ticket_success = rec.env['helpdesk.ticket'].search_count(
+                [('is_closed', '=', 'true'), ('is_failed', '=', 'false'), ('team_id', '=', rec.id)])
+            if closed_ticket and closed_ticket_success:
+                rate_number = closed_ticket_success / closed_ticket
+                rec.success_rated = rate_number * 100
+            else:
+                rec.success_rated = 0
+
+    def cal_average_rating(self):
+        for rec in self:
+            try:
+                rated_ticket = rec.env['helpdesk.ticket'].search(
+                    [('rating_count', '!=', 0), ('team_id', '=', rec.id)])
+                total_ticket = rec.env['helpdesk.ticket'].search_count(
+                    [('rating_count', '!=', 0), ('team_id', '=', rec.id)])
+                summary = 0
+                # print(type(rated_ticket))
+                if rated_ticket:
+                    for ticket in rated_ticket:
+                        summary = summary + ticket.rating_avg
+                    rate_percent = (summary / total_ticket) / 5.00
+                    rec.average_rating = rate_percent * 100
+                else:
+                    rec.average_rating = 0
+            except Exception as e:
+                print(e)

@@ -5,7 +5,7 @@
         <field name="name">teams_view_tree</field>
         <field name="model">helpdesk.teams</field>
         <field name="arch" type="xml">
-            <tree editable="bottom" string="Stages" multi_edit="1">
+            <tree string="Stages" multi_edit="1">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="color" widget="color_picker"/>

@@ -45,7 +45,7 @@ class Project(models.Model):
     high_tasks = fields.Integer(compute="_count_high_task")
     urgent_tasks = fields.Integer(compute="_count_urgent_task")
 
-    description_project = fields.Html()
+    description_project = fields.Text(string="Description")
     product_lines_id = fields.One2many('product.ansv', 'project_id', string="Product")
     # Properties fields
     task_properties_definition = fields.PropertiesDefinition('Task Properties')

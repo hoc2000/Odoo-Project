@@ -21,6 +21,7 @@
         "base",
         "web",
         "portal",
+        "website"
     ],
     "application": True,
     # always loaded

@@ -5,7 +5,7 @@
         <field name="name">stages_view_tree</field>
         <field name="model">helpdesk.stage</field>
         <field name="arch" type="xml">
-            <tree string="Stages" multi_edit="1" create="0" delete="0">
+            <tree string="Stages" multi_edit="1">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="fold" string="Fold in Kanban"/>
