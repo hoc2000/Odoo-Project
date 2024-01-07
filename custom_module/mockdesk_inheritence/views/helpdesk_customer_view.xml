@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="helpdesk_customer_inherit">
+            <field name="name">helpdesk.customer.inherit</field>
+            <field name="model">res.partner</field>
+            <!-- ke thua form cua res_partner dựa theo external ID-->
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div class="oe_button_box" name="button_box" position="inside">
+                    <button type="object" name="open_helpdesk_ticket"
+                            class="oe_stat_button" icon="fa-life-ring"
+                            string="Tickets">
+                        <field name="ticket_count" string="Tickets" widget="statinfo"/>
+                        <!--                        <div class="o_field_widget o_stat_info">-->
+                        <!--                            <span class="o_stat_value">-->
+                        <!--                                <field name="ticket_count" nolabel="1"/>-->
+                        <!--                            </span>-->
+                        <!--                            <span class="o_stat_value">-->
+                        <!--                                <span class="fw-normal">Tickets</span>-->
+                        <!--                            </span>-->
+                        <!--                        </div>-->
+                    </button>
+                </div>
+
+                <field name="website" position="after">
+                    <field name="ticket_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

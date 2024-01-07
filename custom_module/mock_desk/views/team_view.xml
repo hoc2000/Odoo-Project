@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    tree-view-->
+    <record id="helpdesk_view_tree" model="ir.ui.view">
+        <field name="name">teams_view_tree</field>
+        <field name="model">mockdesk.teams</field>
+        <field name="arch" type="xml">
+            <tree string="Stages" multi_edit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    form-view-->
+    <record id="all_team_view_form" model="ir.ui.view">
+        <field name="name">all_ticket_view_form</field>
+        <field name="model">mockdesk.teams</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="active" invisible="1"/>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_ratings" type="object"
+                                attrs="{'invisible': [('average_rating', '=', 0)]}"
+                                class="oe_stat_button" icon="">
+                            <i class="fa fa-fw o_button_icon fa-smile-o text-success"
+                               attrs="{'invisible': [('average_rating', '&lt;', 0.7)]}" title="Satisfied"/>
+                            <i class="fa fa-fw o_button_icon fa-meh-o text-warning"
+                               attrs="{'invisible': ['|', ('average_rating', '&lt;', 0.3), ('average_rating', '&gt;=', 0.7)]}"
+                               title="Okay"/>
+                            <i class="fa fa-fw o_button_icon fa-frown-o text-danger"
+                               attrs="{'invisible': [('average_rating', '&gt;=', 0.3)]}" title="Dissatisfied"/>
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="average_rating" nolabel="1" widget="percentage"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    <field name="average_rating_text" nolabel="1"/>
+                                </span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="action_open_mockdesk_ticket" type="object"
+                                icon="fa-life-ring"
+                                attrs="{'invisible': [('open_ticket_count', '=', 0)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="open_ticket_count" nolabel="1"/>
+                                    <span class="o_stat_text px-2">Ticket</span>
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Team Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Enter Team name...."/>
+                        </h1>
+                    </div>
+                    <div class="text-muted">
+                        Descript about your team
+                    </div>
+                    <field name="description" placeholder="Describe your team to your colleagues and customers..."/>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6">
+                            <div class="o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="auto_assignment"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="auto_assignment"/>
+                                    <div class="text-muted">
+                                        Automate the assignment of new tickets to the right people, and make sure
+                                        all tickets are being handled
+                                    </div>
+                                    <div attrs="{'invisible': [('auto_assignment', '=', False)]}" class="mt16">
+                                        <div>
+                                            <field name="member_ids" widget="many2many_avatar_user"
+                                                   attrs="{'required': [('auto_assignment', '=', True)]}"
+                                                   class="mt16" placeholder="Add team members..."
+                                                   options="{'no_quick_create': True}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--    search-view-->
+    <record id="mockdesk_team_view_search" model="ir.ui.view">
+        <field name="name">Search Teams</field>
+        <field name="model">mockdesk.teams</field>
+        <field name="arch" type="xml">
+            <search string="Team Search">
+                <field name="name"/>
+                <field name="member_ids"/>
+                <filter string="My Teams" domain="[('member_ids', 'in', [uid]),('auto_assignment', '=', True)]"
+                        name="my_team"/>
+                <separator/>
+                <filter string="Archived" domain="[('active', '=', False)]" name="archived"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!--    window-action-->
+    <record id="mockdesk_team_view_action" model="ir.actions.act_window">
+        <field name="name">Team Helpdesk</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mockdesk.teams</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_sailing_face">
+                Create new Team
+            </p>
+        </field>
+    </record>
+
+    <!-- This is all ticket menu has action -->
+    <menuitem id="menu_team_mockdesk"
+              name="Teams"
+              action="mockdesk_team_view_action"
+              parent="menu_small_component_config"
+              sequence="1"/>
+
+
+</odoo>

@@ -162,9 +162,10 @@
                                                 <span class="s_website_form_mark">*</span>
                                             </label>
                                             <div class="col-sm">
-                                                <textarea class="form-control s_website_form_input"
-                                                          name="description"
-                                                          required="1" id="description" rows="3"/>
+                                                <textarea
+                                                        class="form-control s_website_form_input"
+                                                        name="description"
+                                                        required="1" id="description" rows="3"/>
                                             </div>
                                         </div>
                                     </div>

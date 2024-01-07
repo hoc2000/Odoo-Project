@@ -59,17 +59,17 @@ msgstr ""
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_edit_content
-msgid "<i class=\"fa fa-pencil fa-1g float-sm-none float-md-left\" title=\"Edit\"/>"
+msgid "<i class=\"fa fa-pen fa-1g float-sm-none float-md-left\" title=\"Edit\"/>"
 msgstr ""
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_header
-msgid "<i class=\"fa fa-pencil mr-1\"/>EDIT"
+msgid "<i class=\"fa fa-pen mr-1\"/>EDIT"
 msgstr ""
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_header
-msgid "<i class=\"fa fa-pencil mr-2\"/>EDIT PROFILE"
+msgid "<i class=\"fa fa-pen mr-2\"/>EDIT PROFILE"
 msgstr ""
 
 #. module: website_profile

@@ -148,7 +148,6 @@ class CustomerPortal(Controller):
         partner_sudo = request.env.user.partner_id
         if partner_sudo.user_id and not partner_sudo.user_id._is_public():
             sales_user_sudo = partner_sudo.user_id
-
         return {
             'sales_user': sales_user_sudo,
             'page_name': 'home',
@@ -195,6 +194,7 @@ class CustomerPortal(Controller):
                         values[field] = False
                 values.update({'zip': values.pop('zipcode', '')})
                 self.on_account_update(values, partner)
+                print(values)
                 partner.sudo().write(values)
                 if redirect:
                     return request.redirect(redirect)

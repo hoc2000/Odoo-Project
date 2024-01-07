@@ -55,22 +55,7 @@
         <field name="name">hospital.appointment.view.form</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
-            <form create="1">
-                <header>
-                    <button name="action_in_progress" class="oe_highlight" string="Progress" type="object"
-                            states="draft"/>
-                    <button name="action_done" class="oe_highlight" string="Done" type="object" states="in_progress"/>
-                    <!--                    <button name="%(action_cancel_appointment)d" class="btn-danger" string="Cancel" type="action"-->
-                    <!--                            states="draft,in_progress"/>-->
-
-                    <button name="action_cancel" class="btn-danger" string="Cancel" type="object"
-                            states="draft,in_progress"/>
-                    <button name="action_draft_reset" class="oe_highlight" string="Reset to draft" type="object"
-                            states="cancel"/>
-                    <!-- options="{'clickable':'1'}"-->
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,in_progress,done"/>
-                </header>
+            <form>
                 <sheet>
                     <div>
                         <h2>
@@ -88,64 +73,22 @@
                             <field name="appointment_time" string="Appointment Time"/>
                             <field name="booking" string="Booking"/>
                             <field name="hide_sale_price" string="Hide sale price"/>
-
-
                         </group>
                         <group>
                             <button class="oe_highlight " name="action_test"
                                     type="object"
                                     groups="base.group_no_one"
                                     string="Test"/>
-                            <button class="oe_highlight " name="%(om_hospital.action_hospital_patient)d"
-                                    type="action"
-                                    help="Clicking this button will redirect you to patients records"
-                                    confirm="Are you sure to patient page ?"
-                                    string="Action Button"/>
                         </group>
                     </group>
-                    <notebook>
-                        <page name="prescription" string="Prescription">
-                            <field name="prescription" placeholder="enter your prescription here"
-                                   options="{'collaborative':true}"/>
-                        </page>
-                        <page string="Pharmacy" name="pharmacy">
-                            <field name="pharmacy_line_ids">
-                                <tree editable="bottom">
-                                    <field name="product_id"/>
-                                    <field name="price_unit"
-                                           attrs="{'column_invisible':[('parent.hide_sale_price','=',True)]}"/>
-                                    <field name="qty"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <field name="product_id"/>
-                                        <field name="price_unit"
-                                               attrs="{'column_invisible':[('parent.hide_sale_price','=',True)]}"/>
-                                        <field name="qty"/>
-                                    </group>
-                                </form>
-                            </field>
-                        </page>
-                    </notebook>
                 </sheet>
                 <!-- Chatter-->
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_follower_ids"/>
                     <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
             </form>
-        </field>
-    </record>
-    <!--    search-view-->
-
-    <record id="hospital_appointment_search" model="ir.ui.view">
-        <field name="name">hospital.appointment.search</field>
-        <field name="model">hospital.appointment</field>
-        <field name="arch" type="xml">
-            <search>
-
-            </search>
         </field>
     </record>
     <!--window-action-->

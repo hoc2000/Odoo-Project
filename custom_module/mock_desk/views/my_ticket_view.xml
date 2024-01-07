@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    window-action-->
+    <record id="my_ticket_action" model="ir.actions.act_window">
+        <field name="name">My Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mockdesk.ticket</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('assign_to','=',uid)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_sailing_face">
+                My Ticket assign
+            </p>
+        </field>
+    </record>
+
+    <!-- This is all ticket menu has action -->
+    <menuitem id="menu_my_ticket"
+              name="My Tickets"
+              action="my_ticket_action"
+              parent="menu_ticket_master"
+              sequence="0"/>
+
+
+</odoo>

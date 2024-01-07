@@ -225,7 +225,7 @@ msgstr ""
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.website_planner
 msgid ""
-"<span class=\"panel-title\"><span class=\"fa fa-pencil-square-o\"/><strong> "
+"<span class=\"panel-title\"><span class=\"fa fa-pen-square-o\"/><strong> "
 "Web-Services</strong><br/>scripts development</span>"
 msgstr ""
 

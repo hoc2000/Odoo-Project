@@ -9,7 +9,7 @@
     'description': """
             Quản lý bệnh viện
     """,
-    'depends': ['mail', 'product'],
+    'depends': ['mail', 'product','portal'],
     'data': [
         'security/ir.model.access.csv',
 
@@ -22,6 +22,7 @@
         'views/appointment/appointment_view.xml',
         'views/patient_tag_view.xml',
         'views/wizard/cancel_appointment_view.xml',
+        'views/potal_template.xml',
     ],
     'demo': [],
     'installable': True,

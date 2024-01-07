@@ -14,7 +14,6 @@
     "sequence": -1,
     "depends": ["base","web"],
     "installable": True,
-    "application": True,
     # always loaded
     "data": [
         # security
@@ -27,8 +26,10 @@
     "assets": {
         "web.assets_backend": [
             "owl/static/src/components/*/*.js",
+            "owl/static/src/components/*/*.css",
             "owl/static/src/components/*/*.xml",
             "owl/static/src/components/todo_list/fonts/JosefinSans/*.css",
+            "owl/static/src/components/todo_list/fontawsome/*.css",
         ],
     },
 }

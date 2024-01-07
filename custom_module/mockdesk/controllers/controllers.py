@@ -30,7 +30,7 @@ class Mockdesk(http.Controller):
     def create_webpatient(self, **kw):
         pid = kw.get('project_id')
         project_find = request.env['project.ansv'].sudo().search([('id', '=', pid)])
-
+        kw.update({'team_id': False})
         # Create new customer
         customer_name = kw.get('customer_name')
         customer_phone = kw.get('phone')
@@ -45,11 +45,11 @@ class Mockdesk(http.Controller):
         if not existed_customer:
             customer_vals = {'name': customer_name, 'phone': customer_phone, 'email': customer_mail}
             new_customer = request.env['res.partner'].sudo().create(customer_vals)
-            project_val = {'project_name': project_find.project_name, 'customer_id': new_customer.id}
+            values = {'project_name': project_find.project_name, 'customer_id': new_customer.id}
         else:
-            project_val = {'project_name': project_find.project_name, 'customer_id': existed_customer.id}
+            values = {'project_name': project_find.project_name, 'customer_id': existed_customer.id,}
 
-        kw.update(project_val)
+        kw.update(values)
         print("Data Received.....", kw)
         request.env['helpdesk.ticket'].sudo().create(kw)
 
@@ -57,4 +57,4 @@ class Mockdesk(http.Controller):
 
     @http.route(auth='public', website=True)
     def index(self, **kw):
-        return http.request.render('mockdesk.new_homepage',{})
+        return http.request.render('mockdesk.new_homepage', {})

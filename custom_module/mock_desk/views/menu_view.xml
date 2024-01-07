@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="menu_mockdesk_root"
+              name="Mockdesk"
+              web_icon="mock_desk,static/description/icon.png"
+              sequence="-1"
+    />
+
+    <menuitem id="menu_overview_teams"
+              name="Overview"
+              action="mockdesk_team_dashboard_view_action"
+              parent="menu_mockdesk_root"
+              sequence="0"/>
+
+    <menuitem id="menu_ticket_master"
+              name="Tickets"
+              parent="menu_mockdesk_root"
+              sequence="1"
+    />
+
+    <menuitem id="menu_configuration_master"
+              name="Configuration"
+              parent="menu_mockdesk_root"
+              sequence="100"
+    />
+    <menuitem id="menu_small_component_config"
+              name="Component"
+              parent="menu_configuration_master"/>
+
+    <menuitem id="menu_reporting_master"
+              name="Reporting"
+              parent="menu_mockdesk_root"
+              sequence="2"
+    />
+</odoo>

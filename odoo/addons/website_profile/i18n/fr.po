@@ -61,20 +61,20 @@ msgstr "<i class=\"fa fa-arrow-right\"/> Tous les badges"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_edit_content
-msgid "<i class=\"fa fa-pencil fa-1g float-sm-none float-md-start\" title=\"Edit\"/>"
+msgid "<i class=\"fa fa-pen fa-1g float-sm-none float-md-start\" title=\"Edit\"/>"
 msgstr ""
-"<i class=\"fa fa-pencil fa-1g float-sm-none float-md-start\" "
+"<i class=\"fa fa-pen fa-1g float-sm-none float-md-start\" "
 "title=\"Modifier\"/>"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_header
-msgid "<i class=\"fa fa-pencil me-1\"/>EDIT"
-msgstr "<i class=\"fa fa-pencil me-1\"/>MODIFIER"
+msgid "<i class=\"fa fa-pen me-1\"/>EDIT"
+msgstr "<i class=\"fa fa-pen me-1\"/>MODIFIER"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_header
-msgid "<i class=\"fa fa-pencil me-2\"/>EDIT PROFILE"
-msgstr "<i class=\"fa fa-pencil me-2\"/>MODIFIER LE PROFIL"
+msgid "<i class=\"fa fa-pen me-2\"/>EDIT PROFILE"
+msgstr "<i class=\"fa fa-pen me-2\"/>MODIFIER LE PROFIL"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.badge_content

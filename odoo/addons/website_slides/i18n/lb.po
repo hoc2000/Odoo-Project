@@ -305,7 +305,7 @@ msgstr ""
 #. module: website_slides
 #: model_terms:ir.ui.view,arch_db:website_slides.slide_fullscreen
 msgid ""
-"<i class=\"fa fa-pencil\"/><span class=\"d-none d-md-inline-block "
+"<i class=\"fa fa-pen\"/><span class=\"d-none d-md-inline-block "
 "ml-1\">Write a review</span>"
 msgstr ""
 

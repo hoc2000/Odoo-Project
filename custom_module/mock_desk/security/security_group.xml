@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--    Category-->
+        <record id="module_helpdesk_category" model="ir.module.category">
+            <field name="name">Mockdesk</field>
+            <field name="description">Help you manage member</field>
+            <field name="sequence" eval="45"/>
+        </record>
+        <!--    group define-->
+        <record id="group_member_mockdesk" model="res.groups">
+            <field name="name">Member</field>
+            <field name="category_id" ref="module_helpdesk_category"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_manager_mockdesk" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_helpdesk_category"/>
+            <field name="implied_ids" eval="[(4, ref('mock_desk.group_member_mockdesk'))]"/>
+        </record>
+
+        <!--    record rule-->
+<!--        <record id="member_record_rule" model="ir.rule">-->
+<!--            <field name="name">See only member ticket</field>-->
+<!--            <field ref="model_helpdesk_ticket" name="model_id"/>-->
+<!--            <field name="domain_force">[('department','=','DO')]</field>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            &lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+<!--            <field name="groups" eval="[(4, ref('group_DO_helpdesk'))]"/>-->
+<!--            &lt;!&ndash;<field name="global" eval="1"/> &ndash;&gt;-->
+<!--        </record>-->
+    </data>
+</odoo>

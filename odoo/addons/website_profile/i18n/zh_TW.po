@@ -59,18 +59,18 @@ msgstr "<i class=\"fa fa-arrow-right\"/>所有成就"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_edit_content
-msgid "<i class=\"fa fa-pencil fa-1g float-sm-none float-md-start\" title=\"Edit\"/>"
-msgstr "<i class=\"fa fa-pencil fa-1g float-sm-none float-md-start\" title=\"編輯\"/>"
+msgid "<i class=\"fa fa-pen fa-1g float-sm-none float-md-start\" title=\"Edit\"/>"
+msgstr "<i class=\"fa fa-pen fa-1g float-sm-none float-md-start\" title=\"編輯\"/>"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_header
-msgid "<i class=\"fa fa-pencil me-1\"/>EDIT"
-msgstr "<i class=\"fa fa-pencil me-1\"/> 編輯"
+msgid "<i class=\"fa fa-pen me-1\"/>EDIT"
+msgstr "<i class=\"fa fa-pen me-1\"/> 編輯"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.user_profile_header
-msgid "<i class=\"fa fa-pencil me-2\"/>EDIT PROFILE"
-msgstr "<i class=\"fa fa-pencil me-2\"/> 編輯個人資料"
+msgid "<i class=\"fa fa-pen me-2\"/>EDIT PROFILE"
+msgstr "<i class=\"fa fa-pen me-2\"/> 編輯個人資料"
 
 #. module: website_profile
 #: model_terms:ir.ui.view,arch_db:website_profile.badge_content

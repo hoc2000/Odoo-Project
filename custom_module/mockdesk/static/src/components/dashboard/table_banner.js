@@ -75,20 +75,25 @@ class HelpdeskKanBanController extends KanbanController {
         let open_hour = []
         var current_date = new Date();
         ticketListDate = await this.orm.searchRead("helpdesk.ticket", domain, ["name", "create_date_js"])
-        for (let i = 0; i < ticketListDate.length; i++) {
-            jsdate.push(new Date(ticketListDate[i].create_date_js));
-        }
-        for (let i = 0; i < jsdate.length; i++) {
-            open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
-        }
-        // Using the reduce() method to calculate the sum of the numbers
-        var sum = open_hour.reduce((accumulator, currentValue) => {
-            return accumulator + currentValue;
-        }, 0);
+        if (ticketListDate.length != 0) {
+            for (let i = 0; i < ticketListDate.length; i++) {
+                jsdate.push(new Date(ticketListDate[i].create_date_js));
+            }
+            for (let i = 0; i < jsdate.length; i++) {
+                open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
+            }
+            // Using the reduce() method to calculate the sum of the numbers
+            var sum = open_hour.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0);
 
-        // Calculate the average by dividing the sum by the number of elements in the array
-        let average = sum / open_hour.length;
-        this.AverageOpenHour = average.toFixed(0)
+            // Calculate the average by dividing the sum by the number of elements in the array
+            let average = sum / open_hour.length;
+            this.AverageOpenHour = average.toFixed(0)
+        }
+        else {
+            this.AverageOpenHour = 0
+        }
 
         console.log(this.AverageOpenHour);
     }
@@ -101,20 +106,25 @@ class HelpdeskKanBanController extends KanbanController {
         let open_hour = []
         var current_date = new Date();
         ticketListDate = await this.orm.searchRead("helpdesk.ticket", domain, ["name", "create_date_js"])
-        for (let i = 0; i < ticketListDate.length; i++) {
-            jsdate.push(new Date(ticketListDate[i].create_date_js));
-        }
-        for (let i = 0; i < jsdate.length; i++) {
-            open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
-        }
-        // Using the reduce() method to calculate the sum of the numbers
-        var sum = open_hour.reduce((accumulator, currentValue) => {
-            return accumulator + currentValue;
-        }, 0);
+        if (ticketListDate.length != 0) {
+            for (let i = 0; i < ticketListDate.length; i++) {
+                jsdate.push(new Date(ticketListDate[i].create_date_js));
+            }
+            for (let i = 0; i < jsdate.length; i++) {
+                open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
+            }
+            // Using the reduce() method to calculate the sum of the numbers
+            var sum = open_hour.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0);
 
-        // Calculate the average by dividing the sum by the number of elements in the array
-        let average = sum / open_hour.length;
-        this.AverageOpenHourMajor = average.toFixed(0)
+            // Calculate the average by dividing the sum by the number of elements in the array
+            let average = sum / open_hour.length;
+            this.AverageOpenHourMajor = average.toFixed(0)
+        }
+        else {
+            this.AverageOpenHourMajor = 0
+        }
     }
 
     async GetAvgOpenHourCritical() {
@@ -125,20 +135,25 @@ class HelpdeskKanBanController extends KanbanController {
         let open_hour = []
         var current_date = new Date();
         ticketListDate = await this.orm.searchRead("helpdesk.ticket", domain, ["name", "create_date_js"])
-        for (let i = 0; i < ticketListDate.length; i++) {
-            jsdate.push(new Date(ticketListDate[i].create_date_js));
-        }
-        for (let i = 0; i < jsdate.length; i++) {
-            open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
-        }
-        // Using the reduce() method to calculate the sum of the numbers
-        var sum = open_hour.reduce((accumulator, currentValue) => {
-            return accumulator + currentValue;
-        }, 0);
+        if (ticketListDate.length != 0) {
+            for (let i = 0; i < ticketListDate.length; i++) {
+                jsdate.push(new Date(ticketListDate[i].create_date_js));
+            }
+            for (let i = 0; i < jsdate.length; i++) {
+                open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
+            }
+            // Using the reduce() method to calculate the sum of the numbers
+            var sum = open_hour.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0);
 
-        // Calculate the average by dividing the sum by the number of elements in the array
-        let average = sum / open_hour.length;
-        this.AverageOpenHourCritical = average.toFixed(0)
+            // Calculate the average by dividing the sum by the number of elements in the array
+            let average = sum / open_hour.length;
+            this.AverageOpenHourCritical = average.toFixed(0)
+        }
+        else {
+            this.AverageOpenHourCritical = 0
+        }
     }
 
     enableEditing() {

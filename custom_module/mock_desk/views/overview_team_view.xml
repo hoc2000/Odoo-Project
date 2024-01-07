@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    kanban-view-->
+    <record id="helpdesk_teams_view_kanban" model="ir.ui.view">
+        <field name="name">teams.dashboard.view.kanban</field>
+        <field name="model">mockdesk.teams</field>
+        <field name="arch" type="xml">
+            <kanban records_draggable="1"
+                    on_create="quick_create"
+                    class="o_kanban_dashboard oe_background_grey o_helpdesk_team_kanban"
+                    create="0"
+                    write="0"
+                    limit="12"
+                    js_class="helpdesk_table_kanban_view">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color"/>
+                <field name="success_rated"/>
+                <field name="average_rating"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} card border shadow">
+                            <div t-attf-class="o_kanban_card_header">
+                                <!--   dashboard header-->
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary o_text_overflow">
+                                        <field name="name"/>
+                                    </div>
+                                </div>
+                                <!--  dashboard dropdown-->
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="o_kanban_manage_toggle_button" href="#">
+                                        <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row ">
+                                    <div class="col o_kanban_primary_left">
+                                        <button type="object" class="btn btn-primary"
+                                                name="action_view_ticket">
+                                            Ticket
+                                        </button>
+                                    </div>
+                                    <div class="col o_kanban_primary_right">
+                                        <div class="mb4">
+                                            <a name="action_view_closed_ticket" type="object"
+                                               title="Number of tickets closed in the past 7 days."
+                                               class="justify-content-between flex-nowrap d-inline-flex w-100">
+                                                <span>Tickets Closed</span>
+                                                <span class="ms-3">
+                                                    <field name="closed_ticket"/>
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="action_view_success_rate" type="object"
+                                               title="Ratio of tickets whose SLA has successfully been reached on time compared to the total number of tickets closed"
+                                               class="justify-content-between flex-nowrap d-inline-flex w-100">
+                                                <span>Success Rate</span>
+                                                <span class="ms-3">
+                                                    <field name="success_rated" widget="percentage"/>
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="action_view_average_rating" type="object"
+                                               title="Ratio of total point rating ticket to the total max point of rating"
+                                               class="justify-content-between flex-nowrap d-inline-flex w-100">
+                                                <span>Average rating</span>
+                                                <span class="ms-3">
+                                                    <b>
+                                                        <strong class="fa fa-fw mt4 fa-smile-o text-success fw-bolder"
+                                                                t-if="record.average_rating.raw_value &gt;= 0.7"
+                                                                title="Average Rating: Satisfied" role="img"
+                                                                aria-label="Happy face"/>
+                                                        <strong class="fa fa-fw mt4 fa-meh-o text-warning fw-bolder"
+                                                                t-elif="record.average_rating.raw_value &gt;= 0.3"
+                                                                title="Average Rating: Okay" role="img"
+                                                                aria-label="Neutral face"/>
+                                                        <strong class="fa fa-fw mt4 fa-frown-o text-danger fw-bolder"
+                                                                t-else="" title="Average Rating: Dissatisfied"
+                                                                role="img" aria-label="Sad face"/>
+                                                    </b>
+                                                    <field name="average_rating" widget="percentage"/>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-5">
+                                    <div class="col">
+                                        <a name="action_view_open_ticket" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="fw-bold">
+                                                <field name="open_ticket_count"/>
+                                            </span>
+                                            <span class="text-muted">Open</span>
+                                        </a>
+                                    </div>
+                                    <div class="col border-start">
+                                        <a name="469" type="action" class="d-flex flex-column align-items-center">
+                                            <span class="fw-bold">
+                                                <field name="unassigned_tickets"/>
+                                            </span>
+                                            <span class="text-muted">Unassigned</span>
+                                        </a>
+                                    </div>
+                                    <div class="col border-start">
+                                        <a name="action_view_urgent" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="fw-bold">
+                                                <field name="urgent_ticket"/>
+                                            </span>
+                                            <span class="text-muted">Critical</span>
+                                        </a>
+                                    </div>
+                                    <div class="col border-start">
+                                        <a name="action_view_sla_failed" type="object"
+                                           class="d-flex flex-column align-items-center"
+                                           title="Number of open tickets with at least one SLA failed.">
+                                            <span class="fw-bold">
+                                                <field name="sla_failed"/>
+                                            </span>
+                                            <span class="text-muted">Failed</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                    menu dropdown-->
+                            <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                <div t-if="widget.editable" class="row">
+                                    <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>View</span>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a name="action_view_ticket" type="object">Tickets</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 o_kanban_card_manage_section o_kanban_manage_reporting">
+                                        <div role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>Reporting</span>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a name="455" type="action"
+                                               context="{'search_default_team_id': active_id}">Tickets Report
+                                            </a>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a name="474" type="action"
+                                               context="{'search_default_team_id': active_id}">Status
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div role="menuitem" aria-haspopup="true" class="col-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                    </div>
+                                    <div role="menuitem" class="col-4">
+                                        <a class="dropdown-item" role="menuitem" type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <!--        Overview-kanban-->
+    <!--    <record id="helpdesk_teams_view_kanban_with_onboarding" model="ir.ui.view">-->
+    <!--        <field name="name">teams.dashboard.kanban</field>-->
+    <!--        <field name="model">helpdesk.teams</field>-->
+    <!--        <field name="inherit_id" ref="helpdesk_teams_view_kanban"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//kanban" position="attributes">-->
+    <!--                <attribute name="banner_route">/mockdesk/tickets</attribute>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    window-action-->
+    <record id="mockdesk_team_dashboard_view_action" model="ir.actions.act_window">
+        <field name="name">Team Helpdesk DashBoard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mockdesk.teams</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_sailing_face">
+                View Ticket DashBoard
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

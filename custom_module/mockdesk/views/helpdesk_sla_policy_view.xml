@@ -20,8 +20,6 @@
                                 <field name="team_id"/>
                                 <field name="project_id"/>
                                 <field name="priority" widget="priority"/>
-                                <field name="type_id"/>
-                                <field name="tag_id" widget="many2many_tags"/>
                                 <separator colspan="2" string="Target"/>
                                 <field name="reach_stage"
                                        domain="[('id', 'not in', stages_excluded_id)]"
@@ -50,8 +48,6 @@
                     <field name="team_id"/>
                     <field name="project_id"/>
                     <field name="priority" widget="priority"/>
-                    <field name="type_id"/>
-                    <field name="tag_id" widget="many2many_tags"/>
                     <field name="sequence"/>
                 </tree>
             </field>
@@ -79,8 +75,6 @@
                                 <field name="team_id"/>
                                 <field name="project_id"/>
                                 <field name="priority" widget="priority"/>
-                                <field name="type_id"/>
-                                <field name="tag_id" widget="many2many_tags"/>
                                 <separator colspan="2" string="Target"/>
                                 <field name="reach_stage"
                                        domain="[('id', 'not in', stages_excluded_id)]"
@@ -108,8 +102,6 @@
                     <field name="name"/>
                     <field name="ticket_ref"/>
                     <field name="project_id"/>
-                    <field name="priority" widget="priority"/>
-                    <field name="type_id"/>
                     <field name="sequence"/>
                 </tree>
             </field>

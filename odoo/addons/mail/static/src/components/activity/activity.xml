@@ -130,7 +130,7 @@
                                 </button>
                             </t>
                             <button class="o_Activity_toolButton o_Activity_editButton btn btn-link btn-primary pt-0" t-on-click="activityView.onClickEdit">
-                                <i class="fa fa-pencil"/> Edit
+                                <i class="fa fa-pen"/> Edit
                             </button>
                             <button class="o_Activity_toolButton o_Activity_cancelButton btn btn-link btn-primary pt-0" t-on-click="activityView.onClickCancel" >
                                 <i class="fa fa-times"/> Cancel

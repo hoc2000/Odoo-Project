@@ -11,15 +11,13 @@ class SLA(models.Model):
     color = fields.Integer()
     name = fields.Char(string="SLA Name", required=True, copy=False)
     description = fields.Html()
-    team_id = fields.Many2one('helpdesk.teams', string="Team", required=True)
+    team_id = fields.Many2one('helpdesk.teams', string="Team")
     priority = fields.Selection([
         ('0', 'No Rate'),
         ('1', 'Minor'),
         ('2', 'Major'),
-        ('3', 'Critical')], string="Priority", required=True)
-    type_id = fields.Many2one('helpdesk.ticket.type', string="Type", editable=False)
-    tag_id = fields.Many2many('ticket.tag', string="Tags")
-    project_id = fields.Many2one('project.ansv', string="Project", required=True)
+        ('3', 'Critical')], string="Priority")
+    project_id = fields.Many2one('project.ansv', string="Project")
 
     # Target calculated
     reach_stage = fields.Many2one('helpdesk.stage', string="Reach Stage", required=True)

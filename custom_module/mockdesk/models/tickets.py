@@ -37,7 +37,9 @@ class HelpDeskTicket(models.Model):
                                group_expand='_read_group_stage_ids')
     stage_current_string = fields.Char(string="Stage Right Now")
     email = fields.Char(String="Email", related='customer_id.email')
-    assign_to = fields.Many2one('res.users', string="Assign To")
+    assign_to = fields.Many2one('res.users', domain=[('share', '=', False)], string="Assign To")
+    img_64_assignee = fields.Binary(related="assign_to.image_1920")
+
     deadline = fields.Date(String="Deadline", default=fields.Date.context_today, compute="_compute_deadline")
     type = fields.Many2one('helpdesk.ticket.type', string="Type")
     cc = fields.Char(string="Email cc")
@@ -79,7 +81,13 @@ class HelpDeskTicket(models.Model):
     @api.onchange('project_id')
     def _detail_project(self):
         for rec in self:
+            rec.project_name = rec.project_id.project_name
             rec.description_project = rec.project_id.description_project
+
+    @api.depends('assign_to')
+    def get_assignee_name(self):
+        for rec in self:
+            rec.portal_assign_name = rec.assign_to.name
 
     @api.onchange('stage_id')
     def update_stage_(self):
@@ -129,15 +137,23 @@ class HelpDeskTicket(models.Model):
             rec.stage_id = cancel_stage
             rec.stage_current_string = rec.stage_id.name
 
+    def assign_to_me(self):
+        for rec in self:
+            context = self._context
+            current_uid = context.get('uid')
+            current_user = self.env['res.users'].browse(current_uid)
+            rec.assign_to = current_user
+
     # =====================================================================================================================
     # Khởi tạo SLA
     @api.model
     def create(self, vals):
+        # Gán Follower
         # Tìm các SLA thỏa mãn
         # Gán Ref
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('ticket.helpdesk')
-        if 'priority' in vals and 'project_id' in vals and 'team_id' in vals:
+            # if 'priority' in vals and 'project_id' in vals and 'team_id' in vals:
             sla_list = self.env['sla.policy.ansv'].search(
                 [('priority', '=', vals['priority']), ('project_id', '=', vals['project_id']),
                  ('team_id', '=', vals['team_id'])
@@ -174,7 +190,6 @@ class HelpDeskTicket(models.Model):
                     'project_id': sla.project_id.id,
                     'team_id': sla.team_id.id,
                     'priority': sla.priority,
-                    'type_id': sla.type_id.id,
                     'reach_stage': sla.reach_stage.id,
                     'sequence': sla.sequence,
                     'working_time': sla.working_time,
@@ -192,7 +207,10 @@ class HelpDeskTicket(models.Model):
             sla_value = [(6, 0, sla_id)]
             # print(sla_value)
             vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
-        return super(HelpDeskTicket, self).create(vals)
+        print(vals)
+        new_record = super(HelpDeskTicket, self).create(vals)
+        # new_record.message_subscribe(partner_ids=[vals['customer_id']])
+        return new_record
 
     # WRITE Cập nhật SLA
     def write(self, vals):
@@ -225,63 +243,62 @@ class HelpDeskTicket(models.Model):
                 project_write = vals['project_id']
             if 'team_id' in vals:
                 team_write = vals['team_id']
-            # Tìm kiếm giá trị của sla
-            if priority_write and project_write and team_write:
-                sla_list = rec.env['sla.policy.ansv'].search(
-                    [('priority', '=', priority_write), ('project_id', '=', project_write),
-                     ('team_id', '=', team_write)
-                     ])
-                sla_individual_existed = rec.env['individual.ticket.sla'].search(
-                    [('ticket_ref', '=', rec.ref)])
-                sla_id = []
-                sla_exist_name = []
-                stage_excluded = []
-                if sla_list:
-                    for sla_exist in sla_individual_existed:
-                        sla_exist_name.append(sla_exist.name)
-                    for sla in sla_list:
-                        # print(sla.stages_excluded_id)
-                        if sla.name in sla_exist_name:
-                            break
-                        for stage in sla.stages_excluded_id:
-                            stage_excluded.append(stage.id)
-                        else:
-                            # print(sla)
-                            indi_sla_val = {}
-                            indi_sla_val.update({
-                                'color': sla.color,
-                                'name': sla.name,
-                                'project_id': sla.project_id.id,
-                                'team_id': sla.team_id.id,
-                                'priority': sla.priority,
-                                'type_id': sla.type_id.id,
-                                'reach_stage': sla.reach_stage.id,
-                                'sequence': sla.sequence,
-                                'working_time': sla.working_time,
-                                'stages_excluded_id': [(6, 0, stage_excluded)],
-                                'ticket_ref': rec.ref
-                            })
-                            rec.env['individual.ticket.sla'].create(indi_sla_val)
-                        # Gắn giá trị individual vào
-                    sla_individual = rec.env['individual.ticket.sla'].search(
-                        [('ticket_ref', '=', rec.ref), ('priority', '=', priority_write),
-                         ('project_id', '=', project_write), ('team_id', '=', team_write)])
-                    # xóa ticket exist cũ
-                    sla_individual_diff = rec.env['individual.ticket.sla'].search(
-                        [('ticket_ref', '=', rec.ref), '|', '|', ('priority', '!=', priority_write),
-                         ('project_id', '!=', project_write), ('team_id', '!=', team_write)])
-                    sla_individual_diff.unlink()
-                    for sla_inv in sla_individual:
-                        sla_id.append(sla_inv.id)
-                    if 'stage_id' not in vals:
-                        next_stage = int(rec.stage_id.sequence) + 1
-                        sla_reach = rec.env['individual.ticket.sla'].search(
-                            [('reach_stage.sequence', '=', next_stage), ('id', 'in', sla_id)])
-                        working_time = sla_reach.working_time
-                # Thêm vào vals của hàm write
-                sla_value = [(6, 0, sla_id)]
-                # print(sla_value)
-                vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
+                # Tìm kiếm giá trị của sla
+                # print("vals")
+            sla_list = rec.env['sla.policy.ansv'].search(
+                [('priority', '=', priority_write), ('project_id', '=', project_write),
+                 ('team_id', '=', team_write)
+                 ])
+            sla_individual_existed = rec.env['individual.ticket.sla'].search(
+                [('ticket_ref', '=', rec.ref)])
+            sla_id = []
+            sla_exist_name = []
+            stage_excluded = []
+            if sla_list:
+                for sla_exist in sla_individual_existed:
+                    sla_exist_name.append(sla_exist.name)
+                for sla in sla_list:
+                    # print(sla.stages_excluded_id)
+                    if sla.name in sla_exist_name:
+                        break
+                    for stage in sla.stages_excluded_id:
+                        stage_excluded.append(stage.id)
+                    else:
+                        # print(sla)
+                        indi_sla_val = {}
+                        indi_sla_val.update({
+                            'color': sla.color,
+                            'name': sla.name,
+                            'project_id': sla.project_id.id,
+                            'team_id': sla.team_id.id,
+                            'priority': sla.priority,
+                            'reach_stage': sla.reach_stage.id,
+                            'sequence': sla.sequence,
+                            'working_time': sla.working_time,
+                            'stages_excluded_id': [(6, 0, stage_excluded)],
+                            'ticket_ref': rec.ref
+                        })
+                        rec.env['individual.ticket.sla'].create(indi_sla_val)
+                    # Gắn giá trị individual vào
+                sla_individual = rec.env['individual.ticket.sla'].search(
+                    [('ticket_ref', '=', rec.ref), ('priority', '=', priority_write),
+                     ('project_id', '=', project_write), ('team_id', '=', team_write)])
+                # xóa ticket exist cũ
+                sla_individual_diff = rec.env['individual.ticket.sla'].search(
+                    [('ticket_ref', '=', rec.ref), '|', '|', ('priority', '!=', priority_write),
+                     ('project_id', '!=', project_write), ('team_id', '!=', team_write)])
+                sla_individual_diff.unlink()
+                for sla_inv in sla_individual:
+                    sla_id.append(sla_inv.id)
+                if 'stage_id' not in vals:
+                    next_stage = int(rec.stage_id.sequence) + 1
+                    sla_reach = rec.env['individual.ticket.sla'].search(
+                        [('reach_stage.sequence', '=', next_stage), ('id', 'in', sla_id)])
+                    working_time = sla_reach.working_time
+            # Thêm vào vals của hàm write
+            sla_value = [(6, 0, sla_id)]
+            # print(sla_value)
+            vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
             res = super(HelpDeskTicket, self).write(vals)
             if 'stage_id' in vals:
                 # mail send
@@ -446,3 +463,9 @@ class HelpDeskTicket(models.Model):
                 'target': 'current',
                 'domain': [('res_id', '=', rec.id)]
             }
+
+    # portal.mixin override
+    def _compute_access_url(self):
+        super()._compute_access_url()
+        for ticket in self:
+            ticket.access_url = f'/my/ticket/{ticket.id}'

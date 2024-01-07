@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home" name="Ticket" inherit_id="portal.portal_my_home" customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="url">/my/appointment</t>
+                <t t-set="title">Appointment</t>
+                <t t-set="placeholder_count" t-value="'appointment_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_breadcrumbs" name="Ticket layout: project menu entry" priority="10">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'appointment_list' or project" class="breadcrumb-item">
+                Appointments
+            </li>
+            <li t-if="page_name == 'appointment_detail_view'" class="breadcrumb-item">
+                <a href="#">Appointments</a>/
+                <span t-out="appointment.ref"/>
+            </li>
+        </xpath>
+    </template>
+    <!--    List view-->
+    <template id="portal_ticket_list_view_customer" name="Appointment List">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <thead class="thead-dark" data-oe-model="ir.ui.view"
+                       style="background-color: #a183aa;color: white;">
+                    <tr>
+                        <th class="text-center">Ref</th>
+                        <th class="text-center">Booking</th>
+                        <th class="text-center">Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="appointments" t-as="appointment">
+                        <tr>
+                            <!-- Lấy id bằng cách này , đọc kĩ cả bên controller portal nữa-->
+                            <td class="text-center">
+                                <a t-attf-href="/my/appointment/#{appointment.id}" style="color:blue">
+                                    <t t-out="appointment.ref"/>
+                                </a>
+                            </td>
+                            <td class="">
+                                <t t-out="appointment.booking"/>
+                            </td>
+                            <td class="text-center">
+                                <t t-out="appointment.priority"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <!--    Detail-view-->
+    <template id="portal_appointment_detail_view" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-if="page_name == 'appointment_detail_view'">
+                <section>
+                    <div class="container py-5 inform-detail">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Ref</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="appointment.ref"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Booking</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="appointment.booking"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Priority</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-raw="appointment.priority"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Chatter-->
+                    <div id="sale_order_communication" class="container py-5" data-anchor="true">
+                        <h1>Chatter Features</h1>
+                        <t t-call="portal.message_thread">
+                            <!--Lấy object ticket hiện tại-->
+                            <xpath expr="//div[@id='discussion']" position="attributes">
+                                <attribute name="t-att-data-display_rating">display_rating or False</attribute>
+                                <t t-set="object" t-value="appointment"/>
+                            </xpath>
+                        </t>
+                    </div>
+                </section>
+            </t>
+        </xpath>
+    </template>
+
+<!--    &lt;!&ndash;    Account View&ndash;&gt;-->
+</odoo>

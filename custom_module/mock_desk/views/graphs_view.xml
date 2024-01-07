@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ticket_graph_view" model="ir.ui.view">
+        <field name="name">ticket.graph.view.tree</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <graph string="Ticket Analyst" sample="1" stacked="False" disable_linking="1">
+                <field name="team_id"/>
+                <field name="stage_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="reporting_graph_action" model="ir.actions.act_window">
+        <field name="name">Ticket Analyst</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mockdesk.ticket</field>
+        <field name="view_mode">graph</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="report_ticket_count"
+              name="Ticket Analyst"
+              parent="menu_reporting_master"
+              action="reporting_graph_action"
+              sequence="0"/>
+
+
+</odoo>

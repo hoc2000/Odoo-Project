@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    tree-view-->
+    <record id="all_ticket_view_tree" model="ir.ui.view">
+        <field name="name">all_ticket_view_tree</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <tree default_order='create_date desc priority desc, deadline, id'
+                  string="All Ticket"
+                  limit="30"
+                  multi_edit="1"
+                  sample="1">
+                <field name="ref" readonly="1"/>
+                <field name="is_closed" invisible="1"/>
+                <field name="priority" widget="priority" readonly="1"/>
+                <field name="name"/>
+                <field name="project_id" string="Project"/>
+                <field name="team_id"/>
+                <field name="assign_to" widget="many2one_avatar_user"/>
+                <!--                <field name="department"/>-->
+                <field class="text-info" name="customer_id" widget="res_partner_many2one" optional="show"/>
+                <field name="deadline" widget="remaining_days" string="SLA Deadline"/>
+                <field name="activity_ids" string="Activity" widget="list_activity"
+                       optional="show"/>
+                <field string="tags" name="tag_id" widget="many2many_tags" optional="hide"/>
+                <field string="Stage" name="stage_id" widget="badge" optional="show"/>
+                <field name="create_date" string="Created Date" optional="show"/>
+                <field name="write_date" optional="hide" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+    <!--    kanban-view-->
+    <record id="all_ticket_view_kanban" model="ir.ui.view">
+        <field name="name">all_ticket_view_kanban</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <kanban quick_create_view="mockdesk.quick_kanban_view_form"
+                    on_create="quick_create"
+                    default_group_by="stage_id">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="customer_id"/>
+                <field name="priority"/>
+                <field name="stage_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click ">
+                            <div class="oe_kanban_content text-break">
+                                <strong class="o_kanban_record_title">
+                                    <b>
+                                        <field name="name"/>
+                                    </b>
+                                </strong>
+                                <div t-if="record.customer_id.value">
+                                    <strong>Customer:</strong>
+                                    <field name="customer_id"/>
+                                </div>
+                                <div t-if="record.deadline.value">
+                                    <strong class="text-danger">Deadline:</strong>
+                                    <field name="deadline"/>
+                                </div>
+                                <div>
+                                    <field name="tag_id" widget="many2many_tags"
+                                           options="{'color_field': 'color'}"/>
+                                </div>
+                                <field name="stage_id"
+                                       widget="badge"
+                                />
+
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="priority" widget="priority"/>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field t-if="record.assign_to.raw_value" name="assign_to"
+                                               widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--        mininal form quick View-->
+    <record id="quick_kanban_view_form" model="ir.ui.view">
+        <field name="name">quick_kanban_view_form</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <form string="quick_kanban_form">
+                <group>
+                    <field name="name"/>
+                    <field name="assign_to"/>
+                    <field name="customer_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <!--    form-view-->
+    <record id="all_ticket_view_form" model="ir.ui.view">
+        <field name="name">all_ticket_view_form</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--                    <button name="test_button" type="object">Test Button</button>-->
+                    <button name="assign_to_me"
+                            type="object"
+                            string="Assign to me"
+                            attrs="{'invisible':[('assign_to','!=',False)]}"/>
+                    <field name="stage_current_string" invisible="1"/>
+
+                    <field name="stage_id"
+                           widget="statusbar"
+                           context="{'order_display': 'sequence desc' }"
+                           statusbar_visible="draft,in_progress,done"
+                           options="{'clickable': '1'}"/>
+                    <!--                    options="{'clickable': '1'}"-->
+                </header>
+                <sheet>
+                    <field name="rating_avg" invisible="1"/>
+                    <field name="rating_count" invisible="1"/>
+                    <!-- rating-->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_ratings" type="object"
+                                attrs="{'invisible': [('rating_count', '=', 0)]}"
+                                class="oe_stat_button" icon="">
+                            <i class="fa fa-fw o_button_icon fa-smile-o text-success"
+                               attrs="{'invisible': [('rating_avg', '&lt;', 3.66)]}" title="Satisfied"/>
+                            <i class="fa fa-fw o_button_icon fa-meh-o text-warning"
+                               attrs="{'invisible': ['|', ('rating_avg', '&lt;', 2.33), ('rating_avg', '&gt;=', 3.66)]}"
+                               title="Okay"/>
+                            <i class="fa fa-fw o_button_icon fa-frown-o text-danger"
+                               attrs="{'invisible': [('rating_avg', '&gt;=', 2.33)]}" title="Dissatisfied"/>
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="rating_avg_text" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text">Rating</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_open_mockdesk_ticket"
+                                icon="fa-life-ring"
+                                attrs="{'invisible': [('customer_id', '=', False)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="partner_ticket_count" nolabel="1"/>
+                                    <span class="o_stat_text px-2">Ticket</span>
+                                </span>
+                                <span class="o_stat_value">
+                                    <field name="partner_open_ticket_count" nolabel="1"/>
+                                    <span class="o_stat_text px-2">Open</span>
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <!--                    ribbon-->
+                    <widget name="web_ribbon" title="Closed" bg_color="bg-danger"
+                            attrs="{'invisible': [('is_closed', '=', False)]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Enter ticket name...."/>
+                        </h1>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <field name="sla_status_id" string="SLA" widget="many2many_tags"
+                               options="{'color_field': 'color','no_edit_color': True}" readonly="1"
+                               attrs="{'invisible': [('sla_status_id', '=', [])]}"/>
+                        <div attrs="{'invisible': ['|',('sla_status_id', '=', []),('deadline','=',False)]}"
+                             class="mx-2 text-muted d-inline-flex align-items-center h-100">
+                            <i class="fa fa-lg fa-clock-o me-2 mt-1" aria-label="Sla Deadline"
+                               title="Sla Deadline"/>
+                            <field name="deadline" class="pt-1 mb-0" widget="remaining_days"/>
+                        </div>
+                    </div>
+                    <!--  body-->
+                    <group>
+                        <group>
+                            <field name="is_failed" invisible="1"/>
+                            <field name="is_closed" invisible="1"/>
+                            <!--                            <field name="rating_avg" invisible="1"/>-->
+                            <field name="active" invisible="1"/>
+                            <field name="ref" invisible="0"/>
+                            <field name="team_id"/>
+                            <field name="project_id"/>
+                            <field name="assign_to" widget="many2one_avatar_user"/>
+                            <field name="priority" widget="priority" options="{'autosave': False}"/>
+                            <field name="deadline" String="Deadline"/>
+                            <field name="type" String="Type"/>
+                            <field name="tag_id" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
+                        </group>
+                        <group>
+                            <field name="customer_id"/>
+                            <!--                            <field name="partner_id" invisible="1"/>-->
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="cc"/>
+                            <field name="working_time_total" string="working hour" readonly="1"
+                                   attrs="{'invisible': [('working_time_total', '=' , 0)]}"/>
+                        </group>
+                    </group>
+                    <notebook name="Description note">
+                        <page string="Description">
+                            <field name="description" placeholder="enter your prescription here" widget="html"/>
+                        </page>
+                        <!--  project detail-->
+                        <page name="project" string="Project Detail"
+                              attrs="{'invisible': [('project_id', '=', False)]}">
+                            <group name="container_row_2">
+                                <!--                                <group>-->
+                                <!--                                    <field name="project_name"/>-->
+                                <!--                                </group>-->
+                                <group>
+                                    <field name="product_ticket_id" String="Product"/>
+                                </group>
+                            </group>
+                            <!--   In Component model-->
+                            <notebook>
+                                <page name="component_of_product" string="Components"
+                                      attrs="{'invisible': [('product_ticket_id', '=', False)]}">
+                                    <field name="ticket_components_list_id">
+                                        <tree create="0" delete="0"
+                                              class="o_tree_component_ticket"
+                                              decoration-bf="is_error == True"
+                                              decoration-danger="is_error == True">
+                                            <field name="name"/>
+                                            <field name="version_id"/>
+                                            <field name="is_error" invisible="1"/>
+                                        </tree>
+                                        <form>
+                                            <group>
+                                                <field name="name" readonly="1"/>
+                                                <field name="version_id"/>
+                                                <field name="is_error"/>
+                                                <field name="_description_error"
+                                                       attrs="{'invisible': [('is_error', '=', False)]}"/>
+                                            </group>
+                                        </form>
+                                    </field>
+
+                                </page>
+                            </notebook>
+                            <group string="Project Description">
+                                <field name="description_project"
+                                       placeholder="enter your description here" widget="html" string=""/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+                <!-- Chatter-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!--    Search-view-->
+    <record id="all_ticket_search" model="ir.ui.view">
+        <field name="name">mockdesk.ticket.search</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Ticket name"
+                       filter_domain="['|',('name','ilike',self),('ref','ilike',self)]"/>
+                <field name="ref" string="Reference"/>
+                <field name="customer_id" string="Customer"/>
+                <field name="assign_to" string="Assigned to"/>
+                <field name="stage_id" string="Stage"/>
+                <field name="project_id" string="Project"/>
+                <!-- filter-->
+                <filter name="myticket_filter" string="My Ticket" domain="[('assign_to','=',uid)]"/>
+                <filter name="unassign_filter" string="Unassigned" domain="[('assign_to','=',False)]"/>
+                <separator/>
+                <filter name="filter_archived" string="Archive" domain="[('active','=',False)]"/>
+                <separator/>
+                <filter name="filter_new_state" string="New Status" domain="[('stage_id','=','New')]"/>
+                <!--                chuyển hóa context_day time to string-->
+                <filter name="filter_today_ticket" string="Today Ticket"
+                        domain="[('create_date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="filter_sla_failed" string="SLA Failed" domain="[('is_closed','=',False)]"/>
+                <filter name="filter_sla_inprogress" string="SLA In Progress" domain="[('is_closed','=',True)]"/>
+                <separator/>
+                <filter name="filter_open_ticket" string="Open" domain="[('is_closed','=',False)]"/>
+                <filter name="filter_closed_ticket" string="Closed" domain="[('is_closed','=',True)]"/>
+
+                <group expand="0" string="Group by">
+                    <filter string="Assign to" name="group_by_uid" context="{'group_by':'assign_to'}"/>
+                    <filter string="Stage" name="group_by_uid" context="{'group_by':'stage_id'}"/>
+                    <filter string="Team" name="group_by_team" context="{'group_by':'team_id'}"/>
+                    <filter string="Type" name="group_by_gender" context="{'group_by':'type'}"/>
+                    <filter string="Priority" name="group_by_gender" context="{'g
+                    roup_by':'priority'}"/>
+                    <filter string="Customer" name="group_by_gender" context="{'group_by':'customer_id'}"/>
+                    <filter string="Date Received" name="created_by" context="{'group_by': 'create_date'}"/>
+                </group>
+
+                <searchpanel>
+                    <!--  Remember man only relation fields and selection fields-->
+                    <field name="team_id" string="Team" enable_counters="1" icon="fa-users" select="multi"/>
+                    <field name="stage_id" string="Stage" enable_counters="1" icon="fa-filter" select="multi"/>
+                    <field name="priority" string="Priority" enable_counters="1" icon="fa-star" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!--    Activity View-->
+    <record id="ticket_view_activity" model="ir.ui.view">
+        <field name="name">mockdesk.ticket.view.activity</field>
+        <field name="model">mockdesk.ticket</field>
+        <field name="arch" type="xml">
+            <activity string="Tickets">
+                <field name="assign_to"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <field t-if="record.assign_to.value" name="assign_to" widget="many2one_avatar_user"/>
+                        <img t-else="" t-att-src="activity_image('res.users', 'image_128', record.assign_to.raw_value)"
+                             role="img" t-att-title="record.assign_to.value" t-att-alt="record.assign_to.value"/>
+                        <div class="w-100">
+                            <div class="d-flex justify-content-between">
+                                <div class="o_ticket_activity_box_title">
+                                    <field name="name" display="full"/>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    #
+                                    <field name="ref"/>
+                                </div>
+                            </div>
+                            <field name="customer_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <!--    window-action-->
+    <record id="all_ticket_action" model="ir.actions.act_window">
+        <field name="name">All Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mockdesk.ticket</field>
+        <field name="view_mode">tree,kanban,form,activity</field>
+        <!--        <field name="context">{"search_default_name_of_the_filter":1}</field>-->
+        <field name="context">{"search_default_filter_open_ticket":1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_sailing_face">
+                Create new Ticket
+            </p>
+        </field>
+    </record>
+
+    <!--        Rating_view-->
+    <record id="rating_rating_action_my_model" model="ir.actions.act_window">
+        <field name="name">Customer Ratings</field>
+        <field name="res_model">rating.rating</field>
+        <field name="view_mode">kanban,tree,pivot,graph,form</field>
+        <!--        <field name="view_id" ref="mockdesk.ticket_mockdesk_view_form_inherit_rating"/>-->
+        <field name="domain">[('res_model', '=', 'mockdesk.ticket'), ('consumed', '=', True)]</field>
+    </record>
+
+    <record id="ticket_mockdesk_view_form_inherit_rating" model="ir.ui.view">
+        <field name="name">rating.rating_rating_mockdesk</field>
+        <field name="model">rating.rating</field>
+        <field name="inherit_id" ref="rating.rating_rating_view_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="resource_ref" position="attributes">
+                    <attribute name="string">Ticket</attribute>
+                </field>
+                <field name="parent_ref" position="attributes">
+                    <attribute name="string">Mockdesk Team</attribute>
+                </field>
+                <field name="rated_partner_id" position="attributes">
+                    <attribute name="string">Assigned to</attribute>
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="create_date" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="feedback" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <div name="rating_image_container" position="replace">
+                    <label for="rating_text"/>
+                    <div name="rating_image_container">
+                        <field name="rating_text" decoration-danger="rating_text == 'ko'"
+                               decoration-warning="rating_text == 'ok'" decoration-success="rating_text == 'top'"
+                               class="fw-bold"/>
+                    </div>
+                </div>
+            </data>
+        </field>
+    </record>
+
+    <!-- This is all ticket menu has action -->
+    <menuitem id="menu_all_ticket"
+              name="All Tickets"
+              action="all_ticket_action"
+              parent="menu_ticket_master"
+              sequence="1"/>
+
+    <menuitem id="menu_rating_test_ticket"
+              name="Rating Ticket"
+              parent="menu_reporting_master"
+              action="rating_rating_action_my_model"
+              sequence="1"/>
+
+
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sla_policy_form_view" model="ir.ui.view">
+            <field name="name">mockdesk.sla_policy.form</field>
+            <field name="model">sla.policy.ansv</field>
+            <field name="arch" type="xml">
+                <form string="SLA Policy">
+                    <sheet class="">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="e.g: SLA Policy name"/>
+                            </h1>
+                        </div>
+                        <field name="description" placeholder="Description of the policy..."/>
+                        <group>
+                            <group>
+                                <separator colspan="2" string="Criteria"/>
+                                <field name="team_id"/>
+                                <field name="project_id"/>
+                                <field name="priority" widget="priority" options="{'autosave': False}"/>
+                                <separator colspan="2" string="Target"/>
+                                <field name="reach_stage"
+                                       domain="[('id', 'not in', stages_excluded_id)]"
+                                       options="{'no_create': True, 'no_create_edit':True}"/>
+                                <label for="working_time" string="In"/>
+                                <div class="o_row">
+                                    <field name="working_time" widget="float_time" class="oe_inline"/>
+                                    <span class="o_field_widget o_readonly_modifier">Working Hours</span>
+                                </div>
+                                <field name="stages_excluded_id" widget="many2many_tags"
+                                       options="{'no_create': True,'no_create_edit':True}"/>
+                                <field name="sequence" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sla_individua_tree_view" model="ir.ui.view">
+            <field name="name">mockdesk.sla_individua.tree</field>
+            <field name="model">sla.policy.ansv</field>
+            <field name="arch" type="xml">
+                <tree string="ModelTitle">
+                    <field name="name"/>
+                    <field name="team_id"/>
+                    <field name="project_id"/>
+                    <field name="priority" widget="priority"/>
+                    <field name="sequence"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        individual sla-->
+
+        <record id="sla_individual_form_view" model="ir.ui.view">
+            <field name="name">mockdesk.sla_individual.form</field>
+            <field name="model">individual.ticket.sla</field>
+            <field name="arch" type="xml">
+                <form string="SLA Individual">
+                    <sheet class="">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="e.g: SLA Policy name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <separator colspan="2" string="Criteria"/>
+                                <field name="ticket_ref"/>
+                                <field name="deadline"/>
+                                <field name="sla_failed"/>
+                                <field name="team_id"/>
+                                <field name="project_id"/>
+                                <field name="priority" widget="priority"/>
+                                <separator colspan="2" string="Target"/>
+                                <field name="reach_stage"
+                                       domain="[('id', 'not in', stages_excluded_id)]"
+                                       options="{'no_create': True, 'no_create_edit':True}"/>
+                                <label for="working_time" string="In"/>
+                                <div class="o_row">
+                                    <field name="working_time" widget="float_time" class="oe_inline"/>
+                                    <span class="o_field_widget o_readonly_modifier">Working Hours</span>
+                                </div>
+                                <field name="stages_excluded_id" widget="many2many_tags"
+                                       options="{'no_create': True,'no_create_edit':True}"/>
+                                <field name="sequence" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sla_policy_tree_view" model="ir.ui.view">
+            <field name="name">mockdesk.sla_policy.tree</field>
+            <field name="model">individual.ticket.sla</field>
+            <field name="arch" type="xml">
+                <tree string="ModelTitle">
+                    <field name="name"/>
+                    <field name="ticket_ref"/>
+                    <field name="project_id"/>
+                    <field name="sequence"/>
+                </tree>
+            </field>
+        </record>
+        <!--        <record id="sla_policy_search_view" model="ir.ui.view">-->
+        <!--            <field name="name">ProjectName.sla_policy.search</field>-->
+        <!--            <field name="model">ProjectName.sla.policy.ansv</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="SLA Policies">-->
+        <!--                    <group expand="1" string="Group By">-->
+        <!--                        <filter string="Example Field" name="example_field" domain="[]"-->
+        <!--                                context="{'group_by':'example_field'}"/>-->
+        <!--                    </group>-->
+        <!--                </search>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <record id="sla_policy_act_window" model="ir.actions.act_window">
+            <field name="name">SLA Policy</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sla.policy.ansv</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    SLA Policy helphesk !
+                </p>
+            </field>
+        </record>
+
+        <record id="sla_individual_act_window" model="ir.actions.act_window">
+            <field name="name">SLA Individual Ticket</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">individual.ticket.sla</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+        <menuitem id="sla_all_id" name="SLA" sequence="1" parent="menu_configuration_master"/>
+        <menuitem name="SLA Policy"
+                  id="sla_policy_menu"
+                  parent="sla_all_id"
+                  action="sla_policy_act_window"/>
+
+        <menuitem name="SLA Individual"
+                  id="sla_individual_menu"
+                  parent="sla_all_id"
+                  action="sla_individual_act_window"/>
+
+    </data>
+</odoo>

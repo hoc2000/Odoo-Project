@@ -8,11 +8,11 @@
     """,
     "author": "THomasVu",
     "website": "",
-    "sequence": -110,
+    "sequence": 99,
     "category": "Helpdesk",
     "version": "0.1",
     # any module necessary for this one to work correctly
-    "depends": ["ansv__project"],
+    "depends": ["ansv__project","rating","portal"],
     # always loaded
     "data": [
         # khai bao group luon phai de dang truoc
@@ -33,6 +33,8 @@
         "views/helpdesk_dashboard_view.xml",
         "views/helpdesk_sla_policy_view.xml",
         "views/graphs_view.xml",
+        "views/mail_activity_views.xml",
+        "views/potal_template.xml",
         "views/website_form.xml",
         "views/website_homepage.xml",
 
@@ -40,14 +42,15 @@
     "demo": [],
     "installable": True,
     "application": True,
+    "auto_install": False,
+    "license": "AGPL-3",
     "assets": {
         "web.assets_backend": [
             "mockdesk/static/src/**/*.js",
             "mockdesk/static/src/**/*.xml",
             "mockdesk/static/src/**/*.css",
-            # "mockdesk/static/src/scss/*.scss",
+            "mockdesk/static/src/scss/*.scss",
         ],
     },
-    "auto_install": False,
-    "license": "AGPL-3",
+
 }

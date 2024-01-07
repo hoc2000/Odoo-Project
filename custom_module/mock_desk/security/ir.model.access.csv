@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+mock_desk.access_mockdesk_ticket,access_mockdesk_ticket,mock_desk.model_mockdesk_ticket,mock_desk.group_member_mockdesk,1,1,1,1
+mock_desk.access_mockdesk_stage,access_mockdesk_stage,mock_desk.model_mockdesk_stage,mock_desk.group_member_mockdesk,1,1,1,1
+mock_desk.access_mockdesk_teams,access_mockdesk_teams,mock_desk.model_mockdesk_teams,mock_desk.group_member_mockdesk,1,1,1,1
+mock_desk.access_sla_policy_ansv,access_sla_policy_ansv,mock_desk.model_sla_policy_ansv,mock_desk.group_member_mockdesk,1,1,1,1
+mock_desk.access_individual_ticket_sla,access_individual_ticket_sla,mock_desk.model_individual_ticket_sla,mock_desk.group_member_mockdesk,1,1,1,1
+mock_desk.access_ticket_tag,access_ticket_tag,mock_desk.model_ticket_tag,mock_desk.group_member_mockdesk,1,1,1,1
+mock_desk.access_mockdesk_ticket_type,access_mockdesk_ticket_type,mock_desk.model_mockdesk_ticket_type,mock_desk.group_member_mockdesk,1,1,1,1
+
+mock_desk.access_portal_ticket,access_portal_ticket,mock_desk.model_mockdesk_ticket,base.group_portal,1,1,0,0
+mock_desk.access_portal_stage,access_portal_stage,mock_desk.model_mockdesk_stage,base.group_portal,1,1,0,0

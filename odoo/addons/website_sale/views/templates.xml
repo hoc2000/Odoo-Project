@@ -2275,7 +2275,7 @@
                 <div class="card-header">
                     <a role="button" groups="base.group_system" class="btn btn-sm btn-link text-white float-end" target="_blank" aria-label="Edit" title="Edit"
                             t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % ('payment.provider', payment_tx_id.provider_id.id, 'payment.action_payment_provider')">
-                        <i class="fa fa-pencil"></i>
+                        <i class="fa fa-pen"></i>
                     </a>
                     <t t-if="payment_tx_id.state == 'pending'">
                         <t t-out="payment_tx_id.provider_id.sudo().pending_msg"/>
