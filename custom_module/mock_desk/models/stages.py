@@ -10,7 +10,7 @@ class TicketStages(models.Model):
 
     active = fields.Boolean(default=True)
     sequence = fields.Integer(string="Sequence")
-    name = fields.Char(string="Stages")
+    name = fields.Char(string="Stages", copy=False)
     # domain = [('model', '=', 'task.project.ansv')],
     mail_template_id = fields.Many2one(
         'mail.template',

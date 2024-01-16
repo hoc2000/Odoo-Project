@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_owl_mockdesk_dashboard" model="ir.actions.client">
+            <field name="name">Mockdesk Dashboard</field>
+            <field name="tag">owl.mockdesk_dashboard</field>
+        </record>
+
+        <menuitem id="menu_owl_ticket_dashboard"
+            name="Dashboard"
+            parent="menu_mockdesk_root"
+            sequence="0"
+            action="action_owl_mockdesk_dashboard" />
+    </data>
+</odoo>

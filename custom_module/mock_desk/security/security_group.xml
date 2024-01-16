@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
         <!--    Category-->
         <record id="module_helpdesk_category" model="ir.module.category">
             <field name="name">Mockdesk</field>

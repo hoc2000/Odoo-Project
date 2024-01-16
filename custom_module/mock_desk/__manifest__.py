@@ -18,10 +18,16 @@
                 "rating",
                 "portal",
                 "ansv__project",
-                "website"
+                "contacts",
+                "website",
+                "owl",
+                "web_responsive"
                 ],
     # always loaded
     "data": [
+        # data fixed
+        "data/default_stages.xml",
+
         # khai bao group luon phai de dang truoc
         "security/security_group.xml",
         "security/ir.model.access.csv",
@@ -32,6 +38,7 @@
         #
         "views/overview_team_view.xml",
         "views/menu_view.xml",
+        "views/dashboard.xml",
         "views/all_ticket_view.xml",
         "views/my_ticket_view.xml",
         "views/stage_view.xml",
@@ -39,6 +46,7 @@
         "views/type_ticket_view.xml",
         "views/team_view.xml",
         "views/sla_policy_view.xml",
+        "views/project_and_product.xml",
         "views/graphs_view.xml",
         "views/mail_activity_views.xml",
         "views/potal_template.xml",

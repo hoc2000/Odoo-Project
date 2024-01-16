@@ -29,6 +29,11 @@ class HelpTeams(models.Model):
                                   help="average sum up point of rating percent to max point rating = 5",
                                   compute="cal_average_rating")
     average_rating_text = fields.Char(compute="text_base_on_rating")
+    # count ticket
+    ticket_new = fields.Integer(string="New Ticket", compute="count_new_ticket")
+    ticket_inprogress = fields.Integer(string="In Progress Ticket", compute="count_inprogress_ticket")
+    solved_ticket = fields.Integer(string="Solved Ticket", compute="count_solved_ticket")
+    cancelled_ticket = fields.Integer(string="Cancelled Ticket", compute="count_cancelled_ticket")
 
     @api.depends('average_rating')
     def text_base_on_rating(self):
@@ -115,6 +120,30 @@ class HelpTeams(models.Model):
                     rec.average_rating = 0
             except Exception as e:
                 print(e)
+
+    # Ticket Count
+    def count_new_ticket(self):
+        for rec in self:
+            count = rec.env['mockdesk.ticket'].search_count([('team_id', '=', rec.id), ('stage_id.name', '=', 'New')])
+            rec.ticket_new = count
+
+    def count_inprogress_ticket(self):
+        for rec in self:
+            count = rec.env['mockdesk.ticket'].search_count(
+                [('team_id', '=', rec.id), ('stage_id.name', '=', 'In Progress')])
+            rec.ticket_inprogress = count
+
+    def count_solved_ticket(self):
+        for rec in self:
+            count = rec.env['mockdesk.ticket'].search_count(
+                [('team_id', '=', rec.id), ('stage_id.name', '=', 'Solved')])
+            rec.solved_ticket = count
+
+    def count_cancelled_ticket(self):
+        for rec in self:
+            count = rec.env['mockdesk.ticket'].search_count(
+                [('team_id', '=', rec.id), ('stage_id.name', '=', 'Cancelled')])
+            rec.cancelled_ticket = count
 
     # VIEW TYPE OBJECT
     def action_open_ratings(self):

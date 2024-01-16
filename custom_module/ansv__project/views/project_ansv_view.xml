@@ -18,7 +18,7 @@
             <field name="model">project.ansv</field>
             <field name="arch" type="xml">
                 <kanban class="o_kanban_dashboard o_project_ansv_kanban oe_kanban_card" records_draggable="1"
-                        action="action_view_tasks" type="object">
+                        type="object">
                     <field name="project_name"/>
                     <field name="manager_id"/>
                     <field name="partner_ids"/>

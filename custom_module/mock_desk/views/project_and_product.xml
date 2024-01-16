@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="ansv_project_mockdesk_action_window">
+            <field name="name">ANSV Project Mockdesk</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.ansv</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Projech here
+                </p>
+            </field>
+        </record>
+
+        <record id="ansv_product_mockdesk_action" model="ir.actions.act_window">
+            <field name="name">ANSV Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.ansv</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="project_mockdesk_menu"
+                  name="Project"
+                  parent="menu_product_project_config"
+                  action="ansv_project_mockdesk_action_window"
+                  sequence="0"/>
+
+        <menuitem id="product_mockdesk_menu"
+                  name="Product"
+                  parent="menu_product_project_config"
+                  action="ansv_product_mockdesk_action"
+                  sequence="1"/>
+
+    </data>
+</odoo>

@@ -85,67 +85,134 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card mb-4">
-                                    <div class="card-body text-center">
-                                        <t t-if="ticket.img_64_assignee">
-                                            <img t-attf-src="data:image/png;base64,{{ticket.img_64_assignee}}"
-                                                 alt="avatar"
-                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
-                                        </t>
-                                        <t t-else="">
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                                 alt="avatar"
-                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
-                                        </t>
-                                        <h5 class="my-3">
-                                            <t t-out="ticket.assign_to.name"/>
-                                        </h5>
-                                        <p class="text-muted mb-1">
-                                            <t t-out="ticket.team_id.name"/>
-                                        </p>
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <button type="button" class="btn btn-primary">Follow</button>
-                                            <button type="button" class="btn btn-outline-primary ms-1">Message</button>
-                                        </div>
-                                    </div>
+                                    <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                        <li t-if=" not ticket.is_closed"
+                                            class="list-group-item flex-grow-1">
+                                            <div class="d-grid flex-sm-nowrap">
+                                                <button class="btn btn-secondary pt-1"
+                                                        data-bs-target="#mockdesk_ticket_close_modal"
+                                                        data-bs-toggle="modal">
+                                                    Close Ticket
+                                                </button>
+                                            </div>
+
+                                            <div class="modal" tabindex="-1" role="dialog"
+                                                 id="mockdesk_ticket_close_modal">
+                                                <div class="modal-dialog mt-5" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Close ticket</h5>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"/>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you wish to closed ticket?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a role="button" class="btn btn-primary"
+                                                               t-att-href="'/my/ticket/close/%s/' % (ticket.id)">
+                                                                Close the ticket
+                                                            </a>
+                                                            <button type="button" class="btn btn-light"
+                                                                    data-bs-dismiss="modal">
+                                                                Discard
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li t-if="ticket.assign_to or ticket.customer_id"
+                                            class="list-group-item flex-grow-1">
+                                            <div class="col-12 col-md-12 py-2" t-if="ticket.assign_to">
+                                                <strong>Assigned to</strong>
+                                                <div class="d-flex ps-3 flex-nowrap mt-1">
+                                                    <img class="rounded-circle o_portal_contact_img"
+                                                         t-att-src="image_data_uri(ticket.assign_to.avatar_128)"
+                                                         alt="Contact"/>
+                                                    <div class="ms-2">
+                                                        <div t-out="ticket.assign_to"
+                                                             t-options="{'widget': 'contact', 'fields': ['name']}"
+                                                             class="mt-2"/>
+                                                        <a t-attf-href="mailto:{{ticket.assign_to.email}}"
+                                                           t-if="ticket.assign_to.email">
+                                                            <div t-field="ticket.assign_to"
+                                                                 t-options="{'widget': 'contact', 'fields': ['email']}"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-12 py-2" t-else="">
+                                                <p>Not assign yet</p>
+                                            </div>
+                                            <hr/>
+                                            <div class="col-12 col-md-12 py-2" t-if="ticket.customer_id">
+                                                <strong>Customer</strong>
+                                                <div class="d-flex ps-3 flex-nowrap mt-1">
+                                                    <img class="rounded-circle o_portal_contact_img"
+                                                         t-att-src="image_data_uri(ticket.customer_id.avatar_128)"
+                                                         alt="Contact"/>
+                                                    <div class="ms-2">
+                                                        <div t-field="ticket.customer_id"
+                                                             t-options="{'widget': 'contact', 'fields': ['name']}"/>
+                                                        <a t-attf-href="mailto:{{ticket.customer_id.email}}"
+                                                           t-if="ticket.customer_id.email">
+                                                            <div t-field="ticket.customer_id"
+                                                                 t-options="{'widget': 'contact', 'fields': ['email']}"/>
+                                                        </a>
+                                                        <a t-attf-href="tel:{{ticket.customer_id.phone}}"
+                                                           t-if="ticket.customer_id.phone">
+                                                            <div t-field="ticket.customer_id"
+                                                                 t-options="{'widget': 'contact', 'fields': ['phone']}"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="card mb-4">
+                                    <div id="card_header" class="card-header container" data-anchor="true">
+                                        <div class="row gs-0">
+                                            <div class="col-md">
+                                                <h5 class="row mx-1 mb-1 mb-md-0">
+                                                    <div class="col-9 text-truncate">
+                                                        <span t-field="ticket.name" t-att-title="ticket.name"/>
+                                                        <small class="text-muted ">(#
+                                                            <span t-field="ticket.ref"/>
+                                                            )
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-3 text-end">
+                                                        <small class="text-end">Stage:</small>
+                                                        <span t-field="ticket.stage_id.name"
+                                                              class=" badge rounded-pill text-bg-info"
+                                                              title="Current stage of this ticket"/>
+                                                    </div>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <p class="mb-0">Customer Report</p>
+                                                <strong class="mb-0">Created Date</strong>
                                             </div>
                                             <div class="col-sm-9">
                                                 <p class="text-muted mb-0">
-                                                    <t t-out="ticket.customer_id.name"/>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <p class="text-muted mb-0">
-                                                    <t t-out="ticket.customer_id.email"/>
+                                                    <t t-out="ticket.create_date"
+                                                       t-options="{'widget': 'datetime', 'hide_seconds': True}"/>
                                                 </p>
                                             </div>
                                         </div>
                                         <hr/>
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <p class="mb-0">Phone</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <p class="text-muted mb-0">
-                                                    <t t-out="ticket.customer_id.phone"/>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Team Manager</p>
+                                                <strong class="mb-0">Team Manager</strong>
                                             </div>
                                             <div class="col-sm-9">
                                                 <p class="text-muted mb-0">
@@ -156,7 +223,51 @@
                                         <hr/>
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <p class="mb-0">Description/Questionr</p>
+                                                <strong class="mb-0">Project</strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="ticket.project_id.project_name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <strong class="mb-0">Product</strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="ticket.product_ticket_id.product_name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <strong class="mb-0">Priority</strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-if="ticket.priority == '0' ">
+                                                        Not Rated
+                                                    </t>
+                                                    <t t-if="ticket.priority == '1' ">
+                                                        Minor
+                                                    </t>
+                                                    <t t-if="ticket.priority == '2' ">
+                                                        Major
+                                                    </t>
+                                                    <t t-if="ticket.priority == '3' ">
+                                                        Critical
+                                                    </t>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <strong class="mb-0">Description/Question</strong>
                                             </div>
                                             <div class="col-sm-9">
                                                 <p class="text-muted mb-0">

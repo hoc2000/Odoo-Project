@@ -23,6 +23,7 @@ class Product(models.Model):
     price = fields.Monetary(string="Price", help="This is price of the product exchange to VNĐ")
     product_ref = fields.Char(string="Product Reference")
     category_id = fields.Many2one('category.product',string="Category", required=True)
+    description = fields.Html(string="Description")
 
     image = fields.Image(string="image")
     is_favorite = fields.Boolean(string='Show Product Favourite')
@@ -55,13 +56,6 @@ class Components(models.Model):
     is_error = fields.Boolean(string="Is Error")
     _description_error = fields.Text(string="Error reason")
 
-    @api.onchange('is_error')
-    def _check_error(self):
-        if not self.is_error:
-            self._description_error = ''
-            self.name = self.name.replace("[error]", "")
-        else:
-            self.name = self.name + "[error]"
 
 
 class Version(models.Model):

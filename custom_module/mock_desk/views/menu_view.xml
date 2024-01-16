@@ -19,12 +19,17 @@
     />
 
     <menuitem id="menu_configuration_master"
-              name="Configuration"
+              name="Other"
               parent="menu_mockdesk_root"
               sequence="100"
     />
     <menuitem id="menu_small_component_config"
               name="Component"
+              parent="menu_configuration_master"
+              sequence="1"/>
+
+    <menuitem id="menu_product_project_config"
+              name="Project and Product"
               parent="menu_configuration_master"/>
 
     <menuitem id="menu_reporting_master"

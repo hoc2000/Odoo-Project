@@ -43,6 +43,9 @@
                             <field name="price" string="Costs"/>
                         </group>
                         <notebook>
+                            <page name="desctiprion" string="Description">
+                                <field name="description"/>
+                            </page>
                             <page name="components" string="Components">
                                 <field name="components_list_id">
                                     <tree editable="bottom"

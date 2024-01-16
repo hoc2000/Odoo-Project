@@ -18,16 +18,19 @@ class Mockdesk(http.Controller):
         }
 
     @http.route('/ticket_webform', type="http", auth="public", website=True)
-    def patient_webform(self, **kw):
+    def ticketWebform(self, **kw):
         print("Execution Here.........................")
-        ticket_rec = request.env['mockdesk.ticket'].sudo().search([], limit=1)
+        # ticket_rec = request.env['mockdesk.ticket'].sudo().search([], limit=1)
         project_rec = request.env['project.ansv'].sudo().search([])
-        print("Ticket rec...", project_rec)
-        return http.request.render('mock_desk.create_ticket', {'name': 'Ticket Customer test',
-                                                               'project_rec': project_rec})
+        product_rec = request.env['product.ansv'].sudo().search([])
+        # print("Ticket rec...", project_rec)
+        return http.request.render('mock_desk.create_ticket', {'name': '',
+                                                               'project_rec': project_rec,
+                                                               'product_rec': product_rec})
 
     @http.route('/create/webticket', type="http", auth="public", csrf=True, website=True)
-    def create_webpatient(self, **kw):
+    def ticketCreate(self, **kw):
+        print('Data Raw......', kw)
         # pid = kw.get('project_id')
         # project_find = request.env['project.ansv'].sudo().search([('id', '=', pid)])
         kw.update({'team_id': False})
@@ -35,7 +38,7 @@ class Mockdesk(http.Controller):
         customer_name = kw.get('customer_name')
         customer_phone = kw.get('phone')
         customer_mail = kw.get('email')
-        keys_to_remove = ['customer_name', 'phone', 'email']
+        keys_to_remove = ['customer_name', 'phone', 'email', 'job', 'product']
 
         # Using a loop to remove keys
         for key in keys_to_remove:

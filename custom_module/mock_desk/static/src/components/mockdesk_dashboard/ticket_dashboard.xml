@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="owl.MockdeskDashboard" owl="1">
+        <div class="vh-100 overflow-auto bg-muted">
+            <div class="row m-3">
+                <div class="col-lg-7">
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="shadow-sm border m-2 p-4 bg-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h1 class="text-primary fw-bold">Mockdesk Dashboard</h1>
+                                    <div>
+                                        <!-- tự động thay đổi giá trị state theo value select -->
+                                        <select class="form-select" style="border-radius:5px"
+                                            t-model="state.period"
+                                            t-on-change="onChangePeriod">
+                                            <option value="0">Select Period</option>
+                                            <option value="7">Last 7 Days</option>
+                                            <option value="30">Last 30 Days</option>
+                                            <option value="90">Last 90 Days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- KPI -->
+                    <div class="row">
+                         <KpiCard onClick.bind="viewTickets" name="'All Tickets'"
+                            value="this.state.ticket.value"/>
+                        <KpiCard onClick.bind="viewClosedTickets" name="'Closed Tickets'"
+                            value="this.state.closedTicket.value" />
+                        <KpiCard onClick.bind="viewOpenTickets" name="'Open Tickets'"
+                            value="this.state.openTicket.value" />
+                        <KpiCard onClick.bind="ViewUnassigedTicket" name="'Unassigned Tickets'"
+                            value="this.state.unassigedticket.value" /> 
+                    </div>
+                    <!-- Chart -->
+                    <div class="row">
+                        <div class="col-lg-6 m-0 p-0">
+                            <div class="border m-2 p-4 bg-white" style="border-radius:5px">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Open Tickets</h3>
+                                </div>
+                                <ChartRenderer type="'doughnut'" title="'Open Ticket in Teams'"
+                                    config="state.openTicketTeam" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6 m-0 p-0">
+                            <div class="border m-2 p-4 bg-white" style="border-radius:5px">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Failed Ticket</h3>
+                                </div>
+                                <ChartRenderer type="'pie'" title="'Ticket in Teams'"
+                                    config="state.FailedTicket" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right-side -->
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="shadow-sm border m-2 p-4 bg-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Ticket by Stage</h3>
+                                </div>
+                                <ChartRenderer type="'bar'" title="'Ticket by Stage Report'"
+                                    config="state.ticketByStage" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="shadow-sm border m-2 p-4 bg-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3 class="text-primary fw-bold">Amouts Ticket Rating</h3>
+                                </div>
+                                <ChartRenderer type="'bar'" title="'Rating Tickets'"
+                                    config="state.RatingValue" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

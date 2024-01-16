@@ -1,0 +1,75 @@
+<div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="d-grid flex-sm-nowrap"
+                                             t-if=" not ticket.is_closed">
+                                            <button class="btn btn-secondary pt-1"
+                                                    data-bs-target="#mockdesk_ticket_close_modal"
+                                                    data-bs-toggle="modal">
+                                                Close Ticket
+                                            </button>
+                                        </div>
+
+                                        <div class="modal" tabindex="-1" role="dialog" id="mockdesk_ticket_close_modal">
+                                            <div class="modal-dialog mt-5" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Close ticket</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"/>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you wish to closed ticket?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a role="button" class="btn btn-primary"
+                                                           t-att-href="'/my/ticket/close/%s/' % (ticket.id)">
+                                                            Close the ticket
+                                                        </a>
+                                                        <button type="button" class="btn btn-light"
+                                                                data-bs-dismiss="modal">
+                                                            Discard
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-12 py-4" t-if="ticket.assign_to">
+                                            <strong>Assigned to</strong>
+                                            <div class="d-flex ps-3 flex-nowrap mt-1">
+                                                <img class="rounded-circle o_portal_contact_img"
+                                                     t-att-src="image_data_uri(ticket.assign_to.avatar_128)"
+                                                     alt="Contact"/>
+                                                <div class="ms-2">
+                                                    <div t-out="ticket.assign_to"
+                                                         t-options="{'widget': 'contact', 'fields': ['name']}"
+                                                         class="mt-2"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="col-12 col-md-12 py-4" t-if="ticket.customer_id">
+                                            <strong>Customer</strong>
+                                            <div class="d-flex ps-3 flex-nowrap mt-1">
+                                                <img class="rounded-circle o_portal_contact_img"
+                                                     t-att-src="image_data_uri(ticket.customer_id.avatar_128)"
+                                                     alt="Contact"/>
+                                                <div class="ms-2">
+                                                    <div t-field="ticket.customer_id"
+                                                         t-options="{'widget': 'contact', 'fields': ['name']}"/>
+                                                    <a t-attf-href="mailto:{{ticket.customer_id.email}}"
+                                                       t-if="ticket.customer_id.email">
+                                                        <div t-field="ticket.customer_id"
+                                                             t-options="{'widget': 'contact', 'fields': ['email']}"/>
+                                                    </a>
+                                                    <a t-attf-href="tel:{{ticket.customer_id.phone}}"
+                                                       t-if="ticket.customer_id.phone">
+                                                        <div t-field="ticket.customer_id"
+                                                             t-options="{'widget': 'contact', 'fields': ['phone']}"/>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>

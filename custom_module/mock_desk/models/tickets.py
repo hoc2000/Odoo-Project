@@ -1,6 +1,6 @@
 import random
 
-from odoo import models, fields, api, SUPERUSER_ID
+from odoo import models, fields, api, SUPERUSER_ID, _
 from datetime import datetime, timedelta
 from random import randint
 import time
@@ -26,6 +26,7 @@ class HelpDeskTicket(models.Model):
     _rec_name = 'name'
 
     ref = fields.Char(string="Ref")
+    date_created = fields.Date(string='Date Created', default=fields.Date.today())
     active = fields.Boolean(string="Active", default=True)
     create_date_js = fields.Char(string="DateTime", compute="date_to_js")
     name = fields.Char(string="Ticket Name", required=True)
@@ -57,6 +58,7 @@ class HelpDeskTicket(models.Model):
     description = fields.Text()
     description_project = fields.Html()
     customer_id = fields.Many2one('res.partner', string="Customer")
+    job = fields.Char(string="Job title")
     partner_id = fields.Many2one('res.partner', 'Customer Partner', compute="customer_to_partner")
     user_id = fields.Many2one('res.users', 'Assign to as Partner', compute="assignee_to_user")
     # module khác
@@ -64,6 +66,9 @@ class HelpDeskTicket(models.Model):
     # selection của product
     product_ticket_id = fields.Many2one('product.ansv', string="Product",
                                         domain="[('project_id', '=', project_id)]")
+    product_ref = fields.Char(related="product_ticket_id.product_ref")
+    product_type = fields.Selection(related="product_ticket_id.detail_type")
+    product_category = fields.Many2one(related="product_ticket_id.category_id")
     ticket_components_list_id = fields.One2many(related="product_ticket_id.components_list_id",
                                                 string='Component', readonly=False)
     # SLA Xử lý
@@ -74,6 +79,7 @@ class HelpDeskTicket(models.Model):
                                store=True)
     is_failed = fields.Boolean(string="Ticket Failed SLA", required=False, default=False, compute="check_ticket_failed",
                                store=True)
+    is_approved = fields.Boolean(string="Ticket approved pending", default=False)
     rating_count = fields.Integer('Rating count', compute="_compute_rating_stats", compute_sudo=True, store=True)
     partner_ticket_count = fields.Integer(string="Partner Ticket Count", compute="_count_partner_ticket_count")
     partner_open_ticket_count = fields.Integer(string="Partner Open Ticket Count",
@@ -184,7 +190,13 @@ class HelpDeskTicket(models.Model):
         # Gán Ref
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('ticket.mockdesk')
-            # if 'priority' in vals and 'project_id' in vals and 'team_id' in vals:
+            if not 'priority' in vals:
+                vals['priority'] = False
+            if not 'project_id' in vals:
+                vals['project_id'] = False
+            if not 'team_id' in vals:
+                vals['team_id'] = False
+
             sla_list = self.env['sla.policy.ansv'].search(
                 [('priority', '=', vals['priority']), ('project_id', '=', vals['project_id']),
                  ('team_id', '=', vals['team_id'])
@@ -481,6 +493,26 @@ class HelpDeskTicket(models.Model):
             raise_exception=False
         )
         return True
+
+    # @api.model
+    # def message_new(self, msg, custom_values=None):
+    #     """ Overrides mail_thread message_new that is called by the mailgateway
+    #         through message_process.
+    #         This override updates the document according to the email.
+    #     """
+    #     # remove default author when going through the mail gateway. Indeed we
+    #     # do not want to explicitly set user_id to False; however we do not
+    #     # want the gateway user to be responsible if no other responsible is
+    #     # found.
+    #     if custom_values is None:
+    #         custom_values = {}
+    #     defaults = {
+    #         'name': msg.get('subject') or _("No Subject"),
+    #         'customer_id': msg.get('author_id')
+    #     }
+    #     defaults.update(custom_values)
+    #     p_ticket = super(HelpDeskTicket, self).message_new(msg, custom_values=defaults)
+    #     return p_ticket
 
     # ACTION OPEN:
     def action_open_ratings(self):

@@ -5,7 +5,7 @@
         <field name="name">all_ticket_view_tree</field>
         <field name="model">mockdesk.ticket</field>
         <field name="arch" type="xml">
-            <tree default_order='create_date desc priority desc, deadline, id'
+            <tree default_order='create_date desc'
                   string="All Ticket"
                   limit="30"
                   multi_edit="1"
@@ -14,7 +14,7 @@
                 <field name="is_closed" invisible="1"/>
                 <field name="priority" widget="priority" readonly="1"/>
                 <field name="name"/>
-                <field name="project_id" string="Project"/>
+                <field name="project_id" string="Project" optional="show"/>
                 <field name="team_id"/>
                 <field name="assign_to" widget="many2one_avatar_user"/>
                 <!--                <field name="department"/>-->
@@ -109,9 +109,7 @@
             <form>
                 <header>
                     <!--                    <button name="test_button" type="object">Test Button</button>-->
-                    <button name="assign_to_me"
-                            type="object"
-                            string="Assign to me"
+                    <button name="assign_to_me" class="btn btn-primary" type="object" string="Assign to me"
                             attrs="{'invisible':[('assign_to','!=',False)]}"/>
                     <field name="stage_current_string" invisible="1"/>
 
@@ -180,12 +178,12 @@
                     </div>
                     <!--  body-->
                     <group>
-                        <group>
+                        <group string="Ticket Info">
                             <field name="is_failed" invisible="1"/>
                             <field name="is_closed" invisible="1"/>
-                            <!--                            <field name="rating_avg" invisible="1"/>-->
+                            <field name="is_approved" invisible="1"/>
                             <field name="active" invisible="1"/>
-                            <field name="ref" invisible="0"/>
+                            <field name="ref" invisible="1"/>
                             <field name="team_id"/>
                             <field name="project_id"/>
                             <field name="assign_to" widget="many2one_avatar_user"/>
@@ -195,9 +193,9 @@
                             <field name="tag_id" widget="many2many_tags"
                                    options="{'color_field': 'color'}"/>
                         </group>
-                        <group>
+                        <group string="Customer Info">
                             <field name="customer_id"/>
-                            <!--                            <field name="partner_id" invisible="1"/>-->
+                            <field name="job" invisible="0"/>
                             <field name="phone" widget="phone"/>
                             <field name="email" widget="email"/>
                             <field name="cc"/>
@@ -213,11 +211,17 @@
                         <page name="project" string="Project Detail"
                               attrs="{'invisible': [('project_id', '=', False)]}">
                             <group name="container_row_2">
-                                <!--                                <group>-->
-                                <!--                                    <field name="project_name"/>-->
-                                <!--                                </group>-->
-                                <group>
+                                <group string="Detail Project">
+                                    <field name="project_id"/>
+                                </group>
+                                <group string="Detail Product">
                                     <field name="product_ticket_id" String="Product"/>
+                                    <field name="product_ref" String="Product"
+                                           attrs="{'invisible': [('product_ticket_id', '=', False)]}"/>
+                                    <field name="product_type" String="Product"
+                                           attrs="{'invisible': [('product_ticket_id', '=', False)]}"/>
+                                    <field name="product_category" String="Product"
+                                           attrs="{'invisible': [('product_ticket_id', '=', False)]}"/>
                                 </group>
                             </group>
                             <!--   In Component model-->
@@ -285,23 +289,24 @@
                 <filter name="filter_new_state" string="New Status" domain="[('stage_id','=','New')]"/>
                 <!--                chuyển hóa context_day time to string-->
                 <filter name="filter_today_ticket" string="Today Ticket"
-                        domain="[('create_date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                        domain="[('create_date','&gt;=',datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
                 <separator/>
-                <filter name="filter_sla_failed" string="SLA Failed" domain="[('is_closed','=',False)]"/>
-                <filter name="filter_sla_inprogress" string="SLA In Progress" domain="[('is_closed','=',True)]"/>
+                <filter name="filter_has_sla" string="Has SLA" domain="[('sla_status_id','!=',False)]"/>
+                <filter name="filter_sla_failed" string="SLA Failed" domain="[('is_failed','=',True)]"/>
+                <!--                <filter name="filter_sla_inprogress" string="SLA In Progress"-->
+                <!--                        domain="[('is_failed','=',False),('deadline','!=',False)]"/>-->
                 <separator/>
                 <filter name="filter_open_ticket" string="Open" domain="[('is_closed','=',False)]"/>
                 <filter name="filter_closed_ticket" string="Closed" domain="[('is_closed','=',True)]"/>
 
                 <group expand="0" string="Group by">
                     <filter string="Assign to" name="group_by_uid" context="{'group_by':'assign_to'}"/>
-                    <filter string="Stage" name="group_by_uid" context="{'group_by':'stage_id'}"/>
+                    <filter string="Stage" name="group_by_stage" context="{'group_by':'stage_id'}"/>
                     <filter string="Team" name="group_by_team" context="{'group_by':'team_id'}"/>
                     <filter string="Type" name="group_by_gender" context="{'group_by':'type'}"/>
-                    <filter string="Priority" name="group_by_gender" context="{'g
-                    roup_by':'priority'}"/>
-                    <filter string="Customer" name="group_by_gender" context="{'group_by':'customer_id'}"/>
-                    <filter string="Date Received" name="created_by" context="{'group_by': 'create_date'}"/>
+                    <filter string="Priority" name="group_by_priority" context="{'group_by':'priority'}"/>
+                    <filter string="Customer" name="group_by_customer" context="{'group_by':'customer_id'}"/>
+                    <filter string="Date Received" name="group_by_created_date" context="{'group_by': 'create_date'}"/>
                 </group>
 
                 <searchpanel>
@@ -351,7 +356,7 @@
         <field name="res_model">mockdesk.ticket</field>
         <field name="view_mode">tree,kanban,form,activity</field>
         <!--        <field name="context">{"search_default_name_of_the_filter":1}</field>-->
-        <field name="context">{"search_default_filter_open_ticket":1}</field>
+        <field name="context">{"search_default_filter_open_ticket":1,"search_default_group_by_stage":1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_sailing_face">
                 Create new Ticket
