@@ -26,7 +26,7 @@
     # always loaded
     "data": [
         # data fixed
-        "data/default_stages.xml",
+        # "data/default_stages.xml",
 
         # khai bao group luon phai de dang truoc
         "security/security_group.xml",
@@ -52,6 +52,7 @@
         "views/potal_template.xml",
         "views/website_form.xml",
         "views/website_homepage.xml",
+        "views/website_product.xml",
 
     ],
     "demo": [],
@@ -66,6 +67,10 @@
             "mock_desk/static/src/**/*.css",
             "mock_desk/static/src/scss/*.scss",
         ],
+        "web.assets_frontend":[
+            "mock_desk/static/src/css/*.css",
+            "mock_desk/static/src/fonts/JosefinSans/*.css",
+        ]
     },
 
 }

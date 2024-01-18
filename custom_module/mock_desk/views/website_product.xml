@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="menu_product_list" model="website.menu">
+            <field name="name">Product</field>
+            <field name="url">/product</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">2</field>
+        </record>
+
+        <template id="product_grid_view_customer" name="Product Grid">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <section class="s_call_to_action pt48 pb24 o_colored_level o_cc o_cc5"
+                             data-snippet="s_call_to_action" data-name="Call to Action" style="position: relative;"
+                             data-oe-shape-data="{&quot;shape&quot;:&quot;web_editor/Origins/09_001&quot;,&quot;flip&quot;:[]}">
+                        <div class="o_we_shape o_web_editor_Origins_09_001"/>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-9 pb16 o_colored_level">
+                                    <h3 class="o_default_snippet_text">
+                                        <b class="o_default_snippet_text">50,000+ companies</b>
+                                        run Odoo to grow their businesses.
+                                    </h3>
+                                    <p class="o_default_snippet_text">Join us and make your company a better place.</p>
+                                </div>
+                                <div class="col-lg-3 pt8 o_colored_level">
+                                    <p style="text-align: right;">
+                                        <a class="btn btn-primary btn-lg mb-2 o_default_snippet_text" href="/ticket_webform">
+                                            Create Ticket
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="container pb-4 pb-xl-7 pt-4">
+                        <div class="row row-cols-md-2 row-cols-xl-3 mb-6 mb-xl-3">
+                            <t t-foreach="products" t-as="product">
+                                <div class="col-md pb-4 pb-md-7">
+                                    <!-- Card -->
+                                    <div class="card card-border-hover border shadow-dark-hover p-2 lift sk-fade">
+                                        <!-- Image -->
+                                        <div class="card-zoom position-relative">
+                                            <a href="/course/{{i.slug}}" class="card-img sk-thumbnail d-block">
+                                                <img class="card-img-top"
+                                                     t-att-src="image_data_uri(product.image)"
+                                                     alt="..."/>
+                                            </a>
+                                        </div>
+                                        <!-- Footer -->
+                                        <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
+                                            <!-- Preheading -->
+                                            <a href="/course/{{i.slug}}">
+                                                <span class="mb-1 d-inline-block text-gray-800">
+                                                    <t t-out="product.category_id.name"/>
+                                                </span>
+                                            </a>
+                                            <!-- Heading -->
+                                            <div class="position-relative">
+                                                <a href="/course/{{i.slug}}" class="d-block stretched-link">
+                                                    <h4 class="line-clamp-2 h-md-48 h-lg-58 me-md-6 me-lg-10 me-xl-4 mb-2">
+                                                        <t t-out="product.product_name"/>
+                                                    </h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

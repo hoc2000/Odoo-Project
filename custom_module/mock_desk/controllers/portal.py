@@ -54,3 +54,4 @@ class PortalAccount(CustomerPortal):
         if ticket_index < len(ticket_ids) - 1 and ticket_ids[ticket_index + 1]:
             vals['next_record'] = '/my/ticket/{}'.format(ticket_ids[ticket_index + 1])
         return request.render('mock_desk.portal_ticket_detail_view', vals)
+

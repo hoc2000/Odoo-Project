@@ -17,6 +17,10 @@ class Mockdesk(http.Controller):
             """
         }
 
+    @http.route('/', type="http", auth="public", website=True)
+    def homepage(self, **kw):
+        return http.request.render('mock_desk.new_homepage', {})
+
     @http.route('/ticket_webform', type="http", auth="public", website=True)
     def ticketWebform(self, **kw):
         print("Execution Here.........................")
@@ -58,6 +62,13 @@ class Mockdesk(http.Controller):
 
         return request.render("mock_desk.special_thanks", {})
 
-    @http.route(auth='public', website=True)
-    def index(self, **kw):
-        return http.request.render('mock_desk.new_homepage', {})
+    # @http.route(auth='public', website=True)
+    # def index(self, **kw):
+    #     return http.request.render('mock_desk.new_homepage', {})
+
+    @http.route(['/product'], auth="public", type="http", website=True)
+    def get_product_list(self, **kw):
+        product_rec = request.env['product.ansv'].sudo().search([])
+        print(product_rec)
+        return http.request.render("mock_desk.product_grid_view_customer", {'products': product_rec})
+        pass
