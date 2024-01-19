@@ -43,11 +43,19 @@
                                     <!-- Card -->
                                     <div class="card card-border-hover border shadow-dark-hover p-2 lift sk-fade">
                                         <!-- Image -->
-                                        <div class="card-zoom position-relative">
+                                        <div class="card-zoom position-relative" t-if="product.image">
                                             <a t-attf-href="/product/#{product.id}"
                                                class="card-img sk-thumbnail d-block">
                                                 <img class="card-img-top"
                                                      t-att-src="image_data_uri(product.image)"
+                                                     alt="..."/>
+                                            </a>
+                                        </div>
+                                         <div class="card-zoom position-relative" t-else="">
+                                            <a t-attf-href="/product/#{product.id}"
+                                               class="card-img sk-thumbnail d-block">
+                                                <img class="card-img-top"
+                                                     src="/mock_desk/static/image/default_no_image.jpg"
                                                      alt="..."/>
                                             </a>
                                         </div>
