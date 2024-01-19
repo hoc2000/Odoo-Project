@@ -172,12 +172,16 @@
                          data-name="Picture" style="background-image: none;">
                     <div class="container">
                         <h2 style="text-align: center;">
-                            <font style="font-size: 62px;" class="o_default_snippet_text">A punchy Headline</font>
+                            <font style="font-size: 62px;" class="o_default_snippet_text">ANSV Activities</font>
                         </h2>
-                        <p style="text-align: center;" class="o_default_snippet_text">Choose a vibrant image and write
-                            an inspiring paragraph about it.
+                        <p style="text-align: center;" class="o_default_snippet_text">
+                            With 30 years of experience, ANSV Telecommunications Equipment Co.,
                             <br/>
-                            It does not have to be long, but it should reinforce your image.
+                            Ltd. is a system integrator, providing leading information technology
+                            <br/>
+                            products/solutions and services in Vietnam, with  a solid position in
+                            <br/>
+                            the market. domestically and in the region.
                         </p>
                         <p style="text-align: center;">
                             <br/>
@@ -185,14 +189,14 @@
                         <div class="row s_nb_column_fixed">
                             <div class="col-lg-10 offset-lg-1 pb24 o_colored_level" style="text-align: center;">
                                 <figure class="figure">
-                                    <img src="/web/image/website.s_picture_default_image"
+                                    <img src="/mock_desk/static/image/About_us.jpg"
                                          class="figure-img img-thumbnail padding-large o_animate o_anim_bounce_in o_visible"
                                          alt="" loading="eager" data-original-id="263"
                                          data-original-src="/website/static/src/img/snippets_demo/s_picture.jpg"
                                          data-mimetype="image/jpeg" style="" data-bs-original-title="" title=""
                                          aria-describedby="tooltip408802"/>
-                                    <figcaption class="figure-caption text-muted py-3">Add a caption to enhance the
-                                        meaning of this image.
+                                    <figcaption class="figure-caption text-muted py-3">
+                                        About us
                                     </figcaption>
                                 </figure>
                             </div>
@@ -212,16 +216,15 @@
                                      aria-describedby="tooltip40218"/>
                             </div>
                             <div class="col-lg-6 pt16 pb16 o_colored_level">
-                                <h2 class="o_default_snippet_text">Section Subtitle</h2>
-                                <p class="o_default_snippet_text">Write one or two paragraphs describing your product or
-                                    services. To be successful your content needs to be useful to your readers.
+                                <h2 class="o_default_snippet_text">Destiny</h2>
+                                <p class="o_default_snippet_text">ANSV is based on the application of Science, Technology - IT - Telecommunications along with continuous innovation and the connecting power of international technological achievements with Vietnamese experts and engineers, we always strive to develop, enhancing value for the community, aiming to put a solid mark on the global technology map
                                 </p>
-                                <p class="o_default_snippet_text">Start with the customer – find out what they want and
-                                    give it to them.
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-primary mb-2 o_default_snippet_text">Discover more</a>
-                                </p>
+<!--                                <p class="o_default_snippet_text">Start with the customer – find out what they want and-->
+<!--                                    give it to them.-->
+<!--                                </p>-->
+<!--                                <p>-->
+<!--                                    <a href="#" class="btn btn-primary mb-2 o_default_snippet_text">Discover more</a>-->
+<!--                                </p>-->
                             </div>
                         </div>
                     </div>
@@ -231,16 +234,15 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-lg-6 pt16 pb16 o_colored_level">
-                                <h2 class="o_default_snippet_text">A Section Subtitle</h2>
-                                <p class="o_default_snippet_text">Write one or two paragraphs describing your product or
-                                    services. To be successful your content needs to be useful to your readers.
+                                <h2 class="o_default_snippet_text">Vision</h2>
+                                <p class="o_default_snippet_text">ANSV aims to become a leading enterprise in the field of digital transformation, IT - telecommunications system integration, and retail distribution of technology products in the Vietnamese and regional markets.
                                 </p>
-                                <p class="o_default_snippet_text">Start with the customer – find out what they want and
-                                    give it to them.
-                                </p>
-                                <p>
-                                    <a href="#" class="btn btn-primary mb-2 o_default_snippet_text">Learn more</a>
-                                </p>
+<!--                                <p class="o_default_snippet_text">Start with the customer – find out what they want and-->
+<!--                                    give it to them.-->
+<!--                                </p>-->
+<!--                                <p>-->
+<!--                                    <a href="#" class="btn btn-primary mb-2 o_default_snippet_text">Learn more</a>-->
+<!--                                </p>-->
                             </div>
                             <div class="col-lg-6 pt16 pb16 o_colored_level">
                                 <img src="/web/image/website.s_text_image_default_image"

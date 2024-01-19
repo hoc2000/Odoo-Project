@@ -53,6 +53,7 @@
         "views/website_form.xml",
         "views/website_homepage.xml",
         "views/website_product.xml",
+        "views/website_project.xml",
 
     ],
     "demo": [],
@@ -70,6 +71,7 @@
         "web.assets_frontend":[
             "mock_desk/static/src/css/*.css",
             "mock_desk/static/src/fonts/JosefinSans/*.css",
+            "mock_desk/static/src/js/*.js",
         ]
     },
 

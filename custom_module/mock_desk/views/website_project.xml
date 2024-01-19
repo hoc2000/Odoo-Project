@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="menu_project_list" model="website.menu">
+            <field name="name">Project</field>
+            <field name="url">/project</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">3</field>
+        </record>
+
+        <template id="project_media_view" name="Project Media">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <section class="s_call_to_action pt48 pb24 o_colored_level o_cc o_cc5"
+                             data-snippet="s_call_to_action" data-name="Call to Action" style="position: relative;"
+                             data-oe-shape-data="{&quot;shape&quot;:&quot;web_editor/Origins/09_001&quot;,&quot;flip&quot;:[]}">
+                        <div class="o_we_shape o_web_editor_Origins_09_001"/>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-9 pb16 o_colored_level">
+                                    <h3 class="o_default_snippet_text">
+                                        <b class="o_default_snippet_text">50,000+ companies</b>
+                                        run Odoo to grow their businesses.
+                                    </h3>
+                                    <p class="o_default_snippet_text">Join us and make your company a better place.</p>
+                                </div>
+                                <div class="col-lg-3 pt8 o_colored_level">
+                                    <p style="text-align: right;">
+                                        <a class="btn btn-primary btn-lg mb-2 o_default_snippet_text"
+                                           href="/ticket_webform">
+                                            Create Ticket
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_media_list pt32 pb32 o_cc o_cc2 o_colored_level" data-vcss="001"
+                             data-snippet="s_media_list" data-name="Media List" style="background-image: none;">
+                        <div class="container pb-4 pb-xl-7 pt-4">
+                            <div class="row s_nb_column_fixed s_col_no_bgcolor">
+                                <!--CARD-->
+                                <t t-foreach="projects" t-as="project">
+                                    <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor g-0 align-items-center o_cc o_cc1 o_colored_level">
+                                            <div class="col-lg-4 align-self-stretch s_media_list_img_wrapper">
+                                                <img src="/web/image/website.s_media_list_default_image_1"
+                                                     class="s_media_list_img h-100 w-100" alt="" loading="lazy"
+                                                     data-original-id="240"
+                                                     data-original-src="/website/static/src/img/snippets_demo/s_media_list_1.jpg"
+                                                     data-mimetype="image/jpeg"/>
+                                            </div>
+                                            <div class="col-lg-8 s_media_list_body">
+                                                <h3 class="o_default_snippet_text">
+                                                    <t t-out="project.project_name"/>
+                                                </h3>
+                                                <p class="o_default_snippet_text">Use this snippet to build various
+                                                    types of
+                                                    components that feature a left- or right-aligned image alongside
+                                                    textual
+                                                    content. Duplicate the element to create a list that fits your
+                                                    needs.
+                                                </p>
+                                                <a t-attf-href="/project/#{project.id}"
+                                                   class="btn btn-primary mb-2 o_default_snippet_text">
+                                                    Discover
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div t-if="pager" class="o_portal_pager d-flex justify-content-center pb-4">
+                    <t t-call="portal.pager"/>
+                </div>
+            </t>
+        </template>
+        <!--                DETAIL VIEW-->
+        <template id="project_detail_view" name="Product Detail">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <section class="s_tabs pt48 pb48 o_colored_level">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 pt16 pb16 o_colored_level">
+                                    <img src="/web/image/website.s_image_text_default_image"
+                                         class="img img-fluid mx-auto o_animate o_anim_slide_in o_anim_from_left o_visible"
+                                         alt="" loading="eager" data-original-id="255"
+                                         data-original-src="/website/static/src/img/snippets_demo/s_image_text.jpg"
+                                         data-mimetype="image/jpeg" style="" data-bs-original-title="" title=""
+                                         aria-describedby="tooltip40218"/>
+                                </div>
+                                <div class="col-lg-6 pt16 pb16 o_colored_level">
+                                    <h2 class="o_default_snippet_text">
+                                        <t t-out="project.project_name"/>
+                                    </h2>
+                                    <p class="o_default_snippet_text">
+                                        <t t-raw="project.description_project"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                    <section class="s_tabs pb48 o_colored_level">
+                        <div class="container">
+                            <div class="tab-content flickity-tab" id="pills-tabContent">
+                                <div class="  mx-n4 flickity-button-outset"
+                                     data-flickity='{"pageDots": true, "prevNextButtons": true, "cellAlign": "left", "wrapAround": true, "imagesLoaded": true}'>
+
+                                    <!-- Card -->
+                                    <t t-foreach="products" t-as="product">
+                                        <div class="col-12 col-md-6 col-xl-4 col-wd-3 pb-4 pb-md-7 "
+                                             style="padding-right:15px;padding-left:15px;">
+                                            <div class="card card-border-hover border shadow-dark-hover p-2 lift sk-fade">
+                                                <!-- Image -->
+                                                <div class="card-zoom position-relative">
+                                                    <a t-attf-href="/product/#{product.id}"
+                                                       class="card-img sk-thumbnail d-block">
+                                                        <img class="card-img-top"
+                                                             t-att-src="image_data_uri(product.image)"
+                                                             alt="..."/>
+                                                    </a>
+                                                </div>
+                                                <!-- Footer -->
+                                                <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
+                                                    <!-- Preheading -->
+                                                    <a t-attf-href="/product/#{product.id}">
+                                                        <span class="mb-1 d-inline-block text-gray-800">
+                                                            <t t-out="product.category_id.name"/>
+                                                        </span>
+                                                    </a>
+                                                    <!-- Heading -->
+                                                    <div class="position-relative">
+                                                        <a t-attf-href="/product/#{product.id}"
+                                                           class="d-block stretched-link">
+                                                            <h4 class="line-clamp-2 h-md-48 h-lg-58 me-md-6 me-lg-10 me-xl-4 mb-2">
+                                                                <t t-out="product.product_name"/>
+                                                            </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>
