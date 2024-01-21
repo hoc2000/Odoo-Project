@@ -55,6 +55,10 @@
         "views/website_product.xml",
         "views/website_project.xml",
 
+        #Reports
+        "reports/ticket_reports.xml",
+        "reports/ticket_card.xml",
+
     ],
     "demo": [],
     "installable": True,

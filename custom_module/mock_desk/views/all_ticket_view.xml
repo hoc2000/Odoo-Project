@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree default_order='create_date desc'
                   string="All Ticket"
-                  limit="30"
+                  limit="20"
                   multi_edit="1"
                   sample="1">
                 <field name="ref" readonly="1"/>
@@ -112,6 +112,8 @@
                     <button name="assign_to_me" class="btn btn-primary" type="object" string="Assign to me"
                             attrs="{'invisible':[('assign_to','!=',False)]}"/>
                     <field name="stage_current_string" invisible="1"/>
+<!--                    <button string="Preview Report" type="object" name="button_preview_report" class="oe_highlight"/>-->
+
 
                     <field name="stage_id"
                            widget="statusbar"
@@ -188,14 +190,14 @@
                             <field name="project_id"/>
                             <field name="assign_to" widget="many2one_avatar_user"/>
                             <field name="priority" widget="priority" options="{'autosave': False}"/>
-                            <field name="deadline" String="Deadline"/>
+                            <field name="deadline" String="SLA Deadline"
+                                   attrs="{'invisible': [('sla_status_id', '=', [])]}"/>
                             <field name="type" String="Type"/>
                             <field name="tag_id" widget="many2many_tags"
                                    options="{'color_field': 'color'}"/>
                         </group>
                         <group string="Customer Info">
                             <field name="customer_id"/>
-                            <field name="job" invisible="0"/>
                             <field name="phone" widget="phone"/>
                             <field name="email" widget="email"/>
                             <field name="cc"/>
@@ -356,7 +358,7 @@
         <field name="res_model">mockdesk.ticket</field>
         <field name="view_mode">tree,kanban,form,activity</field>
         <!--        <field name="context">{"search_default_name_of_the_filter":1}</field>-->
-        <field name="context">{"search_default_filter_open_ticket":1,"search_default_group_by_stage":1}</field>
+        <field name="context">{"search_default_filter_open_ticket":1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_sailing_face">
                 Create new Ticket

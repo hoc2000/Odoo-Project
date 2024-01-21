@@ -45,7 +45,7 @@ class Mockdesk(http.Controller):
         customer_phone = kw.get('phone')
         customer_mail = kw.get('email')
         customer_country = kw.get('country')
-        keys_to_remove = ['customer_name', 'phone', 'email', 'job', 'product', 'country', 'attachment_ids', 'company',
+        keys_to_remove = ['customer_name', 'phone', 'email', 'product', 'country', 'attachment_ids', 'company',
                           'version']
 
         # Using a loop to remove keys

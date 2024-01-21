@@ -44,7 +44,6 @@ class HelpDeskTicket(models.Model):
     email = fields.Char(String="Email", related='customer_id.email')
     assign_to = fields.Many2one('res.users', domain=[('share', '=', False)], string="Assign To")
     img_64_assignee = fields.Binary(related="assign_to.image_1920")
-
     deadline = fields.Date(String="Deadline", default=fields.Date.context_today, compute="_compute_deadline")
     type = fields.Many2one('mockdesk.ticket.type', string="Type")
     cc = fields.Char(string="Email cc")
@@ -58,7 +57,6 @@ class HelpDeskTicket(models.Model):
     description = fields.Text()
     description_project = fields.Html()
     customer_id = fields.Many2one('res.partner', string="Customer")
-    job = fields.Char(string="Job title")
     partner_id = fields.Many2one('res.partner', 'Customer Partner', compute="customer_to_partner")
     user_id = fields.Many2one('res.users', 'Assign to as Partner', compute="assignee_to_user")
     # module khác
@@ -132,14 +130,14 @@ class HelpDeskTicket(models.Model):
     # Button Chagne the Stage
     def action_in_progress(self):
         for rec in self:
-            inprogress_stage = rec.env['helpdesk.stage'].search([('name', '=', 'In Progress')], limit=1)
+            inprogress_stage = rec.env['mockdesk.stage'].search([('name', '=', 'In Progress')], limit=1)
             rec.stage_id = inprogress_stage
             rec.stage_current_string = rec.stage_id.name
 
     #
     def action_in_return_new(self):
         for rec in self:
-            new_stage = rec.env['helpdesk.stage'].search([('name', '=', 'New')], limit=1)
+            new_stage = rec.env['mockdesk.stage'].search([('name', '=', 'New')], limit=1)
             rec.stage_id = new_stage
             rec.stage_current_string = rec.stage_id.name
 
@@ -147,7 +145,7 @@ class HelpDeskTicket(models.Model):
     def action_done(self):
         for rec in self:
             rec.is_closed = True
-            solved_stage = rec.env['helpdesk.stage'].search([('name', '=', 'Solved')], limit=1)
+            solved_stage = rec.env['mockdesk.stage'].search([('name', '=', 'Solved')], limit=1)
             rec.stage_id = solved_stage
             rec.stage_current_string = rec.stage_id.name
         return {
@@ -170,7 +168,7 @@ class HelpDeskTicket(models.Model):
     def action_cancel(self):
         for rec in self:
             rec.is_closed = True
-            cancel_stage = rec.env['helpdesk.stage'].search([('name', '=', 'Cancelled')], limit=1)
+            cancel_stage = rec.env['mockdesk.stage'].search([('name', '=', 'Cancelled')], limit=1)
             rec.stage_id = cancel_stage
             rec.stage_current_string = rec.stage_id.name
 
@@ -426,7 +424,7 @@ class HelpDeskTicket(models.Model):
     def _compute_deadline(self):
         for rec in self:
             if rec.working_time_total:
-                daycreate = rec.create_date.date()
+                daycreate = rec.write_date.date()
                 timework = rec.working_time_total
                 day_of_work = round(timework / 8)
                 delta = timedelta(days=day_of_work)
@@ -533,3 +531,7 @@ class HelpDeskTicket(models.Model):
     #     super()._compute_access_url()
     #     for ticket in self:
     #         ticket.access_url = f'/my/ticket/{ticket.id}'
+
+    # Report
+    def _get_report_base_filename(self):
+        return "Ticket Report"

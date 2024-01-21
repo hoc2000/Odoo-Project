@@ -25,6 +25,10 @@
     <!--    List view-->
     <template id="portal_ticket_list_view_customer" name="Ticket List">
         <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Ticket Mockdesk</t>
+            </t>
             <t t-call="portal.portal_table">
                 <thead class="thead-dark" data-oe-model="ir.ui.view"
                        style="background-color: #a183aa;color: white;">
@@ -86,14 +90,28 @@
                             <div class="col-lg-4">
                                 <div class="card mb-4">
                                     <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
-                                        <li t-if=" not ticket.is_closed"
+                                        <li
                                             class="list-group-item flex-grow-1">
-                                            <div class="d-grid flex-sm-nowrap">
-                                                <button class="btn btn-secondary pt-1"
-                                                        data-bs-target="#mockdesk_ticket_close_modal"
-                                                        data-bs-toggle="modal">
-                                                    Close Ticket
-                                                </button>
+                                            <div class="d-flex justify-content-between px-2">
+                                                <div t-if=" not ticket.is_closed"
+                                                     class="d-grid flex-sm-nowrap">
+                                                    <button class="btn btn-danger pt-1"
+                                                            data-bs-target="#mockdesk_ticket_close_modal"
+                                                            data-bs-toggle="modal"
+                                                            style="color:white;">
+                                                        Close Ticket
+                                                    </button>
+                                                </div>
+                                                <div class="d-grid flex-sm-nowrap">
+                                                    <button class="btn btn-primary">
+                                                        <a t-attf-href="/my/ticket/print/#{ticket.id}"
+                                                           class="fa fa-file-pdf-o"
+                                                           style="color:white;"
+                                                           target="_blank">
+                                                            Print Report
+                                                        </a>
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div class="modal" tabindex="-1" role="dialog"
@@ -111,7 +129,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <a role="button" class="btn btn-primary"
-                                                               t-att-href="'/my/ticket/close/%s/' % (ticket.id)">
+                                                               t-attf-href="/my/ticket/close/#{ticket.id}">
                                                                 Close the ticket
                                                             </a>
                                                             <button type="button" class="btn btn-light"
@@ -171,7 +189,6 @@
                                             </div>
                                         </li>
                                     </ul>
-
                                 </div>
                             </div>
                             <div class="col-lg-8">
