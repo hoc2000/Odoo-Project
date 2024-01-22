@@ -20,7 +20,6 @@
                 "ansv__project",
                 "contacts",
                 "website",
-                "owl",
                 "web_responsive"
                 ],
     # always loaded
@@ -55,7 +54,7 @@
         "views/website_product.xml",
         "views/website_project.xml",
 
-        #Reports
+        # Reports
         "reports/ticket_reports.xml",
         "reports/ticket_card.xml",
 
@@ -67,14 +66,15 @@
     "license": "AGPL-3",
     "assets": {
         "web.assets_backend": [
-            "mock_desk/static/src/**/*.js",
-            "mock_desk/static/src/**/*.xml",
-            "mock_desk/static/src/**/*.css",
+            "mock_desk/static/src/components/*/*.js",
+            "mock_desk/static/src/components/*/*.xml",
+            "mock_desk/static/src/components/*/*.css",
             "mock_desk/static/src/scss/*.scss",
+            "mock_desk/static/src/newfont/newfont2/fonts/JosefinSans/*.css",
         ],
-        "web.assets_frontend":[
+        "web.assets_frontend": [
             "mock_desk/static/src/css/*.css",
-            "mock_desk/static/src/fonts/JosefinSans/*.css",
+            "mock_desk/static/src/newfont/newfont2/fonts/JosefinSans/*.css",
             "mock_desk/static/src/js/*.js",
         ]
     },

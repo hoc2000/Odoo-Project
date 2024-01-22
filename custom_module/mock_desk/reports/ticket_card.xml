@@ -1,29 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--    <template id="report_tikcet_cards">-->
-    <!--        <t t-call="web.html_container">-->
-    <!--            <t t-foreach="docs" t-as="doc">-->
-    <!--                <h2>Ticket Reports</h2>-->
-    <!--            </t>-->
-    <!--        </t>-->
-    <!--    </template>-->
-
-
     <template id="report_ticket">
-        <t t-call="web.external_layout">
-            <t t-call="web.html_container">
+        <t t-call="web.html_container">
+            <t t-class="page">
                 <t t-foreach="docs" t-as="doc">
-                    <h2 class="text-center">Ticket Reports</h2>
-                    <span>Ticket Name:</span>
-                    <t t-esc="doc.name"/>
-                    Customer:
-                    <t t-esc="doc.customer_id"/>
-                    Assignee:
-                    <t t-esc="doc.assign_to"/>
+                    <t t-call="web.external_layout">
+                        <link rel="stylesheet" href="/mock_desk/static/src/newfont/newfont2/fonts/JosefinSans/*.css"/>
+                        <h2 class="text-center">Ticket Reports</h2>
+                        <table class="table tg" style="table-layout: fixed; width: 100%">
+                            <colgroup>
+                                <col style="width: 147px"/>
+                                <col style="width: 178px"/>
+                                <col style="width: 195px"/>
+                                <col style="width: 177px"/>
+                            </colgroup>
+                            <!--                        <thead>-->
+                            <!--                            <tr>-->
+                            <!--                                <th class="tg-ijrz" colspan="4">CUSTOMER INFORMATION</th>-->
+                            <!--                            </tr>-->
+                            <!--                        </thead>-->
+                            <tbody>
+                                <tr>
+                                    <td class="tg-ozrm" colspan="4" style="background-color:#4b4c59;color:#ffffff;">
+                                        <span style="font-weight:bold">CUSTOMER INFORMATION</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Customer name</td>
+                                    <td class="tg-73oq">
+                                        <t t-esc="doc.customer_id.name"/>
+                                    </td>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Location / Department</td>
+                                    <td class="tg-73oq">
+                                        <t t-esc="doc.customer_id.country_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Company</td>
+                                    <td class="tg-73oq">
+                                        <t t-esc="doc.customer_id.company_name"/>
+                                    </td>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">E-mail</td>
+                                    <td class="tg-73oq">
+                                        <t t-esc="doc.customer_id.email"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Phone number</td>
+                                    <td class="tg-73oq">
+                                        <t t-esc="doc.customer_id.phone"/>
+                                    </td>
+                                    <td class="tg-73oq"></td>
+                                    <td class="tg-73oq"></td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-ozrm" colspan="4" style="background-color:#4b4c59;color:#ffffff;">
+                                        <span style="font-weight:bold">GENERAL INFORMATION</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Product name</td>
+                                    <td class="tg-73oq">
+                                        <t t-esc="doc.product_ticket_id.product_name"/>
+                                    </td>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Software version</td>
+                                    <td class="tg-73oq"></td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-mcqj" style="font-weight: bolder;">Project name</td>
+                                    <td class="tg-73oq" colspan="3">
+                                        <t t-esc="doc.project_id.project_name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tg-73oq">
+                                        <span style="font-weight: bolder;">Priorty</span>
+                                    </td>
+                                    <td class="tg-73oq" colspan="3" t-if="doc.priority == '0' ">
+                                        Not Rated
+                                    </td>
+                                    <td class="tg-73oq" colspan="3" t-if="doc.priority == '1' ">
+                                        Minor
+                                    </td>
+                                    <td class="tg-73oq" colspan="3" t-if="doc.priority == '2' ">
+                                        Major
+                                    </td>
+                                    <td class="tg-73oq" colspan="3" t-if="doc.priority == '3' ">
+                                        Critical
+                                    </td>
+                                </tr>
+                                <tr style="height: 60px;font-weight: bolder;">
+                                    <td class="tg-mcqj">Request Ticket Description</td>
+                                    <td class="tg-73oq" colspan="3">
+                                        <t t-raw="doc.description"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
                 </t>
             </t>
         </t>
     </template>
-
-
 </odoo>

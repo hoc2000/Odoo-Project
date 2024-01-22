@@ -2,6 +2,7 @@
 from odoo import http
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager
+import json
 from odoo.addons.website.controllers.main import Website
 
 
@@ -29,11 +30,34 @@ class Mockdesk(http.Controller):
         # ticket_rec = request.env['mockdesk.ticket'].sudo().search([], limit=1)
         project_rec = request.env['project.ansv'].sudo().search([])
         product_rec = request.env['product.ansv'].sudo().search([])
+        version_rec = request.env['component.version'].sudo().search([])
         # print("Ticket rec...", project_rec)
         return http.request.render('mock_desk.create_ticket', {'country_id': user_partner_id.country_id,
                                                                'project_rec': project_rec,
-                                                               'product_rec': product_rec})
+                                                               'product_rec': product_rec,
+                                                               'version_rec': version_rec})
 
+    # ONCHANGE SELECTION
+    @http.route('/my/get_options', type='http', auth="public", website=True, csrf=False)
+    def get_options(self, **kw):
+        project_value = kw.get('project_value')
+        # print(project_value)
+        if not project_value == '':
+            product_rec = request.env['product.ansv'].sudo().search([('project_id', '=', int(project_value))])
+            # print(product_rec)
+
+            # Perform any logic to generate options for Selector 2 based on selected_value
+            product_selector = []
+            for rec in product_rec:
+                value_temp = {'value': rec.id, 'text': rec.product_name}
+                product_selector.append(value_temp)
+        else:
+            product_selector = []
+
+        # print(product_selector)
+        return json.dumps(product_selector)
+
+    # CREATE TICKET
     @http.route('/create/webticket', type="http", auth="user", csrf=True, website=True)
     def ticketCreate(self, **kw):
         print('Data Raw......', kw)
@@ -45,8 +69,7 @@ class Mockdesk(http.Controller):
         customer_phone = kw.get('phone')
         customer_mail = kw.get('email')
         customer_country = kw.get('country')
-        keys_to_remove = ['customer_name', 'phone', 'email', 'product', 'country', 'attachment_ids', 'company',
-                          'version']
+        keys_to_remove = ['customer_name', 'phone', 'email', 'product', 'country', 'company']
 
         # Using a loop to remove keys
         for key in keys_to_remove:

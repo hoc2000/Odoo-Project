@@ -1,3 +1,4 @@
+import base64
 import random
 
 from odoo import models, fields, api, SUPERUSER_ID, _
@@ -22,6 +23,7 @@ class HelpDeskTicket(models.Model):
     _name = 'mockdesk.ticket'
     _inherit = ['mail.thread', 'mail.activity.mixin',
                 'rating.mixin']  # project_ansv đã có sẵn mail.mixin.activiy và thread của
+    exportable = True
     _description = 'MockDesk Ticket'
     _rec_name = 'name'
 
@@ -61,9 +63,13 @@ class HelpDeskTicket(models.Model):
     user_id = fields.Many2one('res.users', 'Assign to as Partner', compute="assignee_to_user")
     # module khác
     project_id = fields.Many2one('project.ansv', string="Project")
+    project_manager = fields.Many2one(related="project_id.manager_id")
+    project_date_start = fields.Date(related="project_id.date_start")
+    project_date_end = fields.Date(related="project_id.date_end")
     # selection của product
     product_ticket_id = fields.Many2one('product.ansv', string="Product",
                                         domain="[('project_id', '=', project_id)]")
+    product_version = fields.Char(string='Version')
     product_ref = fields.Char(related="product_ticket_id.product_ref")
     product_type = fields.Selection(related="product_ticket_id.detail_type")
     product_category = fields.Many2one(related="product_ticket_id.category_id")
@@ -82,6 +88,8 @@ class HelpDeskTicket(models.Model):
     partner_ticket_count = fields.Integer(string="Partner Ticket Count", compute="_count_partner_ticket_count")
     partner_open_ticket_count = fields.Integer(string="Partner Open Ticket Count",
                                                compute="_count_open_partner_ticket_count")
+
+    # bom_file_ids = fields.One2many("ir.attachment", "res_id")
 
     # Bảng individual of ticket and sla
     # Các trường được inherit từ model project
@@ -185,6 +193,11 @@ class HelpDeskTicket(models.Model):
     def create(self, vals):
         # Gán Follower
         # Tìm các SLA thỏa mãn
+        # Gửi file vào message
+        global attachment_received
+        if 'attachment_ids' in vals:
+            attachment_received = vals['attachment_ids']
+        vals.pop('attachment_ids', None)
         # Gán Ref
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('ticket.mockdesk')
@@ -250,6 +263,22 @@ class HelpDeskTicket(models.Model):
             vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
         new_record = super(HelpDeskTicket, self).create(vals)
         # new_record.message_subscribe(partner_ids=[vals['customer_id']])
+        attachment = attachment_received.read()
+        new_attachment = self.env['ir.attachment'].create({
+            'name': attachment_received.filename,
+            'type': 'binary',
+            'datas': base64.b64encode(attachment),
+            'res_id': new_record.id,
+            'res_model': 'mockdesk.ticket',  # Model of the record you want to link to
+        })
+        message = self.env['mail.message'].create({
+            'subject': 'Attachment from Customoer',
+            'body': 'Here the Attachment supporting',
+            'model': 'mockdesk.ticket',
+            'res_id': new_record.id,  # Model of the record you want to link to
+            'record_name': vals['name'],
+            'attachment_ids': [(6, 0, [new_attachment.id])],  # Attach the created attachment
+        })
         return new_record
 
     # WRITE Cập nhật SLA

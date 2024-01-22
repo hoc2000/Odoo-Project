@@ -112,7 +112,7 @@
                     <button name="assign_to_me" class="btn btn-primary" type="object" string="Assign to me"
                             attrs="{'invisible':[('assign_to','!=',False)]}"/>
                     <field name="stage_current_string" invisible="1"/>
-<!--                    <button string="Preview Report" type="object" name="button_preview_report" class="oe_highlight"/>-->
+                    <!--                    <button string="Preview Report" type="object" name="button_preview_report" class="oe_highlight"/>-->
 
 
                     <field name="stage_id"
@@ -204,6 +204,12 @@
                             <field name="working_time_total" string="working hour" readonly="1"
                                    attrs="{'invisible': [('working_time_total', '=' , 0)]}"/>
                         </group>
+<!--                        <field name="bom_file_ids" widget="one2many" nolabel="1" mode="tree">-->
+<!--                            <kanban string="BOMFiles">-->
+<!--                                <field name="create_date"/>-->
+<!--                                <field name="name"/>-->
+<!--                            </kanban>-->
+<!--                        </field>-->
                     </group>
                     <notebook name="Description note">
                         <page string="Description">
@@ -214,12 +220,17 @@
                               attrs="{'invisible': [('project_id', '=', False)]}">
                             <group name="container_row_2">
                                 <group string="Detail Project">
-                                    <field name="project_id"/>
+                                    <field name="project_id" readonly="1"/>
+                                    <field name="project_manager"/>
+                                    <field name="project_date_start"/>
+                                    <field name="project_date_end"/>
                                 </group>
                                 <group string="Detail Product">
                                     <field name="product_ticket_id" String="Product"/>
                                     <field name="product_ref" String="Product"
                                            attrs="{'invisible': [('product_ticket_id', '=', False)]}"/>
+                                    <field name="product_version" String="Version"
+                                           attrs="{'invisible': [('product_ticket_id', '=', False)]}" readonly="1"/>
                                     <field name="product_type" String="Product"
                                            attrs="{'invisible': [('product_ticket_id', '=', False)]}"/>
                                     <field name="product_category" String="Product"
@@ -229,7 +240,7 @@
                             <!--   In Component model-->
                             <notebook>
                                 <page name="component_of_product" string="Components"
-                                      attrs="{'invisible': [('product_ticket_id', '=', False)]}">
+                                      attrs="{'invisible': 1}">
                                     <field name="ticket_components_list_id">
                                         <tree create="0" delete="0"
                                               class="o_tree_component_ticket"

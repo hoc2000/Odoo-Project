@@ -27,7 +27,8 @@
                                 <div class="col-xl-7 col-lg-8 col-md-9 col-11">
                                     <div class="ticket-card card" style="border-radius:1.25rem;">
                                         <h1 style="text-align: center;">
-                                            <font style="font-size: 62px; color: rgb(33, 16, 74);">Service Ticket</font>
+                                            <font style="font-size: 62px; color: rgb(33, 16, 74);">Service Ticket
+                                            </font>
                                             <font style="font-size: 62px;"/>
                                             <br/>
                                         </h1>
@@ -36,16 +37,19 @@
                                               data-pre-fill="true"
                                               style="padding-left:10rem">
                                             <!--csrf-->
-                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="csrf_token"
+                                                   t-att-value="request.csrf_token()"/>
                                             <!-- CUSTOMER INFORMATION -->
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <div data-visibility-condition="" data-visibility-between=""
                                                      class="s_website_form_field mb-3 col-12 col-lg-5 s_website_form_custom"
                                                      data-type="tel"
                                                      data-name="Field">
-                                                    <label class="s_website_form_label" style="width: 200px" for="name">
+                                                    <label class="s_website_form_label" style="width: 200px"
+                                                           for="name">
                                                         <span class="s_website_form_label_content">Your Name</span>
-                                                        <span style="color: red;" class="s_website_form_mark">*</span>
+                                                        <span style="color: red;" class="s_website_form_mark">*
+                                                        </span>
                                                     </label>
 
                                                     <input type="text" class="form-control s_website_form_input"
@@ -59,7 +63,8 @@
                                                      data-name="Field">
                                                     <label class="s_website_form_label " style="width: 200px"
                                                            for="phone">
-                                                        <span class="s_website_form_label_content">Phone Number</span>
+                                                        <span class="s_website_form_label_content">Phone Number
+                                                        </span>
                                                     </label>
                                                     <input type="tel" class="form-control s_website_form_input"
                                                            name="phone"
@@ -74,7 +79,8 @@
                                                     <label class="s_website_form_label " style="width: 200px"
                                                            for="mail">
                                                         <span class="s_website_form_label_content">Your Email</span>
-                                                        <span style="color: red;" class="s_website_form_mark">*</span>
+                                                        <span style="color: red;" class="s_website_form_mark">*
+                                                        </span>
                                                     </label>
                                                     <input type="email" class="form-control s_website_form_input"
                                                            name="email"
@@ -88,7 +94,8 @@
                                                      data-name="Field">
                                                     <label class="s_website_form_label " style="width: 200px"
                                                            for="o46wvhfl8w7v">
-                                                        <span class="s_website_form_label_content">Your Company</span>
+                                                        <span class="s_website_form_label_content">Your Company
+                                                        </span>
                                                     </label>
                                                     <input type="text" class="form-control s_website_form_input"
                                                            name="company"
@@ -97,7 +104,8 @@
                                                 </div>
 
                                                 <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-5 " data-type="char"
+                                                     class="s_website_form_field mb-3 col-12 col-lg-5 "
+                                                     data-type="char"
                                                      data-name="Field">
                                                     <label class="s_website_form_label " style="width: 200px"
                                                            for="ookkfxk1lgsm">
@@ -116,12 +124,16 @@
                                                      class="s_website_form_field mb-3 col-12 col-lg-10 s_website_form_custom s_website_form_model_required"
                                                      data-type="many2one" data-name="Field">
                                                     <label class="s_website_form_label " style="width: 200px"
-                                                           for="project_id">
-                                                        <span class="s_website_form_label_content">Project Name</span>
-                                                        <span style="color: red;" class="s_website_form_mark">*</span>
+                                                           for="project_select">
+                                                        <span class="s_website_form_label_content">Project Name
+                                                        </span>
+                                                        <span style="color: red;" class="s_website_form_mark">*
+                                                        </span>
                                                     </label>
-                                                    <select class="form-select s_website_form_input" name="project_id"
+                                                    <select class="form-select s_website_form_input"
+                                                            name="project_id"
                                                             id="project_id" style="">
+                                                        <option value=""/>
                                                         <t t-foreach='project_rec' t-as="project">
                                                             <option t-esc='project.project_name'
                                                                     t-att-value='project.id'/>
@@ -135,15 +147,17 @@
                                                      data-name="Field">
                                                     <label class="s_website_form_label " style="width: 200px"
                                                            for="product">
-                                                        <span class="s_website_form_label_content">Product Name</span>
+                                                        <span class="s_website_form_label_content">Product Name
+                                                        </span>
                                                     </label>
-                                                    <select class="form-select s_website_form_input"
+                                                    <select class="hidden form-select s_website_form_input"
                                                             name="product_ticket_id"
                                                             id="product" style="">
-                                                        <t t-foreach='product_rec' t-as="product">
-                                                            <option t-esc='product.product_name'
-                                                                    t-att-value='product.id'/>
-                                                        </t>
+<!--                                                        <option value=""/>-->
+<!--                                                        <t t-foreach='product_rec' t-as="product">-->
+<!--                                                            <option t-esc='product.product_name'-->
+<!--                                                                    t-att-value='product.id'/>-->
+<!--                                                        </t>-->
                                                     </select>
                                                 </div>
 
@@ -156,12 +170,14 @@
                                                         <span class="s_website_form_label_content">Software version
                                                         </span>
                                                     </label>
-                                                    <select class="form-select s_website_form_input" name="version"
+                                                    <select class="form-select s_website_form_input" name="product_version"
                                                             id="version"
                                                             style="">
-                                                        <option value="Option 1">1.0.0</option>
-                                                        <option value="Option 2">2.0.0</option>
-                                                        <option value="Option 3">3.0.0</option>
+                                                        <option value=""/>
+                                                        <t t-foreach='version_rec' t-as="version">
+                                                            <option t-esc='version.version_number'
+                                                                    t-att-value='version.version_number'/>
+                                                        </t>
                                                     </select>
                                                 </div>
 
@@ -173,7 +189,8 @@
                                                         <span class="s_website_form_label_content">Ticket Problem
                                                             Title
                                                         </span>
-                                                        <span style="color: red;" class="s_website_form_mark">*</span>
+                                                        <span style="color: red;" class="s_website_form_mark">*
+                                                        </span>
                                                     </label>
                                                     <input type="text" class="form-control s_website_form_input"
                                                            name="name"
@@ -238,7 +255,8 @@
                                                      data-name="Field">
                                                     <label class="s_website_form_label " style="width: 200px"
                                                            for="attachments">
-                                                        <span class="s_website_form_label_content">Attachments</span>
+                                                        <span class="s_website_form_label_content">Attachments
+                                                        </span>
                                                     </label>
                                                     <input type="file" class="form-control s_website_form_input"
                                                            name="attachment_ids" multiple="1"
@@ -254,10 +272,10 @@
                                                         <span class="s_website_form_label_content">Descrption Issue
                                                         </span>
                                                     </label>
-                                                    <textarea class="form-control s_website_form_input"
+                                                    <textarea class="editor form-control s_website_form_input"
                                                               name="description"
                                                               placeholder=""
-                                                              id="description" rows="7"/>
+                                                              id="description_ticket" rows="7"/>
                                                 </div>
                                                 <div class="mb-0 py-2 col-12 s_website_form_submit"
                                                      data-name="Submit Button">
@@ -272,6 +290,18 @@
                         </div>
                     </section>
                 </div>
+                <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+                <script>
+                        ClassicEditor
+                                .create( document.querySelector( '#description_ticket' ) )
+                                .then( editor => {
+                                        console.log( editor );
+                                } )
+                                .catch( error => {
+                                        console.error( error );
+                                } );
+                </script>
+                <script type="text/javascript" src="/mock_desk/static/src/js/form_customer.js"/>
             </t>
         </template>
 
