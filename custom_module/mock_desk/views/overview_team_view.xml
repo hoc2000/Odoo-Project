@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--    kanban-view-->
-    <record id="helpdesk_teams_view_kanban" model="ir.ui.view">
+    <record id="helpdesk_project_view_kanban" model="ir.ui.view">
         <field name="name">teams.dashboard.view.kanban</field>
-        <field name="model">mockdesk.teams</field>
+        <field name="model">project.ansv</field>
         <field name="arch" type="xml">
             <kanban records_draggable="1"
-                    on_create="quick_create"
                     class="o_kanban_dashboard oe_background_grey o_helpdesk_team_kanban"
                     create="0"
                     write="0"
                     limit="12"
                     js_class="helpdesk_table_kanban_view">
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
+                <field name="project_name"/>
                 <field name="color"/>
-                <field name="success_rated"/>
-                <field name="average_rating"/>
+                <field name="manager_id"/>
+                <field name="department"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} card border shadow">
@@ -24,7 +24,7 @@
                                 <!--   dashboard header-->
                                 <div class="o_kanban_card_header_title">
                                     <div class="o_primary o_text_overflow">
-                                        <field name="name"/>
+                                        <field name="project_name"/>
                                     </div>
                                 </div>
                                 <!--  dashboard dropdown-->
@@ -47,43 +47,36 @@
                                             <a name="action_view_closed_ticket" type="object"
                                                title="Number of tickets closed in the past 7 days."
                                                class="justify-content-between flex-nowrap d-inline-flex w-100">
-                                                <span>Tickets Closed</span>
-                                                <span class="ms-3">
-                                                    <field name="closed_ticket"/>
-                                                </span>
+                                                <span>Manager:</span>
+                                                <spanc class="">
+                                                    <field name="manager_id" widget="many2one_avatar_user"/>
+                                                </spanc>
                                             </a>
                                         </div>
                                         <div class="mb4">
                                             <a name="action_view_success_rate" type="object"
                                                title="Ratio of tickets whose SLA has successfully been reached on time compared to the total number of tickets closed"
                                                class="justify-content-between flex-nowrap d-inline-flex w-100">
-                                                <span>Success Rate</span>
-                                                <span class="ms-3">
-                                                    <field name="success_rated" widget="percentage"/>
+                                                <span>Department:</span>
+                                                <span class="">
+                                                    <field name="department"/>
                                                 </span>
                                             </a>
                                         </div>
                                         <div class="mb4">
                                             <a name="action_view_average_rating" type="object"
                                                title="Ratio of total point rating ticket to the total max point of rating"
-                                               class="justify-content-between flex-nowrap d-inline-flex w-100">
-                                                <span>Average rating</span>
-                                                <span class="ms-3">
-                                                    <b>
-                                                        <strong class="fa fa-fw mt4 fa-smile-o text-success fw-bolder"
-                                                                t-if="record.average_rating.raw_value &gt;= 0.7"
-                                                                title="Average Rating: Satisfied" role="img"
-                                                                aria-label="Happy face"/>
-                                                        <strong class="fa fa-fw mt4 fa-meh-o text-warning fw-bolder"
-                                                                t-elif="record.average_rating.raw_value &gt;= 0.3"
-                                                                title="Average Rating: Okay" role="img"
-                                                                aria-label="Neutral face"/>
-                                                        <strong class="fa fa-fw mt4 fa-frown-o text-danger fw-bolder"
-                                                                t-else="" title="Average Rating: Dissatisfied"
-                                                                role="img" aria-label="Sad face"/>
-                                                    </b>
-                                                    <field name="average_rating" widget="percentage"/>
-                                                </span>
+                                               class="flex-nowrap d-inline-flex w-100">
+                                                <div t-if="record.date_end.raw_value or record.date_start.raw_value"
+                                                     class="text-muted o_row">
+                                                    <span class="fa fa-clock-o me-2" title="Dates"/>
+                                                    <field name="date_start"/>
+                                                    <i t-if="record.date_end.raw_value and record.date_start.raw_value"
+                                                       class="fa fa-long-arrow-right mx-2 oe_read_only"
+                                                       aria-label="Arrow icon"
+                                                       title="Arrow"/>
+                                                    <field name="date_end"/>
+                                                </div>
                                             </a>
                                         </div>
                                     </div>
@@ -127,7 +120,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                    menu dropdown-->
+                            <!--                            <div class="row">-->
+                            <!--                                <div class="col-12 o_kanban_primary_bottom">-->
+                            <!--                                    <t t-call="grapth_team_mockdesk"/>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <!--menu dropdown-->
                             <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
                                 <div t-if="widget.editable" class="row">
                                     <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
@@ -165,35 +163,30 @@
                             </div>
                         </div>
                     </t>
+                    <!--                    <t t-name="grapth_team_mockdesk">-->
+                    <!--                        <div t-if="record.graph_data.raw_value" class="o_team_kanban_graph_section">-->
+                    <!--                            <field name="graph_data" widget="dashboard_graph" t-att-graph_type="'bar'"/>-->
+                    <!--                        </div>-->
+                    <!--                    </t>-->
                 </templates>
             </kanban>
         </field>
     </record>
-    <!--        Overview-kanban-->
-    <!--    <record id="helpdesk_teams_view_kanban_with_onboarding" model="ir.ui.view">-->
-    <!--        <field name="name">teams.dashboard.kanban</field>-->
-    <!--        <field name="model">helpdesk.teams</field>-->
-    <!--        <field name="inherit_id" ref="helpdesk_teams_view_kanban"/>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <xpath expr="//kanban" position="attributes">-->
-    <!--                <attribute name="banner_route">/mockdesk/tickets</attribute>-->
-    <!--            </xpath>-->
-    <!--        </field>-->
-    <!--    </record>-->
 
     <!--    window-action-->
-    <record id="mockdesk_team_dashboard_view_action" model="ir.actions.act_window">
-        <field name="name">Team Helpdesk DashBoard</field>
+    <record id="mockdesk_project_dashboard_view_action" model="ir.actions.act_window">
+        <field name="name">Project Helpdesk Overview</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">mockdesk.teams</field>
+        <field name="res_model">project.ansv</field>
         <field name="view_mode">kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                       (0, 0, {'view_mode': 'kanban', 'view_id': ref('mock_desk.helpdesk_project_view_kanban')}),
+                       (0, 0, {'view_mode': 'form', 'view_id': ref('ansv__project.ansv_project_view_form')})]"/>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_sailing_face">
-                View Ticket DashBoard
+                View Ticket Overview
             </p>
         </field>
     </record>
-
-
 </odoo>

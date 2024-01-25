@@ -197,6 +197,8 @@ class HelpDeskTicket(models.Model):
         global attachment_received
         if 'attachment_ids' in vals:
             attachment_received = vals['attachment_ids']
+        else:
+            attachment_received = 'null'
         vals.pop('attachment_ids', None)
         # Gán Ref
         if not self.ref and not vals.get('ref'):
@@ -263,22 +265,23 @@ class HelpDeskTicket(models.Model):
             vals.update({'sla_status_id': sla_value, 'working_time_total': working_time})
         new_record = super(HelpDeskTicket, self).create(vals)
         # new_record.message_subscribe(partner_ids=[vals['customer_id']])
-        attachment = attachment_received.read()
-        new_attachment = self.env['ir.attachment'].create({
-            'name': attachment_received.filename,
-            'type': 'binary',
-            'datas': base64.b64encode(attachment),
-            'res_id': new_record.id,
-            'res_model': 'mockdesk.ticket',  # Model of the record you want to link to
-        })
-        message = self.env['mail.message'].create({
-            'subject': 'Attachment from Customoer',
-            'body': 'Here the Attachment supporting',
-            'model': 'mockdesk.ticket',
-            'res_id': new_record.id,  # Model of the record you want to link to
-            'record_name': vals['name'],
-            'attachment_ids': [(6, 0, [new_attachment.id])],  # Attach the created attachment
-        })
+        if attachment_received != 'null':
+            attachment = attachment_received.read()
+            new_attachment = self.env['ir.attachment'].create({
+                'name': attachment_received.filename,
+                'type': 'binary',
+                'datas': base64.b64encode(attachment),
+                'res_id': new_record.id,
+                'res_model': 'mockdesk.ticket',  # Model of the record you want to link to
+            })
+            message = self.env['mail.message'].create({
+                'subject': 'Attachment from Customoer',
+                'body': 'Here the Attachment supporting',
+                'model': 'mockdesk.ticket',
+                'res_id': new_record.id,  # Model of the record you want to link to
+                'record_name': vals['name'],
+                'attachment_ids': [(6, 0, [new_attachment.id])],  # Attach the created attachment
+            })
         return new_record
 
     # WRITE Cập nhật SLA
@@ -453,7 +456,7 @@ class HelpDeskTicket(models.Model):
     def _compute_deadline(self):
         for rec in self:
             if rec.working_time_total:
-                daycreate = rec.write_date.date()
+                daycreate = rec.create_date.date()
                 timework = rec.working_time_total
                 day_of_work = round(timework / 8)
                 delta = timedelta(days=day_of_work)

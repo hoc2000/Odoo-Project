@@ -8,7 +8,7 @@
 
     <menuitem id="menu_overview_teams"
               name="Overview"
-              action="mockdesk_team_dashboard_view_action"
+              action="mockdesk_project_dashboard_view_action"
               parent="menu_mockdesk_root"
               sequence="0"/>
 

@@ -7,6 +7,13 @@ class ResPartnerInherit(models.Model):
 
     ticket_id = fields.Many2one('mockdesk.ticket', string="Ticket")
     ticket_count = fields.Integer(string="Ticket", compute="get_ticket_helpdesk")
+    role = fields.Selection([
+        ('pm', 'PM'),
+        ('am', 'AM'),
+        ('mn', 'Manager'),
+        ('mb', 'Member'),
+    ], string="Role")
+    department_id = fields.Many2one('department.partner', string="Department")
 
     def open_helpdesk_ticket(self):
         return {

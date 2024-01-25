@@ -21,13 +21,15 @@
         "base",
         "web",
         "portal",
-        "website"
+        "website",
+        "contact_inheritence",
     ],
     "application": True,
     # always loaded
     "data": [
         "data/mail_template_create.xml",
-        
+        "data/sequence_data.xml",
+
         "security/security_access_data.xml",
         "security/ir.model.access.csv",
 
@@ -35,7 +37,9 @@
         "views/product_view.xml",
         "views/configure_view.xml",
         "views/tasks_view.xml",
+        "views/project_stages.xml",
         "views/task_stages.xml",
+        "views/team_project.xml",
         "views/mail_activity_views.xml",
         "views/dashboard_project.xml",
         "views/graphs_view.xml",

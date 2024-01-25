@@ -7,3 +7,7 @@ ansv__project.access_project_ansv_tags,access_project_ansv_tags,ansv__project.mo
 ansv__project.access_category_product,access_category_product,ansv__project.model_category_product,base.group_user,1,1,1,1
 ansv__project.access_task_project_ansv,access_task_project_ansv,ansv__project.model_task_project_ansv,base.group_user,1,1,1,1
 ansv__project.access_stage_tasks,access_stage_tasks,ansv__project.model_stage_tasks,base.group_user,1,1,1,1
+ansv__project.access_project_property,access_project_property,ansv__project.model_project_property,base.group_user,1,1,1,1
+ansv__project.access_project_category,access_project_category,ansv__project.model_project_category,base.group_user,1,1,1,1
+ansv__project.access_project_stage,access_project_stage,ansv__project.model_project_stage,base.group_user,1,1,1,1
+ansv__project.access_project_teams,access_project_teams,ansv__project.model_project_teams,base.group_user,1,1,1,1

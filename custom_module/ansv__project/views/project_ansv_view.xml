@@ -28,6 +28,7 @@
                     <field name="tag_ids"/>
                     <field name="product_count"/>
                     <field name="task_count"/>
+                    <field name="ticket_count"/>
                     <field name="label_tasks"/>
                     <field name="sequence" widget="handle"/>
                     <templates>
@@ -118,31 +119,54 @@
                                 <div class="o_kanban_record_bottom mt-3">
                                     <!-- left side-->
                                     <div class="oe_kanban_bottom_left">
-                                        <div class="border rounded d-flex align-items-baseline p-2"
-                                             attrs="{'invisible':[('product_count','=',0)]}">
-                                            <a class="o_project_kanban_box" name="action_view_products" type="object">
-                                                <div>
-                                                    <span class="o_value">
-                                                        <t t-esc="record.product_count.value"/>
-                                                    </span>
-                                                    <span class="o_label ms-1">
-                                                        Products
-                                                    </span>
+                                        <div class="d-flex value-project">
+                                            <div class="d-flex flex-column">
+                                                <div class="border rounded d-flex align-items-baseline p-2 mb-2"
+                                                     attrs="{'invisible':[('product_count','=',0)]}">
+                                                    <a class="o_project_kanban_box" name="action_view_products"
+                                                       type="object">
+                                                        <div>
+                                                            <span class="o_value">
+                                                                <t t-esc="record.product_count.value"/>
+                                                            </span>
+                                                            <span class="o_label ms-1">
+                                                                Products
+                                                            </span>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </a>
-                                        </div>
-
-                                        <div class="border rounded d-flex align-items-baseline p-2">
-                                            <a class="o_project_kanban_box" name="action_view_tasks" type="object">
-                                                <div>
-                                                    <span class="o_value">
-                                                        <t t-esc="record.task_count.value"/>
-                                                    </span>
-                                                    <span class="o_label ms-1">
-                                                        <t t-esc="record.label_tasks.raw_value"/>
-                                                    </span>
+                                                <div class="border rounded d-flex align-items-baseline p-2"
+                                                     attrs="{'invisible':[('ticket_count','=',0)]}">
+                                                    <a class="o_project_kanban_box" name="action_view_ticket"
+                                                       type="object">
+                                                        <div>
+                                                            <span class="o_value">
+                                                                <t t-esc="record.ticket_count.value"/>
+                                                            </span>
+                                                            <span class="o_label ms-1">
+                                                                Tickets
+                                                            </span>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </a>
+                                            </div>
+                                            <div class="d-flex flex-column mx-2">
+                                                <div class="border rounded d-flex align-items-baseline p-2">
+                                                    <a class="o_project_kanban_box" name="action_view_tasks"
+                                                       type="object">
+                                                        <div>
+                                                            <span class="o_value">
+                                                                <t t-esc="record.task_count.value"/>
+                                                            </span>
+                                                            <span class="o_label ms-1">
+                                                                <t t-esc="record.label_tasks.raw_value"/>
+                                                            </span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="border rounded align-items-baseline p-2 hidden"
+                                                     style="display: none;"/>
+                                            </div>
                                         </div>
                                         <field name="activity_ids" widget="kanban_activity"/>
                                     </div>
@@ -175,25 +199,73 @@
             <field name="model">project.ansv</field>
             <field name="arch" type="xml">
                 <form string="_form">
+                    <header>
+                        <field name="stage_id" widget="statusbar" context="{'order_display': 'sequence desc' }"
+                               options="{'clickable': '1','autosave': False}"/>
+                    </header>
                     <sheet string="Project">
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_ticket" type="object"
+                                    attrs="{'invisible': [('ticket_count', '=', 0)]}"
+                                    class="oe_stat_button" icon="fa-life-ring"
+                                    string="Tickets">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_info o_stat_value">
+                                        <field name="ticket_count" />
+                                    </span>
+                                    <span class="o_stat_text">Tickets</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button"
+                                    name="action_view_tasks" type="object"
+                                    icon="fa-tasks"
+                                    attrs="{'invisible': [('task_count', '=', 0)]}"
+                                    string="Tasks">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_info o_stat_value">
+                                        <field name="task_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Tasks</span>
+                                </div>
+
+                            </button>
+                            <button class="oe_stat_button"
+                                    name="action_view_tasks" type="object"
+                                    icon="fa-archive"
+                                    attrs="{'invisible': [('product_count', '=', 0)]}"
+                                    string="Products">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_info o_stat_value">
+                                        <field name="product_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Products</span>
+                                </div>
+                            </button>
+                        </div>
                         <div class="oe_title">
                             <h1 class="d-flex flex-row">
                                 <field name="is_favorite" nolabel="1" widget="boolean_favorite" class="me-2"/>
                                 <field name="project_name" class="o_text_overflow" placeholder="e.g. Project example"/>
-
                             </h1>
                         </div>
                         <group>
                             <group>
-                                <field name="label_tasks" string="Name of the tasks"/>
+                                <field name="label_tasks" string="Name of the tasks" invisible="1"/>
+                                <field name="priority" string="Priority" widget="priority"
+                                       options="{'autosave': False}"/>
                                 <field name="partner_ids"/>
+                                <field name="department"/>
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="category_id"/>
                                 <field name="color" widget="color_picker"/>
                             </group>
                             <group>
                                 <field name="active" invisible="1"/>
+                                <field name="team_id" string="Team"/>
                                 <field name="manager_id" string="Project Manager" widget="many2one_avatar_user"
                                        attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+                                <field name="acc_code"/>
+                                <field name="con_code"/>
                                 <label for="date_start" string="Planned Date"/>
                                 <div name="dates" class="o_row">
                                     <field name="date_start" widget="daterange"
@@ -207,7 +279,12 @@
                                            options="{'related_start_date': 'date_start'}"/>
                                 </div>
                             </group>
+
                         </group>
+                        <group string="Properties">
+                            <field name="project_prop_id" string="Extend fields Define"/>
+                        </group>
+                        <field name="project_properties" nolabel="1" columns="2"/>
                         <notebook>
                             <page name="description" string="Description">
                                 <field name="description_project" placeholder="enter your description here"/>
@@ -260,6 +337,9 @@
                                     </kanban>
                                     <!--                                        form pop up-->
                                 </field>
+                            </page>
+                            <page name="members" string="Members" attrs="{'invisible': [('team_id', '=', False)]}">
+                                <field name="member_ids" widget="many2many_avatar_user"/>
                             </page>
                         </notebook>
                     </sheet>

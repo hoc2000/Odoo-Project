@@ -1,4 +1,6 @@
 from odoo import api, fields, models
+import json
+from odoo.release import version
 
 
 class HelpTeams(models.Model):
@@ -34,6 +36,7 @@ class HelpTeams(models.Model):
     ticket_inprogress = fields.Integer(string="In Progress Ticket", compute="count_inprogress_ticket")
     solved_ticket = fields.Integer(string="Solved Ticket", compute="count_solved_ticket")
     cancelled_ticket = fields.Integer(string="Cancelled Ticket", compute="count_cancelled_ticket")
+    graph_data = fields.Text(compute="_compute_dashboard_graph")
 
     @api.depends('average_rating')
     def text_base_on_rating(self):
@@ -151,3 +154,31 @@ class HelpTeams(models.Model):
 
     def action_open_mockdesk_ticket(self):
         pass
+
+    def _compute_dashboard_graph(self):
+        for team in self:
+            team.graph_data = json.dumps(team._get_dashboard_graph_data())
+
+    def _get_dashboard_graph_data(self):
+        values = []
+        today = fields.Date.from_string(fields.Date.context_today(self))
+        x_field = 'label'
+        y_field = 'value'
+        short_name = ['Open', 'Unassigned', 'Critical', 'Failed']
+        for i in range(4):
+            values.append({x_field: short_name[i], y_field: 0, 'type': 'ticket'})
+
+        data_in_team = [self.open_ticket_count, self.unassigned_tickets, self.urgent_ticket, self.sla_failed]
+        for data_item in range(4):
+            values[data_item][y_field] = data_in_team[data_item]
+
+        color = '#875A7B' if '+e' in version else '#7c7bad'
+
+        # If no actual data available, show some sample data
+        # if not graph_data:
+        #     graph_key = _('Sample data')
+        #     for value in values:
+        #         value['type'] = 'o_sample_data'
+        #         # we use unrealistic values for the sample data
+        #         value['value'] = random.randint(0, 20)
+        return [{'values': values, 'area': True, 'title': 'Team View', 'key': 'ticket', 'color': color}]

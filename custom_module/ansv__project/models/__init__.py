@@ -3,3 +3,4 @@
 from . import project
 from . import product
 from . import task_project
+from . import teams

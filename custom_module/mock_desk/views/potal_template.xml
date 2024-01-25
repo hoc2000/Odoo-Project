@@ -17,7 +17,7 @@
                 Tickets
             </li>
             <li t-if="page_name == 'ticket_detail_view'" class="breadcrumb-item">
-                <a href="/my/ticket">Tickets</a>/
+                <a href="/my/ticket">Tickets</a>
                 <span t-out="ticket.name"/>
             </li>
         </xpath>

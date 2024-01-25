@@ -47,6 +47,7 @@ package.json
 /man/
 /share/
 /src/
+/custom_module/mock_desk/static/src/components/mockdesk_dashboard/ticket_dashboard.js
 
 #file config
 odoo-bin

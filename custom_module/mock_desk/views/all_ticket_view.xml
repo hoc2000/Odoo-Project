@@ -34,7 +34,7 @@
         <field name="name">all_ticket_view_kanban</field>
         <field name="model">mockdesk.ticket</field>
         <field name="arch" type="xml">
-            <kanban quick_create_view="mockdesk.quick_kanban_view_form"
+            <kanban quick_create_view="mock_desk.quick_kanban_view_form"
                     on_create="quick_create"
                     default_group_by="stage_id">
                 <field name="id"/>

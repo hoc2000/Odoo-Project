@@ -18,6 +18,7 @@
                 "rating",
                 "portal",
                 "ansv__project",
+                "contact_inheritence",
                 "contacts",
                 "website",
                 "web_responsive"

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="helpdesk_view_tree" model="ir.ui.view">
+        <field name="name">teams_view_tree</field>
+        <field name="model">project.teams</field>
+        <field name="arch" type="xml">
+            <tree string="Stages" multi_edit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    form-view-->
+    <record id="all_team_view_form" model="ir.ui.view">
+        <field name="name">all_ticket_view_form</field>
+        <field name="model">project.teams</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="active" invisible="1"/>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Team Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Enter Team name...."/>
+                        </h1>
+                    </div>
+                    <field name="description" placeholder="Describe your team to your colleagues and customers..."/>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6">
+                            <div class="o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Automate the assignment of new tickets to the right people, and make sure
+                                        all tickets are being handled
+                                    </div>
+                                    <div class="mt16">
+                                        <div>
+                                            <field name="member_ids" widget="many2many_avatar_user"
+                                                   class="mt16" placeholder="Add team members..."
+                                                   options="{'no_quick_create': True}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="team_project_action" model="ir.actions.act_window">
+        <field name="name">Project Team</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.teams</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="Project_team_menu"
+              name="Project Teams"
+              action="team_project_action"
+              parent="configuration_menu"
+              sequence="5"/>
+
+</odoo>

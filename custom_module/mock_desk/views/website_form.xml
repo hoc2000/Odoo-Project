@@ -11,13 +11,6 @@
         <template id="create_ticket" name="Create Ticket">
             <t t-call="website.layout">
                 <div id="wrap" class="oe_structure oe_empty">
-                    <!--                    <section class="s_title o_colored_level o_cc o_cc2 oe_img_bg o_bg_img_center pt24 pb16"-->
-                    <!--                             data-vcss="001" data-snippet="s_title" data-name="Title"-->
-                    <!--                             style="background-image: url(&quot;/mock_desk/static/image/stretched-1920-1080-888534.png&quot;); position: relative;"-->
-                    <!--                             data-original-id="4646"-->
-                    <!--                             data-original-src="/web/image/4646-054a96b9/ghost%20of%20tsushima.jpg"-->
-                    <!--                             data-mimetype="image/jpeg" data-resize-width="1920" data-quality="59">-->
-                    <!--                    </section>-->
                     <section class=" s_website_form pt16 pb16 o_colored_level" data-vcss="001"
                              data-snippet="s_website_form"
                              data-name="Form"

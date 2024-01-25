@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="helpdesk_customer_inherit">
+            <field name="name">helpdesk.customer.inherit</field>
+            <field name="model">res.partner</field>
+            <!-- ke thua form cua res_partner dựa theo external ID-->
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div class="oe_button_box" name="button_box" position="inside">
+                    <button type="object" name="open_helpdesk_ticket"
+                            class="oe_stat_button" icon="fa-life-ring"
+                            string="Tickets">
+                        <field name="ticket_count" string="Tickets" widget="statinfo"/>
+                    </button>
+                </div>
+
+                <field name="function" position="after">
+                    <field name="role"/>
+                    <field name="department_id" widget="selection"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="department_contact_view_form" model="ir.ui.view">
+            <field name="name">_view_form</field>
+            <field name="model">department.partner</field>
+            <field name="arch" type="xml">
+                <form string="_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="department_partner_action" model="ir.actions.act_window">
+            <field name="name">Department</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">department.partner</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_partner_department_contact"
+                  action="department_partner_action"
+                  name="Department" parent="contacts.res_partner_menu_config"
+                  sequence="3"/>
+    </data>
+</odoo>
