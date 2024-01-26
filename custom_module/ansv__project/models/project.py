@@ -55,7 +55,7 @@ class Project(models.Model):
     #     ondelete='restrict', group_expand='_read_group_personal_stage_type_ids', copy=False,
     #     domain="[('user_id', '=', user.id)]", depends=['user_ids'], string='Personal Stage')
     partner_ids = fields.Many2one('res.partner', string="Partner")
-    department = fields.Many2one('department.partner', related='partner_ids.department_id')
+    department = fields.Many2one('department.partner', string="Department")
     tag_ids = fields.Many2many('project.ansv.tags', string='Tags')
     category_id = fields.Many2one('project.category', string='Category')
     manager_id = fields.Many2one('res.users', string='Project Manager', default=lambda self: self.env.user,
@@ -198,6 +198,11 @@ class Project(models.Model):
                 'domain': [('project_id', '=', currProjectId)],
 
             }
+
+    @api.onchange('partner_ids')
+    def change_department(self):
+        for rec in self:
+            rec.department = rec.partner_ids.department_id
 
 
 class ProjectTags(models.Model):

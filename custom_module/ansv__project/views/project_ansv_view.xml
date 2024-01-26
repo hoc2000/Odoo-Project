@@ -120,52 +120,46 @@
                                     <!-- left side-->
                                     <div class="oe_kanban_bottom_left">
                                         <div class="d-flex value-project">
-                                            <div class="d-flex flex-column">
-                                                <div class="border rounded d-flex align-items-baseline p-2 mb-2"
-                                                     attrs="{'invisible':[('product_count','=',0)]}">
-                                                    <a class="o_project_kanban_box" name="action_view_products"
-                                                       type="object">
-                                                        <div>
-                                                            <span class="o_value">
-                                                                <t t-esc="record.product_count.value"/>
-                                                            </span>
-                                                            <span class="o_label ms-1">
-                                                                Products
-                                                            </span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="border rounded d-flex align-items-baseline p-2"
-                                                     attrs="{'invisible':[('ticket_count','=',0)]}">
-                                                    <a class="o_project_kanban_box" name="action_view_ticket"
-                                                       type="object">
-                                                        <div>
-                                                            <span class="o_value">
-                                                                <t t-esc="record.ticket_count.value"/>
-                                                            </span>
-                                                            <span class="o_label ms-1">
-                                                                Tickets
-                                                            </span>
-                                                        </div>
-                                                    </a>
-                                                </div>
+                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2"
+                                                 attrs="{'invisible':[('product_count','=',0)]}">
+                                                <a class="o_project_kanban_box" name="action_view_products"
+                                                   type="object">
+                                                    <div>
+                                                        <span class="o_value">
+                                                            <t t-esc="record.product_count.value"/>
+                                                        </span>
+                                                        <span class="o_label ms-1">
+                                                            Products
+                                                        </span>
+                                                    </div>
+                                                </a>
                                             </div>
-                                            <div class="d-flex flex-column mx-2">
-                                                <div class="border rounded d-flex align-items-baseline p-2">
-                                                    <a class="o_project_kanban_box" name="action_view_tasks"
-                                                       type="object">
-                                                        <div>
-                                                            <span class="o_value">
-                                                                <t t-esc="record.task_count.value"/>
-                                                            </span>
-                                                            <span class="o_label ms-1">
-                                                                <t t-esc="record.label_tasks.raw_value"/>
-                                                            </span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="border rounded align-items-baseline p-2 hidden"
-                                                     style="display: none;"/>
+                                            <div class="border rounded d-flex align-items-baseline p-2"
+                                                 attrs="{'invisible':[('ticket_count','=',0)]}">
+                                                <a class="o_project_kanban_box" name="action_view_ticket"
+                                                   type="object">
+                                                    <div>
+                                                        <span class="o_value">
+                                                            <t t-esc="record.ticket_count.value"/>
+                                                        </span>
+                                                        <span class="o_label ms-1">
+                                                            Tickets
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="border rounded d-flex align-items-baseline p-2">
+                                                <a class="o_project_kanban_box" name="action_view_tasks"
+                                                   type="object">
+                                                    <div>
+                                                        <span class="o_value">
+                                                            <t t-esc="record.task_count.value"/>
+                                                        </span>
+                                                        <span class="o_label ms-1">
+                                                            <t t-esc="record.label_tasks.raw_value"/>
+                                                        </span>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
                                         <field name="activity_ids" widget="kanban_activity"/>
@@ -211,7 +205,7 @@
                                     string="Tickets">
                                 <div class="o_field_widget o_stat_info">
                                     <span class="o_stat_info o_stat_value">
-                                        <field name="ticket_count" />
+                                        <field name="ticket_count"/>
                                     </span>
                                     <span class="o_stat_text">Tickets</span>
                                 </div>
@@ -353,6 +347,44 @@
                 </form>
             </field>
         </record>
+
+
+        <!--        Search_view-->
+        <record id="project_ansv_search" model="ir.ui.view">
+            <field name="name">project.ansv.search</field>
+            <field name="model">project.ansv</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="project_name" string="Project name"
+                           filter_domain="['|',('name','ilike',self),('ref','ilike',self)]"/>
+                    <field name="partner_ids" string="Partner"/>
+                    <field name="manager_id" string="Manager"/>
+                    <field name="stage_id" string="Stage"/>
+                    <!-- filter-->
+                    <filter name="filter_archived" string="Archive" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter name="manage_pj_filter" string="My Manage Project" domain="[('manager_id','=',uid)]"/>
+                    <filter name="member_pj_filter" string="My Project Join" domain="[('member_ids','=',uid)]"/>
+                    <separator/>
+                    <filter name="filter_new_state" string="New Status" domain="[('stage_id','=','New')]"/>
+                    <separator/>
+                    <filter name="filter_no_manager" string="No Manager" domain="[('manager_id','=',False)]"/>
+                    <separator/>
+                    <filter name="do_project" string="DO Project" domain="[('department','=','DO')]"/>
+                    <filter name="tasc_project" string="TASC Project" domain="[('department','=','TASC')]"/>
+
+                    <group expand="0" string="Group by">
+                        <filter string="Departments" name="group_by_department" context="{'group_by':'department'}"/>
+                        <filter string="Stage" name="group_by_stage" context="{'group_by':'stage_id'}"/>
+                        <filter string="Team" name="group_by_team" context="{'group_by':'team_id'}"/>
+                        <filter string="Priority" name="group_by_priority" context="{'group_by':'partner_ids'}"/>
+                        <filter string="Date Received" name="group_by_created_date"
+                                context="{'group_by': 'create_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
 
         <!-- actions opening views on models -->
 
