@@ -134,6 +134,7 @@
                                                     </div>
                                                 </a>
                                             </div>
+
                                             <div class="border rounded d-flex align-items-baseline p-2"
                                                  attrs="{'invisible':[('ticket_count','=',0)]}">
                                                 <a class="o_project_kanban_box" name="action_view_ticket"
@@ -148,6 +149,7 @@
                                                     </div>
                                                 </a>
                                             </div>
+
                                             <div class="border rounded d-flex align-items-baseline p-2">
                                                 <a class="o_project_kanban_box" name="action_view_tasks"
                                                    type="object">
