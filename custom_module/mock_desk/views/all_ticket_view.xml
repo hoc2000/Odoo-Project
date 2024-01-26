@@ -204,12 +204,12 @@
                             <field name="working_time_total" string="working hour" readonly="1"
                                    attrs="{'invisible': [('working_time_total', '=' , 0)]}"/>
                         </group>
-<!--                        <field name="bom_file_ids" widget="one2many" nolabel="1" mode="tree">-->
-<!--                            <kanban string="BOMFiles">-->
-<!--                                <field name="create_date"/>-->
-<!--                                <field name="name"/>-->
-<!--                            </kanban>-->
-<!--                        </field>-->
+                        <!--                        <field name="bom_file_ids" widget="one2many" nolabel="1" mode="tree">-->
+                        <!--                            <kanban string="BOMFiles">-->
+                        <!--                                <field name="create_date"/>-->
+                        <!--                                <field name="name"/>-->
+                        <!--                            </kanban>-->
+                        <!--                        </field>-->
                     </group>
                     <notebook name="Description note">
                         <page string="Description">
@@ -220,7 +220,7 @@
                               attrs="{'invisible': [('project_id', '=', False)]}">
                             <group name="container_row_2">
                                 <group string="Detail Project">
-                                    <field name="project_id" readonly="1"/>
+<!--                                    <field name="project_id" readonly="1"/>-->
                                     <field name="project_manager"/>
                                     <field name="project_date_start"/>
                                     <field name="project_date_end"/>

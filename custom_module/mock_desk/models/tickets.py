@@ -203,11 +203,11 @@ class HelpDeskTicket(models.Model):
         # Gán Ref
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('ticket.mockdesk')
-            if not 'priority' in vals:
+            if 'priority' not in vals:
                 vals['priority'] = False
-            if not 'project_id' in vals:
+            if 'project_id' not in vals:
                 vals['project_id'] = False
-            if not 'team_id' in vals:
+            if 'team_id' not in vals:
                 vals['team_id'] = False
 
             sla_list = self.env['sla.policy.ansv'].search(
