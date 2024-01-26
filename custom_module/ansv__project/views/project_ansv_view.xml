@@ -135,7 +135,7 @@
                                                 </a>
                                             </div>
 
-                                            <div class="border rounded d-flex align-items-baseline p-2"
+                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2"
                                                  attrs="{'invisible':[('ticket_count','=',0)]}">
                                                 <a class="o_project_kanban_box" name="action_view_ticket"
                                                    type="object">
@@ -150,7 +150,7 @@
                                                 </a>
                                             </div>
 
-                                            <div class="border rounded d-flex align-items-baseline p-2">
+                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2">
                                                 <a class="o_project_kanban_box" name="action_view_tasks"
                                                    type="object">
                                                     <div>
@@ -158,13 +158,13 @@
                                                             <t t-esc="record.task_count.value"/>
                                                         </span>
                                                         <span class="o_label ms-1">
-                                                            <t t-esc="record.label_tasks.raw_value"/>
+                                                            Tasks
                                                         </span>
                                                     </div>
                                                 </a>
                                             </div>
                                         </div>
-                                        <field name="activity_ids" widget="kanban_activity"/>
+                                        <field name="activity_ids" widget="kanban_activity" class="mb-2"/>
                                     </div>
                                     <!-- right side-->
                                     <div class="oe_kanban_bottom_right">
@@ -395,6 +395,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">project.ansv</field>
             <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">['|',('member_ids', '=', uid),('manager_id','=',uid)]</field>
         </record>
 
         <!-- Top menu item -->

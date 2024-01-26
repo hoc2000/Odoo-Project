@@ -182,7 +182,6 @@
         <field name="view_ids" eval="[(5, 0, 0),
                        (0, 0, {'view_mode': 'kanban', 'view_id': ref('mock_desk.helpdesk_project_view_kanban')}),
                        (0, 0, {'view_mode': 'form', 'view_id': ref('ansv__project.ansv_project_view_form')})]"/>
-        <field name="domain">['|',('member_ids', '=', uid),('manager_id','=',uid)]</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_sailing_face">
