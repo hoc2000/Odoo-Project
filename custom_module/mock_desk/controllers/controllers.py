@@ -120,13 +120,16 @@ class Mockdesk_Product(CustomerPortal):
     # PROJECT
     @http.route(['/project', '/project/page/<int:page>'], auth="public", type="http", website=True)
     def get_project_list(self, page=1, **kw):
-        total_project_rec = request.env['project.ansv'].sudo().search_count([])
+        user_partner_id = request.env.user.partner_id.id
+
+        total_project_rec = request.env['project.ansv'].sudo().search_count([('partner_ids', '=', user_partner_id)])
         print(total_project_rec)
         page_detail = pager(url='/project',
                             total=total_project_rec,
                             page=page,
                             step=4)
-        project_rec = request.env['project.ansv'].sudo().search([], limit=4, offset=page_detail['offset'])
+        project_rec = request.env['project.ansv'].sudo().search([('partner_ids', '=', user_partner_id)], limit=4,
+                                                                offset=page_detail['offset'])
 
         return http.request.render("mock_desk.project_media_view",
                                    {'projects': project_rec, 'pager': page_detail})

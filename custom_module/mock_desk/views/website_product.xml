@@ -11,30 +11,6 @@
         <template id="product_grid_view_customer" name="Product Grid">
             <t t-call="website.layout">
                 <div id="wrap" class="oe_structure oe_empty">
-                    <section class="s_call_to_action pt48 pb24 o_colored_level o_cc o_cc5"
-                             data-snippet="s_call_to_action" data-name="Call to Action" style="position: relative;"
-                             data-oe-shape-data="{&quot;shape&quot;:&quot;web_editor/Origins/09_001&quot;,&quot;flip&quot;:[]}">
-                        <div class="o_we_shape o_web_editor_Origins_09_001"/>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-9 pb16 o_colored_level">
-                                    <h3 class="o_default_snippet_text">
-                                        <b class="o_default_snippet_text">50,000+ companies</b>
-                                        run Odoo to grow their businesses.
-                                    </h3>
-                                    <p class="o_default_snippet_text">Join us and make your company a better place.</p>
-                                </div>
-                                <div class="col-lg-3 pt8 o_colored_level">
-                                    <p style="text-align: right;">
-                                        <a class="btn btn-primary btn-lg mb-2 o_default_snippet_text"
-                                           href="/ticket_webform">
-                                            Create Ticket
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                     <!-- CARD-->
                     <div class="container pb-4 pb-xl-7 pt-4">
                         <div class="row row-cols-md-2 row-cols-xl-3 mb-6 mb-xl-3">

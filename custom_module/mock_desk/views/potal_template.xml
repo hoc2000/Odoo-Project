@@ -327,7 +327,6 @@
                     </div>
                     <!-- Chatter-->
                     <div id="sale_order_communication" class="container py-5" data-anchor="true">
-                        <h1>Chatter Features</h1>
                         <t t-call="portal.message_thread">
                             <!--Lấy object ticket hiện tại-->
                             <xpath expr="//div[@id='discussion']" position="attributes">

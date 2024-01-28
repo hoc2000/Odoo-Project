@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Header-->
+    <!--    <template id="custom_navbar" name="Navbar" inherit_id="website.navbar">-->
+    <!--        <xpath expr="//nav" position="replace">-->
+    <!--            <nav class="custom_navbar">-->
+    <!--                <ul>-->
+    <!--                    <li>DEMO1-->
+    <!--                    </li>-->
+    <!--                    <li>DEMO2-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </nav>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+    <!--    <template id="My_template_header" inherit_id="website.layout" name="My Template Header Default" active="True">-->
+    <!--        <xpath expr="//header" position="replace">-->
+    <!--            <t t-call="website.navbar"/>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+    <!--    Footer-->
+    <template id="replace_footer" inherit_id="website.footer_custom" name="ANSV Footer">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <!-- Write here your custom code -->
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <footer id="footer">
+                    <div class="footer-top py-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-12 col-sm-12 footer-contact">
+                                    <h3>CÔNG TY TNHH THIẾT BỊ VIỄN THÔNG ANSV</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <span class="d-flex align-items-center">
+                                                    <!--                                                    <i-->
+                                                    <!--                                                            nz-icon-->
+                                                    <!--                                                            nzTheme="outline"-->
+                                                    <!--                                                            nzType="environment"-->
+                                                    <!--                                                            style="margin-right: 3px"-->
+                                                    <!--                                                    ></i>-->
+                                                    <!--                                                    &ensp;-->
+                                                    <span>124 Hoàng Quốc</span>
+                                                </span>
+                                                Việt, Cầu Giấy, Hà Nội
+                                                <br/>
+                                                <br/>
+                                                <span class="d-flex align-items-center">
+                                                    <!--                                                    <i-->
+                                                    <!--                                                            nz-icon-->
+                                                    <!--                                                            nzType="inbox"-->
+                                                    <!--                                                            nzTheme="outline"-->
+                                                    <!--                                                            style="margin-right: 3px"-->
+                                                    <!--                                                    ></i>-->
+                                                    <!--                                                    <strong>Fax:</strong>&nbsp;(+84) 24 3836 2915-->
+                                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <!--                                                    <i-->
+                                                    <!--                                                            nz-icon-->
+                                                    <!--                                                            nzType="phone"-->
+                                                    <!--                                                            nzTheme="outline"-->
+                                                    <!--                                                            style="margin-right: 3px"-->
+                                                    <!--                                                    ></i>-->
+                                                    <!--                                                    <strong>Phone:</strong>&nbsp;(+84) 24 3836 2094-->
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <span class="d-flex align-items-center">
+                                                    <!--                                                    <i-->
+                                                    <!--                                                            nz-icon-->
+                                                    <!--                                                            nzTheme="outline"-->
+                                                    <!--                                                            nzType="environment"-->
+                                                    <!--                                                            style="margin-right: 3px"-->
+                                                    <!--                                                    ></i>-->
+                                                    <!--                                                    &ensp;-->
+                                                    <span>Số 10, Phổ Quang,</span>
+                                                </span>
+                                                Quận Tân Bình, TP.Hồ Chí Minh
+                                                <br/>
+                                                <br/>
+                                                <span class="d-flex align-items-center">
+                                                    <!--                                                    <i-->
+                                                    <!--                                                            nz-icon-->
+                                                    <!--                                                            nzType="inbox"-->
+                                                    <!--                                                            nzTheme="outline"-->
+                                                    <!--                                                            style="margin-right: 3px"-->
+                                                    <!--                                                    ></i>-->
+                                                    <strong>Fax:</strong>(+84) 28 3997 4515
+                                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <!--                                                    <i-->
+                                                    <!--                                                            nz-icon-->
+                                                    <!--                                                            nzType="phone"-->
+                                                    <!--                                                            nzTheme="outline"-->
+                                                    <!--                                                            style="margin-right: 3px"-->
+                                                    <!--                                                    ></i>-->
+                                                    <strong>Phone:</strong>(+84) 28 3842 2888
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-6 col-sm-6 footer-links">
+                                    <h4>Liên kết</h4>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Trang chủ</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Về chúng tôi</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Dịch vụ</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Dự án tiêu biểu</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6 footer-links">
+                                    <h4>Dịch vụ và giải pháp của chúng tôi</h4>
+                                    <ul>
+                                        <li>
+                                            <!-- <i nz-icon nzType="right" nzTheme="outline"></i> -->
+                                            <a href="#">Chuyên ngành viễn thông</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Công nghệ thông tin</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Chuyển đổi số</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Dịch vụ</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                    <div class="footer-bottom container d-md-flex py-4">-->
+                    <!--                        <div class="mr-md-auto text-center text-md-left">-->
+                    <!--                            <div class="copyright">-->
+                    <!--                                © Copyright-->
+                    <!--                                <strong>-->
+                    <!--                                    <span>ANSV</span>-->
+                    <!--                                </strong>-->
+                    <!--                                . All Rights Reserved-->
+                    <!--                            </div>-->
+                    <!--                            <div class="credit">-->
+                    <!--                                Designed by-->
+                    <!--                                <a href="#" style="color: #f27700">ANSV</a>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="text-center text-md-right pt-3 pt-md-0">-->
+                    <!--                            <a href="">Liên hệ</a>-->
+                    <!--                            <a href="">Dịch vụ</a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </footer>
+            </div>
+        </xpath>
+
+    </template>
+
+    <!--    Copyright-->
+    <template id="replace_copyright" inherit_id="website.layout" name="ANSV Copytight">
+        <xpath expr="//footer//span[hasclass('o_footer_copyright_name')]" position="replace">
+            <div class="footer-bottom container d-md-flex py-4">
+                <div class="mr-md-auto text-md-left">
+                    <div class="copyright">
+                        © Copyright
+                        <strong>
+                            <span>ANSV</span>
+                        </strong>
+                        . All Rights Reserved
+                    </div>
+                    <div class="credit">
+                        Designed by
+                        <a href="#" style="color: #f27700">ANSV</a>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+
+</odoo>

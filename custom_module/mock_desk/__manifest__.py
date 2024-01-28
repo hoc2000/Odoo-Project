@@ -53,6 +53,7 @@
         "views/website_form.xml",
         "views/website_homepage.xml",
         "views/website_product.xml",
+        "views/website_nav_footer.xml",
         "views/website_project.xml",
 
         # Reports
