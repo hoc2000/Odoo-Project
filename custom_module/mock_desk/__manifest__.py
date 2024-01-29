@@ -71,13 +71,14 @@
             "mock_desk/static/src/components/*/*.js",
             "mock_desk/static/src/components/*/*.xml",
             "mock_desk/static/src/components/*/*.css",
-            "mock_desk/static/src/scss/*.scss",
+            "mock_desk/static/src/scss/helpdesk_team_view.scss",
             "mock_desk/static/src/newfont/newfont2/fonts/JosefinSans/*.css",
         ],
         "web.assets_frontend": [
             "mock_desk/static/src/css/*.css",
             "mock_desk/static/src/newfont/newfont2/fonts/JosefinSans/*.css",
             "mock_desk/static/src/js/*.js",
+            "mock_desk/static/src/scss/front_end.scss",
         ]
     },
 

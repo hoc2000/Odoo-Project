@@ -34,70 +34,38 @@
                                         <div class="col-md-6">
                                             <p>
                                                 <span class="d-flex align-items-center">
-                                                    <!--                                                    <i-->
-                                                    <!--                                                            nz-icon-->
-                                                    <!--                                                            nzTheme="outline"-->
-                                                    <!--                                                            nzType="environment"-->
-                                                    <!--                                                            style="margin-right: 3px"-->
-                                                    <!--                                                    ></i>-->
-                                                    <!--                                                    &ensp;-->
-                                                    <span>124 Hoàng Quốc</span>
+                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    <span style="margin-left: 3px;">124 Hoàng Quốc</span>
                                                 </span>
                                                 Việt, Cầu Giấy, Hà Nội
                                                 <br/>
                                                 <br/>
                                                 <span class="d-flex align-items-center">
-                                                    <!--                                                    <i-->
-                                                    <!--                                                            nz-icon-->
-                                                    <!--                                                            nzType="inbox"-->
-                                                    <!--                                                            nzTheme="outline"-->
-                                                    <!--                                                            style="margin-right: 3px"-->
-                                                    <!--                                                    ></i>-->
-                                                    <!--                                                    <strong>Fax:</strong>&nbsp;(+84) 24 3836 2915-->
+                                                    <i class="fa fa-fax" aria-hidden="true"></i>
+                                                    <strong class="mx-1">Fax:</strong>(+84) 28 3997 4515
                                                 </span>
                                                 <span class="d-flex align-items-center">
-                                                    <!--                                                    <i-->
-                                                    <!--                                                            nz-icon-->
-                                                    <!--                                                            nzType="phone"-->
-                                                    <!--                                                            nzTheme="outline"-->
-                                                    <!--                                                            style="margin-right: 3px"-->
-                                                    <!--                                                    ></i>-->
-                                                    <!--                                                    <strong>Phone:</strong>&nbsp;(+84) 24 3836 2094-->
+                                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                                    <strong class="mx-1">Phone:</strong>(+84) 28 3842 2888
                                                 </span>
                                             </p>
                                         </div>
                                         <div class="col-md-6">
                                             <p>
                                                 <span class="d-flex align-items-center">
-                                                    <!--                                                    <i-->
-                                                    <!--                                                            nz-icon-->
-                                                    <!--                                                            nzTheme="outline"-->
-                                                    <!--                                                            nzType="environment"-->
-                                                    <!--                                                            style="margin-right: 3px"-->
-                                                    <!--                                                    ></i>-->
-                                                    <!--                                                    &ensp;-->
-                                                    <span>Số 10, Phổ Quang,</span>
+                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    <span style="margin-left: 3px;">Số 10, Phổ Quang,</span>
                                                 </span>
                                                 Quận Tân Bình, TP.Hồ Chí Minh
                                                 <br/>
                                                 <br/>
                                                 <span class="d-flex align-items-center">
-                                                    <!--                                                    <i-->
-                                                    <!--                                                            nz-icon-->
-                                                    <!--                                                            nzType="inbox"-->
-                                                    <!--                                                            nzTheme="outline"-->
-                                                    <!--                                                            style="margin-right: 3px"-->
-                                                    <!--                                                    ></i>-->
-                                                    <strong>Fax:</strong>(+84) 28 3997 4515
+                                                    <i class="fa fa-fax" aria-hidden="true"></i>
+                                                    <strong class="mx-1">Fax:</strong>(+84) 28 3997 4515
                                                 </span>
                                                 <span class="d-flex align-items-center">
-                                                    <!--                                                    <i-->
-                                                    <!--                                                            nz-icon-->
-                                                    <!--                                                            nzType="phone"-->
-                                                    <!--                                                            nzTheme="outline"-->
-                                                    <!--                                                            style="margin-right: 3px"-->
-                                                    <!--                                                    ></i>-->
-                                                    <strong>Phone:</strong>(+84) 28 3842 2888
+                                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                                    <strong class="mx-1">Phone:</strong>(+84) 28 3842 2888
                                                 </span>
                                             </p>
                                         </div>
@@ -107,16 +75,16 @@
                                     <h4>Liên kết</h4>
                                     <ul>
                                         <li>
-                                            <a href="#">Trang chủ</a>
+                                            <a href="/">Trang chủ</a>
                                         </li>
                                         <li>
-                                            <a href="#">Về chúng tôi</a>
+                                            <a href="/">Về chúng tôi</a>
                                         </li>
                                         <li>
-                                            <a href="#">Dịch vụ</a>
+                                            <a href="/">Dịch vụ</a>
                                         </li>
                                         <li>
-                                            <a href="#">Dự án tiêu biểu</a>
+                                            <a href="/">Dự án tiêu biểu</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -125,16 +93,16 @@
                                     <ul>
                                         <li>
                                             <!-- <i nz-icon nzType="right" nzTheme="outline"></i> -->
-                                            <a href="#">Chuyên ngành viễn thông</a>
+                                            <a href="/">Chuyên ngành viễn thông</a>
                                         </li>
                                         <li>
-                                            <a href="#">Công nghệ thông tin</a>
+                                            <a href="/">Công nghệ thông tin</a>
                                         </li>
                                         <li>
-                                            <a href="#">Chuyển đổi số</a>
+                                            <a href="/">Chuyển đổi số</a>
                                         </li>
                                         <li>
-                                            <a href="#">Dịch vụ</a>
+                                            <a href="/">Dịch vụ</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -152,7 +120,7 @@
                     <!--                            </div>-->
                     <!--                            <div class="credit">-->
                     <!--                                Designed by-->
-                    <!--                                <a href="#" style="color: #f27700">ANSV</a>-->
+                    <!--                                <a href="/" style="color: #f27700">ANSV</a>-->
                     <!--                            </div>-->
                     <!--                        </div>-->
                     <!--                        <div class="text-center text-md-right pt-3 pt-md-0">-->
@@ -180,7 +148,7 @@
                     </div>
                     <div class="credit">
                         Designed by
-                        <a href="#" style="color: #f27700">ANSV</a>
+                        <a href="/" style="color: #f27700;">ANSV</a>
                     </div>
                 </div>
             </div>
