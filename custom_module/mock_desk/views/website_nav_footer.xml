@@ -75,16 +75,16 @@
                                     <h4>Liên kết</h4>
                                     <ul>
                                         <li>
-                                            <a href="#">Trang chủ</a>
+                                            <a href="/">Trang chủ</a>
                                         </li>
                                         <li>
-                                            <a href="#">Về chúng tôi</a>
+                                            <a href="/">Về chúng tôi</a>
                                         </li>
                                         <li>
-                                            <a href="#">Dịch vụ</a>
+                                            <a href="/">Dịch vụ</a>
                                         </li>
                                         <li>
-                                            <a href="#">Dự án tiêu biểu</a>
+                                            <a href="/">Dự án tiêu biểu</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -93,16 +93,16 @@
                                     <ul>
                                         <li>
                                             <!-- <i nz-icon nzType="right" nzTheme="outline"></i> -->
-                                            <a href="#">Chuyên ngành viễn thông</a>
+                                            <a href="/">Chuyên ngành viễn thông</a>
                                         </li>
                                         <li>
-                                            <a href="#">Công nghệ thông tin</a>
+                                            <a href="/">Công nghệ thông tin</a>
                                         </li>
                                         <li>
-                                            <a href="#">Chuyển đổi số</a>
+                                            <a href="/">Chuyển đổi số</a>
                                         </li>
                                         <li>
-                                            <a href="#">Dịch vụ</a>
+                                            <a href="/">Dịch vụ</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -120,7 +120,7 @@
                     <!--                            </div>-->
                     <!--                            <div class="credit">-->
                     <!--                                Designed by-->
-                    <!--                                <a href="#" style="color: #f27700">ANSV</a>-->
+                    <!--                                <a href="/" style="color: #f27700">ANSV</a>-->
                     <!--                            </div>-->
                     <!--                        </div>-->
                     <!--                        <div class="text-center text-md-right pt-3 pt-md-0">-->
@@ -148,7 +148,7 @@
                     </div>
                     <div class="credit">
                         Designed by
-                        <a href="#" style="color: #f27700;">ANSV</a>
+                        <a href="/" style="color: #f27700;">ANSV</a>
                     </div>
                 </div>
             </div>
