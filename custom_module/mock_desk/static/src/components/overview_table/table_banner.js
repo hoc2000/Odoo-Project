@@ -15,6 +15,7 @@ class HelpdeskKanBanController extends KanbanController {
         super.setup()
         this.action = useService("action")
         this.orm = useService("orm")
+        this.MinorTicket = 0
         this.MyOpenTicket = 0
         this.MajorTicket = 0
         this.CriticalTicket = 0
@@ -22,10 +23,12 @@ class HelpdeskKanBanController extends KanbanController {
 
         onWillStart(async () => {
             await this.GetMyOpenTicket()
+            await this.GetMyMinorTicket()
             await this.GetMyMajorTicket()
             await this.GetMyCriticalTicket()
             await this.GetFailedTicket()
             await this.GetAvgOpenHour()
+            await this.GetAvgOpenHourMinor()
             await this.GetAvgOpenHourMajor()
             await this.GetAvgOpenHourCritical()
         })
@@ -36,6 +39,14 @@ class HelpdeskKanBanController extends KanbanController {
         let domain = [['assign_to', '=', uid], ['is_closed', '=', false]]
         const countMyTicket = await this.orm.searchCount("mockdesk.ticket", domain)
         this.MyOpenTicket = countMyTicket
+        // console.log(countMyTicket)
+    }
+
+    async GetMyMinorTicket() {
+        const uid = session.uid
+        let domain = [['assign_to', '=', uid], ['is_closed', '=', false],['priority', '=', 1]]
+        const MyMinorTicket = await this.orm.searchCount("mockdesk.ticket", domain)
+        this.MinorTicket = MyMinorTicket
         // console.log(countMyTicket)
     }
 
@@ -56,12 +67,15 @@ class HelpdeskKanBanController extends KanbanController {
     async GetFailedTicket() {
         const uid = session.uid
         let domain = [['assign_to', '=', uid], ['is_failed', '=', true]]
+        let domain_minor = [['assign_to', '=', uid], ['is_failed', '=', true], ['priority', '=', 1]]
         let domain_major = [['assign_to', '=', uid], ['is_failed', '=', true], ['priority', '=', 2]]
         let domain_critical = [['assign_to', '=', uid], ['is_failed', '=', true], ['priority', '=', 3]]
         const failedTicket = await this.orm.searchCount("mockdesk.ticket", domain)
+        const MyMinorFailedTicket = await this.orm.searchCount("mockdesk.ticket", domain_minor)
         const MyMajorFailedTicket = await this.orm.searchCount("mockdesk.ticket", domain_major)
         const MyCriticalFailedTicket = await this.orm.searchCount("mockdesk.ticket", domain_critical)
         this.FailedTicket = failedTicket
+        this.MinorFailedTicket = MyMinorFailedTicket
         this.MajorFailedTicket = MyMajorFailedTicket
         this.CriticalFailedTicket = MyCriticalFailedTicket
     }
@@ -96,6 +110,35 @@ class HelpdeskKanBanController extends KanbanController {
         }
 
         console.log(this.AverageOpenHour);
+    }
+//    Open Minor
+     async GetAvgOpenHourMinor() {
+        const uid = session.uid
+        let domain = [['assign_to', '=', uid], ['is_closed', '=', false], ['priority', '=', 1]]
+        let ticketListDate = []
+        let jsdate = []
+        let open_hour = []
+        var current_date = new Date();
+        ticketListDate = await this.orm.searchRead("mockdesk.ticket", domain, ["name", "create_date_js"])
+        if (ticketListDate.length != 0) {
+            for (let i = 0; i < ticketListDate.length; i++) {
+                jsdate.push(new Date(ticketListDate[i].create_date_js));
+            }
+            for (let i = 0; i < jsdate.length; i++) {
+                open_hour.push((current_date - jsdate[i]) / (1000 * 60 * 60))
+            }
+            // Using the reduce() method to calculate the sum of the numbers
+            var sum = open_hour.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0);
+
+            // Calculate the average by dividing the sum by the number of elements in the array
+            let average = sum / open_hour.length;
+            this.AverageOpenHourMinor = average.toFixed(0)
+        }
+        else {
+            this.AverageOpenHourMinor = 0
+        }
     }
 
     async GetAvgOpenHourMajor() {

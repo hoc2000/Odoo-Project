@@ -12,7 +12,7 @@
                 </tree>
             </field>
         </record>
-        <!--        kanban view-->
+<!--        kanban view-->
         <record id="ansv_project_view_kanban" model="ir.ui.view">
             <field name="name">ansv.project.view.kanban</field>
             <field name="model">project.ansv</field>
@@ -44,7 +44,7 @@
                                                     <t t-esc="record.project_name.raw_value"/>
                                                 </span>
                                                 <!-- Nếu có partner-->
-                                                <span class="o_text_overflow text-muted"
+                                                <span class="text-muted"
                                                       t-if="record.partner_ids.value">
                                                     <span class="fa fa-user me-2" aria-label="Partner" title="Partner"/>
                                                     <t t-esc="record.partner_ids.value"/>
@@ -395,6 +395,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">project.ansv</field>
             <field name="view_mode">kanban,tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                       (0, 0, {'view_mode': 'kanban', 'view_id': ref('ansv__project.ansv_project_view_kanban')}),
+                       (0, 0, {'view_mode': 'form', 'view_id': ref('ansv__project.ansv_project_view_form')})]"/>
             <field name="domain">['|',('member_ids', '=', uid),('manager_id','=',uid)]</field>
         </record>
 

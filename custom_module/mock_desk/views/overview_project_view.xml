@@ -92,7 +92,7 @@
                                         </a>
                                     </div>
                                     <div class="col border-start">
-                                        <a name="469" type="action" class="d-flex flex-column align-items-center">
+                                        <a name="action_view_unassigned_ticket" type="object" class="d-flex flex-column align-items-center">
                                             <span class="fw-bold">
                                                 <field name="unassigned_tickets"/>
                                             </span>
@@ -100,7 +100,7 @@
                                         </a>
                                     </div>
                                     <div class="col border-start">
-                                        <a name="action_view_urgent" type="object"
+                                        <a name="action_view_urgent_ticket" type="object"
                                            class="d-flex flex-column align-items-center">
                                             <span class="fw-bold">
                                                 <field name="urgent_ticket"/>

@@ -36,7 +36,7 @@
         "data/mail_template.xml",
         "data/cron.xml",
         #
-        "views/overview_team_view.xml",
+        "views/overview_project_view.xml",
         "views/menu_view.xml",
         "views/dashboard.xml",
         "views/all_ticket_view.xml",

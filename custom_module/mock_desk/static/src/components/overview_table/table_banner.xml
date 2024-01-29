@@ -4,13 +4,13 @@
         <xpath expr="//t[contains(@t-component, 'props.Renderer')]" position="replace">
             <div class="o_helpdesk_content">
                 <t t-component="props.Renderer"
-                    list="model.root"
-                    archInfo="props.archInfo"
-                    Compiler="props.Compiler"
-                    readonly="true"
-                    forceGlobalClick="props.forceGlobalClick"
-                    openRecord.bind="openRecord"
-                    noContentHelp="props.info.noContentHelp"
+                   list="model.root"
+                   archInfo="props.archInfo"
+                   Compiler="props.Compiler"
+                   readonly="true"
+                   forceGlobalClick="props.forceGlobalClick"
+                   openRecord.bind="openRecord"
+                   noContentHelp="props.info.noContentHelp"
                 />
                 <!-- Nhét thẻ div vào cho vui -->
             </div>
@@ -19,85 +19,113 @@
             <div class="banner_helpdesk">
                 <div class="row">
                     <div id="shimeji-workArea"
-                        style="position: fixed; background: transparent; z-index: 2147483643; width: 100vw; height: 100vh; left: 0px; top: 0px; transform: translate(0px, 0px); pointer-events: none;">
+                         style="position: fixed; background: transparent; z-index: 2147483643; width: 100vw; height: 100vh; left: 0px; top: 0px; transform: translate(0px, 0px); pointer-events: none;">
                     </div>
                     <div class="o_action_manager w-100">
                         <div class="o_action o_view_controller o_kanban_view">
                             <div class="o_content">
                                 <div class="o_helpdesk_content flex-column d-flex h-100 mw-100">
                                     <div
-                                        class="o_helpdesk_banner align-items-start flex-column flex-lg-row flex-shrink-0 d-flex p-4 border-bottom bg-view">
+                                            class="o_helpdesk_banner align-items-start flex-column flex-lg-row flex-shrink-0 d-flex p-4 border-bottom bg-view">
                                         <div class="w-100 mx-4 ml-2">
                                             <table
-                                                class="o_helpdesk_banner_table table table-sm table-borderless h-100 px-3 mb-0 text-center">
+                                                    class="o_helpdesk_banner_table table table-sm table-borderless h-100 px-3 mb-0 text-center">
                                                 <tbody>
                                                     <tr class="h-100">
                                                         <td
-                                                            class="o_text py-2 text-start align-middle">
+                                                                class="o_text py-2 text-start align-middle">
                                                             <h3 class="o_highlight">My Tickets</h3>
-                                                            Open Tickets </td>
+                                                            Open Tickets
+                                                        </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_my_ticket_action_no_create"
-                                                                title="My Tickets"
-                                                                data-hotkey="t"
-                                                                class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
+                                                                    name="helpdesk.helpdesk_my_ticket_action_no_create"
+                                                                    title="My Tickets"
+                                                                    data-hotkey="t"
+                                                                    class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
                                                                 <div class="p-2">
                                                                     <h2 class="mb-0 text-reset">
                                                                         <span
-                                                                            t-esc="this.MyOpenTicket" />
+                                                                                t-esc="this.MyOpenTicket"/>
                                                                     </h2>
-                                                                    Tickets </div>
+                                                                    Tickets
+                                                                </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_my_ticket_action_no_create"
-                                                                title="My Tickets"
-                                                                context="{'search_default_high_priority': True}"
-                                                                data-hotkey="p"
-                                                                class="position-relative btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
+                                                                    name="helpdesk.helpdesk_my_ticket_action_no_create"
+                                                                    title="My Tickets"
+                                                                    context="{'search_default_high_priority': True}"
+                                                                    data-hotkey="p"
+                                                                    class="position-relative btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
                                                                 <div class="p-2">
                                                                     <h2 class="mb-0 text-reset">
                                                                         <span
-                                                                            t-esc="this.MajorTicket" />
+                                                                                t-esc="this.MinorTicket"/>
                                                                     </h2>
-                                                                    Major <small
-                                                                        class="position-absolute top-0 end-0 justify-content-end flex-lg-column flex-xl-row d-none d-sm-flex p-2"
-                                                                        title="Two stars, with a maximum of three"
-                                                                        role="img"
-                                                                        aria-label="Two stars, with a maximum of three">
+                                                                    Minor
+                                                                    <small
+                                                                            class="position-absolute top-0 end-0 justify-content-end flex-lg-column flex-xl-row d-none d-sm-flex p-2"
+                                                                            title="Two stars, with a maximum of three"
+                                                                            role="img"
+                                                                            aria-label="Two stars, with a maximum of three">
                                                                         <i
-                                                                            class="o_star fa fa-star"></i>
-                                                                        <i
-                                                                            class="o_star fa fa-star"></i>
+                                                                                class="o_star fa fa-star"></i>
                                                                     </small>
                                                                 </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_my_ticket_action_no_create"
-                                                                title="My Tickets"
-                                                                context="{'search_default_urgent_priority': True}"
-                                                                data-hotkey="u"
-                                                                class="position-relative btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
+                                                                    name="helpdesk.helpdesk_my_ticket_action_no_create"
+                                                                    title="My Tickets"
+                                                                    context="{'search_default_high_priority': True}"
+                                                                    data-hotkey="p"
+                                                                    class="position-relative btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
                                                                 <div class="p-2">
                                                                     <h2 class="mb-0 text-reset">
                                                                         <span
-                                                                            t-esc="this.CriticalTicket" />
+                                                                                t-esc="this.MajorTicket"/>
                                                                     </h2>
-                                                                    Critical <small
-                                                                        class="position-absolute top-0 end-0 justify-content-end flex-lg-column flex-xl-row d-none d-sm-flex p-2 small"
-                                                                        title="Three stars, maximum score"
-                                                                        role="img"
-                                                                        aria-label="Three stars, maximum score">
+                                                                    Major
+                                                                    <small
+                                                                            class="position-absolute top-0 end-0 justify-content-end flex-lg-column flex-xl-row d-none d-sm-flex p-2"
+                                                                            title="Two stars, with a maximum of three"
+                                                                            role="img"
+                                                                            aria-label="Two stars, with a maximum of three">
                                                                         <i
-                                                                            class="o_star fa fa-star"></i>
+                                                                                class="o_star fa fa-star"></i>
                                                                         <i
-                                                                            class="o_star fa fa-star"></i>
+                                                                                class="o_star fa fa-star"></i>
+                                                                    </small>
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <a
+                                                                    name="helpdesk.helpdesk_my_ticket_action_no_create"
+                                                                    title="My Tickets"
+                                                                    context="{'search_default_urgent_priority': True}"
+                                                                    data-hotkey="u"
+                                                                    class="position-relative btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-primary">
+                                                                <div class="p-2">
+                                                                    <h2 class="mb-0 text-reset">
+                                                                        <span
+                                                                                t-esc="this.CriticalTicket"/>
+                                                                    </h2>
+                                                                    Critical
+                                                                    <small
+                                                                            class="position-absolute top-0 end-0 justify-content-end flex-lg-column flex-xl-row d-none d-sm-flex p-2 small"
+                                                                            title="Three stars, maximum score"
+                                                                            role="img"
+                                                                            aria-label="Three stars, maximum score">
                                                                         <i
-                                                                            class="o_star fa fa-star"></i>
+                                                                                class="o_star fa fa-star"></i>
+                                                                        <i
+                                                                                class="o_star fa fa-star"></i>
+                                                                        <i
+                                                                                class="o_star fa fa-star"></i>
                                                                     </small>
                                                                 </div>
                                                             </a>
@@ -105,82 +133,109 @@
                                                     </tr>
                                                     <tr class="h-100">
                                                         <td
-                                                            class="o_text py-2 text-start align-middle">Avg
-                                                            Open Hours</td>
+                                                                class="o_text py-2 text-start align-middle">Avg
+                                                            Open Hours
+                                                        </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_dashboard"
-                                                                title="Tickets Analysis"
-                                                                data-hotkey="a"
-                                                                class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal align-middle">
+                                                                    name="helpdesk.helpdesk_ticket_action_dashboard"
+                                                                    title="Tickets Analysis"
+                                                                    data-hotkey="a"
+                                                                    class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal align-middle">
                                                                 <div class="w-100 p-2"><span
-                                                                        t-esc="this.AverageOpenHour" />:00
-                                                                    </div>
+                                                                        t-esc="this.AverageOpenHour"/>:00
+                                                                </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_dashboard"
-                                                                title="Tickets Analysis"
-                                                                context="{'search_default_high_priority': True}"
-                                                                data-hotkey="b"
-                                                                class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                                                    name="helpdesk.helpdesk_ticket_action_dashboard"
+                                                                    title="Tickets Analysis"
+                                                                    context="{'search_default_high_priority': True}"
+                                                                    data-hotkey="b"
+                                                                    class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
                                                                 <div class="w-100 p-2"><span
-                                                                        t-esc="this.AverageOpenHourMajor" />:00
-                                                                    </div>
+                                                                        t-esc="this.AverageOpenHourMinor"/>:00
+                                                                </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_dashboard"
-                                                                title="Tickets Analysis"
-                                                                context="{'search_default_urgent_priority': True}"
-                                                                data-hotkey="y"
-                                                                class="btn btn-light align-items-center d-flex w-100 h-100 bg-100 p-0 border-0 fw-normal">
+                                                                    name="helpdesk.helpdesk_ticket_action_dashboard"
+                                                                    title="Tickets Analysis"
+                                                                    context="{'search_default_high_priority': True}"
+                                                                    data-hotkey="b"
+                                                                    class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
                                                                 <div class="w-100 p-2"><span
-                                                                        t-esc="this.AverageOpenHourCritical" />:00
-                                                                    </div>
+                                                                        t-esc="this.AverageOpenHourMajor"/>:00
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <a
+                                                                    name="helpdesk.helpdesk_ticket_action_dashboard"
+                                                                    title="Tickets Analysis"
+                                                                    context="{'search_default_urgent_priority': True}"
+                                                                    data-hotkey="y"
+                                                                    class="btn btn-light align-items-center d-flex w-100 h-100 bg-100 p-0 border-0 fw-normal">
+                                                                <div class="w-100 p-2"><span
+                                                                        t-esc="this.AverageOpenHourCritical"/>:00
+                                                                </div>
                                                             </a>
                                                         </td>
                                                     </tr>
                                                     <tr class="h-100">
                                                         <td
-                                                            class="o_text py-2 text-start align-middle">Failed
-                                                            Tickets</td>
+                                                                class="o_text py-2 text-start align-middle">Failed
+                                                            Tickets
+                                                        </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_sla"
-                                                                title="My Tickets"
-                                                                data-hotkey="d"
-                                                                class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
+                                                                    name="helpdesk.helpdesk_ticket_action_sla"
+                                                                    title="My Tickets"
+                                                                    data-hotkey="d"
+                                                                    class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
                                                                 <div class="w-100 p-2">
-                                                                    <span t-esc="this.FailedTicket" />
+                                                                    <span t-esc="this.FailedTicket"/>
                                                                 </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_sla"
-                                                                title="My Tickets"
-                                                                context="{'search_default_high_priority': True}"
-                                                                data-hotkey="e"
-                                                                class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
+                                                                    name="helpdesk.helpdesk_ticket_action_sla"
+                                                                    title="My Tickets"
+                                                                    context="{'search_default_high_priority': True}"
+                                                                    data-hotkey="e"
+                                                                    class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
                                                                 <div class="w-100 p-2">
                                                                     <span
-                                                                        t-esc="this.MajorFailedTicket" />
+                                                                            t-esc="this.MinorFailedTicket"/>
                                                                 </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_sla"
-                                                                title="My Tickets"
-                                                                context="{'search_default_urgent_priority': True}"
-                                                                data-hotkey="f"
-                                                                class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
+                                                                    name="helpdesk.helpdesk_ticket_action_sla"
+                                                                    title="My Tickets"
+                                                                    context="{'search_default_high_priority': True}"
+                                                                    data-hotkey="e"
+                                                                    class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
                                                                 <div class="w-100 p-2">
                                                                     <span
-                                                                        t-esc="this.CriticalFailedTicket" />
+                                                                            t-esc="this.MajorFailedTicket"/>
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <a
+                                                                    name="helpdesk.helpdesk_ticket_action_sla"
+                                                                    title="My Tickets"
+                                                                    context="{'search_default_urgent_priority': True}"
+                                                                    data-hotkey="f"
+                                                                    class="btn align-items-center d-flex w-100 h-100 p-0 border-0 fw-normal btn-light bg-100">
+                                                                <div class="w-100 p-2">
+                                                                    <span
+                                                                            t-esc="this.CriticalFailedTicket"/>
                                                                 </div>
                                                             </a>
                                                         </td>
@@ -190,114 +245,134 @@
                                         </div>
                                         <div class="w-100 mt-3 mt-lg-0 mx-4 ml-2">
                                             <table
-                                                class="o_helpdesk_banner_table table table-sm table-borderless h-100 px-3 mb-0 text-center">
+                                                    class="o_helpdesk_banner_table table table-sm table-borderless h-100 px-3 mb-0 text-center">
                                                 <tbody>
                                                     <tr class="h-100">
                                                         <td
-                                                            class="o_text py-2 text-start align-middle">
+                                                                class="o_text py-2 text-start align-middle">
                                                             <h3 class="o_highlight">My
-                                                                Performance</h3>
+                                                                Performance
+                                                            </h3>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_close_analysis"
-                                                                title="My Tickets"
-                                                                data-hotkey="i"
-                                                                class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-light bg-100">
+                                                                    name="helpdesk.helpdesk_ticket_action_close_analysis"
+                                                                    title="My Tickets"
+                                                                    data-hotkey="i"
+                                                                    class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-light bg-100">
                                                                 <div class="p-2">
                                                                     <h2 class="mb-0 text-reset">
-                                                                        3</h2> Closed Tickets </div>
+                                                                        3
+                                                                    </h2>
+                                                                    Closed Tickets
+                                                                </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_success"
-                                                                title="Percentage of tickets that were closed without failing any SLAs."
-                                                                data-action-title="My Tickets"
-                                                                data-hotkey="k"
-                                                                class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-light bg-100">
+                                                                    name="helpdesk.helpdesk_ticket_action_success"
+                                                                    title="Percentage of tickets that were closed without failing any SLAs."
+                                                                    data-action-title="My Tickets"
+                                                                    data-hotkey="k"
+                                                                    class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-light bg-100">
                                                                 <div class="p-2">
                                                                     <h2 class="mb-0 text-reset">50.00
-                                                                    %</h2> Success Rate </div>
+                                                                        %
+                                                                    </h2>
+                                                                    Success Rate
+                                                                </div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a name="action_view_rating_today"
-                                                                title="Today Average Rating"
-                                                                type="object" data-hotkey="j"
-                                                                class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-light bg-100">
+                                                               title="Today Average Rating"
+                                                               type="object" data-hotkey="j"
+                                                               class="btn w-100 h-100 p-0 border-0 text-capitalize fw-normal btn-light bg-100">
                                                                 <div class="p-2">
                                                                     <h2 class="mb-0 text-reset">86.60
-                                                                    %</h2> Average Rating </div>
+                                                                        %
+                                                                    </h2>
+                                                                    Average Rating
+                                                                </div>
                                                             </a>
                                                         </td>
                                                     </tr>
                                                     <tr class="h-100">
                                                         <td
-                                                            class="o_text py-2 text-start align-middle">Avg
-                                                            Last 7 days</td>
+                                                                class="o_text py-2 text-start align-middle">Avg
+                                                            Last 7 days
+                                                        </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_7days_analysis"
-                                                                data-hotkey="l"
-                                                                title="Tickets Analysis"
-                                                                class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                                                    name="helpdesk.helpdesk_ticket_action_7days_analysis"
+                                                                    data-hotkey="l"
+                                                                    title="Tickets Analysis"
+                                                                    class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
                                                                 <div class="w-100 p-2">4</div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a
-                                                                name="helpdesk.helpdesk_ticket_action_7dayssuccess"
-                                                                title="Percentage of tickets that were closed without failing any SLAs."
-                                                                data-action-title="Tickets Analysis"
-                                                                data-hotkey="n"
-                                                                class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                                                    name="helpdesk.helpdesk_ticket_action_7dayssuccess"
+                                                                    title="Percentage of tickets that were closed without failing any SLAs."
+                                                                    data-action-title="Tickets Analysis"
+                                                                    data-hotkey="n"
+                                                                    class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
                                                                 <div class="w-100 p-2">50.00 %</div>
                                                             </a>
                                                         </td>
                                                         <td class="p-0">
                                                             <a name="action_view_rating_7days"
-                                                                title="Avg 7 Days Customer Satisfaction"
-                                                                data-hotkey="m"
-                                                                class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                                               title="Avg 7 Days Customer Satisfaction"
+                                                               data-hotkey="m"
+                                                               class="btn btn-light align-items-center d-flex w-100 h-100 p-0 border-0 bg-100 fw-normal">
                                                                 <div class="w-100 p-2">86.60 %</div>
                                                             </a>
                                                         </td>
                                                     </tr>
                                                     <tr class="h-100">
                                                         <td
-                                                            class="o_text py-2 text-start align-middle">Avg
-                                                            Last 14 days</td>
-                                                        <td class="p-0">
-                                                            <span id="editableSpan"
-                                                                class="btn btn-light justify-content-center align-items-center d-flex h-100 p-0 border-0 bg-100 fw-normal o_target_to_set"
-                                                                title="Click to set"
-                                                                t-on-click="enableEditing">
-                                                                <div class="position-relative p-2">5<i
-                                                                        class="fa fa-pen position-absolute ms-2 mt-1 opacity-0"></i></div>
-                                                            </span>
+                                                                class="o_text py-2 text-start align-middle">Avg
+                                                            Last 14 days
                                                         </td>
                                                         <td class="p-0">
-                                                            <span
-                                                                class="btn btn-light justify-content-center align-items-center d-flex h-100 p-0 border-0 bg-100 fw-normal o_target_to_set"
-                                                                title="Click to set">
-                                                                <div
-                                                                    class="position-relative p-2">
-                                                                    87<span>
-                                                                        %</span><i
-                                                                        class="fa fa-pen position-absolute ms-2 mt-1 opacity-0"></i>
+                                                            <span id="editableSpan"
+                                                                  class="btn btn-light justify-content-center align-items-center d-flex h-100 p-0 border-0 bg-100 fw-normal o_target_to_set"
+                                                                  title="Click to set"
+                                                                  t-on-click="enableEditing">
+                                                                <div class="position-relative p-2">5
+                                                                    <i
+                                                                            class="fa fa-pen position-absolute ms-2 mt-1 opacity-0"></i>
                                                                 </div>
                                                             </span>
                                                         </td>
                                                         <td class="p-0">
                                                             <span
-                                                                class="btn btn-light justify-content-center align-items-center d-flex h-100 p-0 border-0 bg-100 fw-normal o_target_to_set"
-                                                                title="Click to set">
+                                                                    class="btn btn-light justify-content-center align-items-center d-flex h-100 p-0 border-0 bg-100 fw-normal o_target_to_set"
+                                                                    title="Click to set">
                                                                 <div
-                                                                    class="position-relative p-2">
-                                                                    92<span>
-                                                                        %</span><i
-                                                                        class="fa fa-pen position-absolute ms-2 mt-1 opacity-0"></i>
+                                                                        class="position-relative p-2">
+                                                                    87
+                                                                    <span>
+                                                                        %
+                                                                    </span>
+                                                                    <i
+                                                                            class="fa fa-pen position-absolute ms-2 mt-1 opacity-0"></i>
+                                                                </div>
+                                                            </span>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <span
+                                                                    class="btn btn-light justify-content-center align-items-center d-flex h-100 p-0 border-0 bg-100 fw-normal o_target_to_set"
+                                                                    title="Click to set">
+                                                                <div
+                                                                        class="position-relative p-2">
+                                                                    92
+                                                                    <span>
+                                                                        %
+                                                                    </span>
+                                                                    <i
+                                                                            class="fa fa-pen position-absolute ms-2 mt-1 opacity-0"></i>
                                                                 </div>
                                                             </span>
                                                         </td>

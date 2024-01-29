@@ -199,6 +199,63 @@ class Project(models.Model):
 
             }
 
+    # Open Ticket in Mockdesk
+    def action_view_open_ticket(self):
+        for rec in self:
+            currProjectId = rec.id
+            return {
+                'name': rec.project_name,
+                'type': 'ir.actions.act_window',
+                'view_mode': 'kanban,tree,form',
+                'res_model': 'mockdesk.ticket',
+                # 'view_id': self.env.ref("mockdesk.all_ticket_view_kanban").id,
+                'context': {'default_project_id': rec.id},
+                'domain': [('project_id', '=', currProjectId), ('is_closed', '=', False)],
+
+            }
+
+    def action_view_unassigned_ticket(self):
+        for rec in self:
+            currProjectId = rec.id
+            return {
+                'name': rec.project_name,
+                'type': 'ir.actions.act_window',
+                'view_mode': 'kanban,tree,form',
+                'res_model': 'mockdesk.ticket',
+                # 'view_id': self.env.ref("mockdesk.all_ticket_view_kanban").id,
+                'context': {'default_project_id': rec.id},
+                'domain': [('project_id', '=', currProjectId), ('assign_to', '=', False)],
+
+            }
+
+    def action_view_urgent_ticket(self):
+        for rec in self:
+            currProjectId = rec.id
+            return {
+                'name': rec.project_name,
+                'type': 'ir.actions.act_window',
+                'view_mode': 'kanban,tree,form',
+                'res_model': 'mockdesk.ticket',
+                # 'view_id': self.env.ref("mockdesk.all_ticket_view_kanban").id,
+                'context': {'default_project_id': rec.id},
+                'domain': [('project_id', '=', currProjectId), ('priority', '=', '3')],
+
+            }
+
+    def action_view_sla_failed(self):
+        for rec in self:
+            currProjectId = rec.id
+            return {
+                'name': rec.project_name,
+                'type': 'ir.actions.act_window',
+                'view_mode': 'kanban,tree,form',
+                'res_model': 'mockdesk.ticket',
+                # 'view_id': self.env.ref("mockdesk.all_ticket_view_kanban").id,
+                'context': {'default_project_id': rec.id},
+                'domain': [('project_id', '=', currProjectId), ('is_failed', '=', 'false')],
+
+            }
+
     @api.onchange('partner_ids')
     def change_department(self):
         for rec in self:

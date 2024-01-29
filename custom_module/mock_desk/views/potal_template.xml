@@ -223,7 +223,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table tg" style="table-layout: fixed; width: 100%">
+                                    <table class="table tg mb-0" style="table-layout: fixed; width: 100%">
                                         <!--                        <thead>-->
                                         <!--                            <tr>-->
                                         <!--                                <th class="tg-ijrz" colspan="4">CUSTOMER INFORMATION</th>-->
@@ -318,6 +318,24 @@
                                                 <td class="tg-73oq" colspan="3">
                                                     <t t-raw="ticket.description"/>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tg-ozrm" colspan="4"
+                                                    style="background-color:#4b4c59;color:#ffffff;">
+                                                    <span style="font-weight:bold">ROOT CAUSE</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="tg-ozrm" colspan="4"
+                                                    style="background-color:#4b4c59;color:#ffffff;">
+                                                    <span style="font-weight:bold">SOLUTION</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
                                             </tr>
                                         </tbody>
                                     </table>

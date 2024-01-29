@@ -68,7 +68,7 @@
                                     <div class="o_kanban_card_content mw-100">
                                         <div class="o_kanban_primary_left">
                                             <div class="o_primary">
-                                                <span class="o_text_overflow o_kanban_record_title"
+                                                <span class="o_kanban_record_title"
                                                       t-att-title="record.name.raw_value">
                                                     <field name="upper_display_name" style="font-weight: bold;"
                                                            widget="name_subtask_count"/>
