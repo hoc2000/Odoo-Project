@@ -3,6 +3,7 @@ import random
 
 from odoo import models, fields, api
 from random import randint, choice
+from datetime import datetime, timedelta
 
 COLOR = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
@@ -20,6 +21,11 @@ class ProjectProperties(models.Model):
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('project.property.ansv')
         return super(ProjectProperties, self).create(vals)
+
+
+def get_default_currency(self):
+    default_currency = self.env['res.currency'].search([('name', '=', 'VND')])
+    return default_currency
 
 
 class Project(models.Model):
@@ -94,6 +100,88 @@ class Project(models.Model):
     unassigned_tickets = fields.Integer(string="UST", compute="get_unassgined_ticket")
     urgent_ticket = fields.Integer(string="urgent ticket", compute="get_urgent_ticket")
     sla_failed = fields.Integer(string="sla failed", compute="get_sla_failed_ticket")
+
+    # CASHFLOW
+    currency_id = fields.Many2one('res.currency', string="Currency", default=get_default_currency)
+
+    dac_cash = fields.Monetary(string="Cash DAC", help="This is price of the product exchange to VNĐ")
+    dac_contact_date = fields.Date(string="DAC Contact Date")
+    dac_target_date = fields.Date(string="DAC Target Date")
+    dac_reality_date = fields.Date(string="DAC Reality Date")
+    dac_duration = fields.Integer(string="Duration", compute="calculated_time_notice_DAC")
+    dac_time_notice = fields.Char(string="Time Notice String", compute="get_dac_time_notice")
+
+    pac_cash = fields.Monetary(string="Cash PAC", help="This is price of the product exchange to VNĐ")
+    pac_contact_date = fields.Date(string="PAC Contact Date")
+    pac_target_date = fields.Date(string="PAC Target Date")
+    pac_reality_date = fields.Date(string="PAC Reality Date")
+    pac_duration = fields.Integer(string="Duration", compute="calculated_time_notice_PAC")
+    pac_time_notice = fields.Char(string="Time Notice String", compute="get_dac_time_notice")
+
+    fac_cash = fields.Monetary(string="Cash FAC", help="This is price of the product exchange to VNĐ")
+    fac_contact_date = fields.Date(string="FAC Contact Date")
+    fac_target_date = fields.Date(string="FAC Target Date")
+    fac_reality_date = fields.Date(string="FAC Reality Date")
+    fac_duration = fields.Integer(string="Duration", compute="calculated_time_notice_FAC")
+    fac_time_notice = fields.Char(string="Time Notice String", compute="get_dac_time_notice")
+
+    summary_target = fields.Monetary(string="Cash Summary", help="This is price of the product exchange to VNĐ")
+
+    # CALCULATED CASHFLOW TERM NOTICE
+    def calculated_time_notice_DAC(self):
+        for rec in self:
+            if rec.dac_reality_date:
+                duration = rec.dac_target_date - rec.dac_reality_date
+                rec.dac_duration = duration.days
+            else:
+                today = datetime.today().date()
+                duration = rec.dac_target_date - today
+                rec.dac_duration = duration.days
+
+    def calculated_time_notice_PAC(self):
+        for rec in self:
+            if rec.dac_reality_date:
+                duration = rec.pac_target_date - rec.pac_reality_date
+                rec.pac_duration = duration.days
+            else:
+                today = datetime.today().date()
+                duration = rec.pac_target_date - today
+                rec.pac_duration = duration.days
+
+    def calculated_time_notice_FAC(self):
+        for rec in self:
+            if rec.dac_reality_date:
+                duration = rec.fac_target_date - rec.fac_reality_date
+                rec.fac_duration = duration.days
+            else:
+                today = datetime.today().date()
+                duration = rec.fac_target_date - today
+                rec.fac_duration = duration.days
+
+    @api.depends('dac_duration', 'pac_duration', 'fac_duration')
+    def get_dac_time_notice(self):
+        for rec in self:
+            # DAC
+            if rec.dac_duration > 0:
+                rec.dac_time_notice = f"{abs(rec.dac_duration)} days sooner"
+            elif rec.dac_duration < 0:
+                rec.dac_time_notice = f"{abs(rec.dac_duration)} days late"
+            elif rec.dac_duration == 0:
+                rec.dac_time_notice = "On time"
+            # PAC
+            if rec.pac_duration > 0:
+                rec.pac_time_notice = f"{abs(rec.pac_duration)} days sooner"
+            elif rec.pac_duration < 0:
+                rec.pac_time_notice = f"{abs(rec.pac_duration)} days late"
+            elif rec.pac_duration == 0:
+                rec.pac_time_notice = "On time"
+            # FAC
+            if rec.fac_duration > 0:
+                rec.fac_time_notice = f"{abs(rec.fac_duration)} days sooner"
+            elif rec.fac_duration < 0:
+                rec.fac_time_notice = f"{abs(rec.fac_duration)} days late"
+            elif rec.fac_duration == 0:
+                rec.fac_time_notice = "On time"
 
     # Count ORM###################
     def _count_product(self):

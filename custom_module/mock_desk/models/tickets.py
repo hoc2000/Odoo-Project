@@ -42,7 +42,7 @@ class HelpDeskTicket(models.Model):
     phone = fields.Char(string="Phone", related='customer_id.phone')
     stage_id = fields.Many2one('mockdesk.stage', string="Stage", default=get_default_stage, tracking=True,
                                group_expand='_read_group_stage_ids')
-    stage_current_string = fields.Char(string="Stage Right Now")
+    stage_current_string = fields.Char(related='stage_id.name', string="Stage Right Now")
     email = fields.Char(String="Email", related='customer_id.email')
     assign_to = fields.Many2one('res.users', domain=[('share', '=', False)], string="Assign To")
     img_64_assignee = fields.Binary(related="assign_to.image_1920")
@@ -58,6 +58,7 @@ class HelpDeskTicket(models.Model):
     ], string="Department", default="DO")
     description = fields.Text()
     description_project = fields.Html()
+    solution = fields.Text()
     customer_id = fields.Many2one('res.partner', string="Customer")
     partner_id = fields.Many2one('res.partner', 'Customer Partner', compute="customer_to_partner")
     user_id = fields.Many2one('res.users', 'Assign to as Partner', compute="assignee_to_user")
@@ -558,11 +559,14 @@ class HelpDeskTicket(models.Model):
                 'domain': [('res_id', '=', rec.id), ('consumed', '=', True)]
             }
 
-    # # portal.mixin override
-    # def _compute_access_url(self):
-    #     super()._compute_access_url()
-    #     for ticket in self:
-    #         ticket.access_url = f'/my/ticket/{ticket.id}'
+    def action_open_solution_wizard(self):
+        for rec in self:
+            return {
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'solution.ticket.wizard',
+                'target': 'new',
+            }
 
     # Report
     def _get_report_base_filename(self):

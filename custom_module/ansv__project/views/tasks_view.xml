@@ -7,7 +7,8 @@
             <field name="field_parent">child_ids</field>
             <field name="model">task.project.ansv</field>
             <field name="arch" type="xml">
-                <tree string="open_tasks_tree">
+                <tree string="open_tasks_tree"
+                      limit="20">
                     <field name="sequence" widget="handle"/>
                     <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"
                            options="{'autosave': False}"/>

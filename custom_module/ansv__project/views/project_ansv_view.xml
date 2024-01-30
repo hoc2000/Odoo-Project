@@ -12,7 +12,7 @@
                 </tree>
             </field>
         </record>
-<!--        kanban view-->
+        <!--        kanban view-->
         <record id="ansv_project_view_kanban" model="ir.ui.view">
             <field name="name">ansv.project.view.kanban</field>
             <field name="model">project.ansv</field>
@@ -195,6 +195,7 @@
             <field name="model">project.ansv</field>
             <field name="arch" type="xml">
                 <form string="_form">
+
                     <header>
                         <field name="stage_id" widget="statusbar" context="{'order_display': 'sequence desc' }"
                                options="{'clickable': '1','autosave': False}"/>
@@ -245,45 +246,56 @@
                             </h1>
                         </div>
                         <group>
+                            <field name="active" invisible="1"/>
                             <group>
-                                <field name="label_tasks" string="Name of the tasks" invisible="1"/>
-                                <field name="priority" string="Priority" widget="priority"
-                                       options="{'autosave': False}"/>
-                                <field name="partner_ids"/>
-                                <field name="department"/>
-                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                <field name="category_id"/>
-                                <field name="color" widget="color_picker"/>
+                                <field name="team_id" string="Team"/>
                             </group>
                             <group>
-                                <field name="active" invisible="1"/>
-                                <field name="team_id" string="Team"/>
                                 <field name="manager_id" string="Project Manager" widget="many2one_avatar_user"
                                        attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
-                                <field name="acc_code"/>
-                                <field name="con_code"/>
-                                <label for="date_start" string="Planned Date"/>
-                                <div name="dates" class="o_row">
-                                    <field name="date_start" widget="daterange"
-                                           options="{'related_end_date': 'date_end'}"/>
-                                    <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon"
-                                       title="Arrow"/>
-                                    <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon"
-                                       title="Arrow"
-                                       attrs="{'invisible': [('date_start', '=', False), ('date_end', '=', False)]}"/>
-                                    <field name="date_end" widget="daterange"
-                                           options="{'related_start_date': 'date_start'}"/>
-                                </div>
                             </group>
-
                         </group>
-                        <group string="Properties">
-                            <field name="project_prop_id" string="Extend fields Define"/>
-                        </group>
-                        <field name="project_properties" nolabel="1" columns="2"/>
                         <notebook>
-                            <page name="description" string="Description">
-                                <field name="description_project" placeholder="enter your description here"/>
+                            <page string="General Information">
+                                <group>
+                                    <group>
+                                        <field name="label_tasks" string="Name of the tasks" invisible="1"/>
+                                        <field name="priority" string="Priority" widget="priority"
+                                               options="{'autosave': False}"/>
+                                        <field name="partner_ids"/>
+                                        <field name="department"/>
+                                        <field name="tag_ids" widget="many2many_tags"
+                                               options="{'color_field': 'color'}"/>
+                                        <field name="category_id"/>
+                                        <field name="color" widget="color_picker"/>
+                                    </group>
+                                    <group>
+                                        <field name="acc_code"/>
+                                        <field name="con_code"/>
+                                        <label for="date_start" string="Planned Date"/>
+                                        <div name="dates" class="o_row">
+                                            <field name="date_start" widget="daterange"
+                                                   options="{'related_end_date': 'date_end'}"/>
+                                            <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon"
+                                               title="Arrow"/>
+                                            <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon"
+                                               title="Arrow"
+                                               attrs="{'invisible': [('date_start', '=', False), ('date_end', '=', False)]}"/>
+                                            <field name="date_end" widget="daterange"
+                                                   options="{'related_start_date': 'date_start'}"/>
+                                        </div>
+                                    </group>
+
+                                </group>
+                                <group string="Properties">
+                                    <field name="project_prop_id" string="Extend fields Define"/>
+                                </group>
+                                <field name="project_properties" nolabel="1" columns="2"/>
+                                <notebook>
+                                    <page name="description" string="Description">
+                                        <field name="description_project" placeholder="enter your description here"/>
+                                    </page>
+                                </notebook>
                             </page>
                             <page name="product" string="Product">
                                 <field name="product_lines_id" widget="many2many"
@@ -333,6 +345,132 @@
                                     </kanban>
                                     <!--                                        form pop up-->
                                 </field>
+                            </page>
+                            <page string="Cashflow">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="dac_time_notice" invisible="1"/>
+                                <field name="dac_duration" invisible="1"/>
+                                <field name="pac_duration" invisible="1"/>
+                                <field name="fac_duration" invisible="1"/>
+
+                                <templates>
+                                    <table class="table table-striped tg mb-0" style="table-layout: fixed; width: 100%">
+                                        <thead>
+                                            <tr style="background-color:#4b4c59; color:#ffffff;">
+                                                <td class="tg-mcqj"/>
+                                                <td class="tg-mcqj" style="font-weight: bolder;">Cash<br/>(VND):
+                                                </td>
+                                                <td class="tg-mcqj" style="font-weight: bolder;">Contract<br/>(D/M/Y)
+                                                </td>
+                                                <td class="tg-mcqj" style="font-weight: bolder;">Target<br/>(D/M/Y)
+                                                </td>
+                                                <td class="tg-mcqj" style="font-weight: bolder;">Reality<br/>(D/M/Y)
+                                                </td>
+                                                <td class="tg-mcqj" style="font-weight: bolder;">Time<br/>Notice
+                                                </td>
+                                                <td class="tg-mcqj" style="font-weight: bolder;">Noted
+                                                    <br/>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="dac-info">
+                                                <td class="tg-mcqj" style="font-weight: bolder;">DAC
+                                                    <i class="fa fa-list" aria-hidden="true"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="dac_cash"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="dac_contact_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="dac_target_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="dac_reality_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="time-notice">
+                                                    <field name="dac_time_notice" class="text-danger"
+                                                           attrs="{'invisible': ['|',('dac_duration', '&gt;', 0),('dac_duration', '=', 0)]}"
+                                                    />
+                                                    <field name="dac_time_notice" class="text-success"
+                                                           attrs="{'invisible': [('dac_duration', '&lt;', 0)]}"
+                                                    />
+                                                </td>
+                                                <td class="tg-mcqj">@@</td>
+
+                                            </tr>
+                                            <tr class="pac-info">
+                                                <td class="tg-mcqj" style="font-weight: bolder;">FAC
+                                                    <i class="fa fa-list" aria-hidden="true"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="pac_cash"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="pac_contact_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="pac_target_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="pac_reality_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="time-notice">
+                                                    <field name="pac_time_notice" class="text-danger"
+                                                           attrs="{'invisible': ['|',('pac_duration', '&gt;', 0),('pac_duration', '=', 0)]}"
+                                                    />
+                                                    <field name="pac_time_notice" class="text-success"
+                                                           attrs="{'invisible': [('pac_duration', '&lt;', 0)]}"
+                                                    />
+                                                </td>
+                                                <td class="tg-mcqj">@@</td>
+
+                                            </tr>
+
+                                            <tr class="fac-info">
+                                                <td class="tg-mcqj" style="font-weight: bolder;">FAC
+                                                    <i class="fa fa-list" aria-hidden="true"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="fac_cash"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="fac_contact_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="fac_target_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="fac_reality_date" placeholder="Enter Date"/>
+                                                </td>
+                                                <td class="time-notice">
+                                                    <field name="fac_time_notice" class="text-danger"
+                                                           attrs="{'invisible': ['|',('fac_duration', '&gt;', 0),('fac_duration', '=', 0)]}"
+                                                    />
+                                                    <field name="fac_time_notice" class="text-success"
+                                                           attrs="{'invisible': [('fac_duration', '&lt;', 0)]}"
+                                                    />
+                                                </td>
+                                                <td class="tg-mcqj">@@</td>
+                                            </tr>
+                                            <tr class="summary">
+                                                <td class="tg-mcqj" style="font-weight: bolder;">
+                                                    <span>Target Summary</span>
+                                                </td>
+                                                <td class="tg-mcqj">
+                                                    <field name="summary_target"/>
+                                                </td>
+                                                <td class="tg-mcqj bg-secondary"/>
+                                                <td class="tg-mcqj bg-secondary"/>
+                                                <td class="tg-mcqj bg-secondary"/>
+                                                <td class="tg-mcqj bg-secondary"/>
+                                                <td class="tg-mcqj bg-secondary"/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </templates>
                             </page>
                             <page name="members" string="Members" attrs="{'invisible': [('team_id', '=', False)]}">
                                 <field name="member_ids" widget="many2many_avatar_user"/>

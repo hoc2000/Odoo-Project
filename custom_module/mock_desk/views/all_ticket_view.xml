@@ -111,6 +111,10 @@
                     <!--                    <button name="test_button" type="object">Test Button</button>-->
                     <button name="assign_to_me" class="btn btn-primary" type="object" string="Assign to me"
                             attrs="{'invisible':[('assign_to','!=',False)]}"/>
+
+                    <button name="action_open_solution_wizard" class="btn text-success" type="object"
+                            string="Solution"
+                            attrs="{'invisible': ['|', ('stage_current_string', '!=', 'Solved'), ('solution', '!=', False)]}"/>
                     <field name="stage_current_string" invisible="1"/>
                     <!--                    <button string="Preview Report" type="object" name="button_preview_report" class="oe_highlight"/>-->
 
@@ -215,12 +219,16 @@
                         <page string="Description">
                             <field name="description" placeholder="enter your prescription here" widget="html"/>
                         </page>
+                        <page string="Solution"
+                              attrs="{'invisible': ['|',('solution', '=', None),'|',('solution', '=', ''),('solution', '=', False)]}">
+                            <field name="solution" widget="html"/>
+                        </page>
                         <!--  project detail-->
                         <page name="project" string="Project Detail"
                               attrs="{'invisible': [('project_id', '=', False)]}">
                             <group name="container_row_2">
                                 <group string="Detail Project">
-<!--                                    <field name="project_id" readonly="1"/>-->
+                                    <!--                                    <field name="project_id" readonly="1"/>-->
                                     <field name="project_manager"/>
                                     <field name="project_date_start"/>
                                     <field name="project_date_end"/>

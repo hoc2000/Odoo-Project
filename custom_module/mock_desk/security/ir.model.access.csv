@@ -10,3 +10,9 @@ mock_desk.access_mockdesk_ticket_type,access_mockdesk_ticket_type,mock_desk.mode
 
 mock_desk.access_portal_ticket,access_portal_ticket,mock_desk.model_mockdesk_ticket,base.group_portal,1,1,0,0
 mock_desk.access_portal_stage,access_portal_stage,mock_desk.model_mockdesk_stage,base.group_portal,1,1,0,0
+
+
+
+mock_desk.access_solution_ticket_wizard,access_solution_ticket_wizard,mock_desk.model_solution_ticket_wizard,mock_desk.group_member_mockdesk,1,1,1,1
+
+

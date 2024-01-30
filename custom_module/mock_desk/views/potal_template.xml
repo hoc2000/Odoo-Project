@@ -334,8 +334,10 @@
                                                     <span style="font-weight:bold">SOLUTION</span>
                                                 </td>
                                             </tr>
-                                            <tr>
-
+                                            <tr t-if="ticket.solution != False " >
+                                                <td class="text-muted" colspan="4">
+                                                    <t t-raw="ticket.solution"/>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

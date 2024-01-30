@@ -21,7 +21,8 @@
                 "contact_inheritence",
                 "contacts",
                 "website",
-                "web_responsive"
+                "web_responsive",
+                "bdtask_custom_title_and_favicon"
                 ],
     # always loaded
     "data": [
@@ -55,6 +56,9 @@
         "views/website_product.xml",
         "views/website_nav_footer.xml",
         "views/website_project.xml",
+
+        # wizard
+        "wizard/solution_ticket.xml",
 
         # Reports
         "reports/ticket_reports.xml",
