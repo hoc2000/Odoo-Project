@@ -133,10 +133,10 @@ class Project(models.Model):
             if rec.dac_reality_date:
                 duration = rec.dac_target_date - rec.dac_reality_date
                 rec.dac_duration = duration.days
-            else:
-                today = datetime.today().date()
-                duration = rec.dac_target_date - today
-                rec.dac_duration = duration.days
+            # else:
+            #     today = datetime.today().date()
+            #     duration = rec.dac_target_date - today
+            #     rec.dac_duration = duration.days
 
     def calculated_time_notice_PAC(self):
         for rec in self:
@@ -153,10 +153,10 @@ class Project(models.Model):
             if rec.dac_reality_date:
                 duration = rec.fac_target_date - rec.fac_reality_date
                 rec.fac_duration = duration.days
-            else:
-                today = datetime.today().date()
-                duration = rec.fac_target_date - today
-                rec.fac_duration = duration.days
+            # else:
+            #     today = datetime.today().date()
+            #     duration = rec.fac_target_date - today
+            #     rec.fac_duration = duration.days
 
     @api.depends('dac_duration', 'pac_duration', 'fac_duration')
     def get_dac_time_notice(self):
