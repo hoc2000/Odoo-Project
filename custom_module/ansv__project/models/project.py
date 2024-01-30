@@ -143,10 +143,10 @@ class Project(models.Model):
             if rec.dac_reality_date:
                 duration = rec.pac_target_date - rec.pac_reality_date
                 rec.pac_duration = duration.days
-            else:
-                today = datetime.today().date()
-                duration = rec.pac_target_date - today
-                rec.pac_duration = duration.days
+            # else:
+            #     today = datetime.today().date()
+            #     duration = rec.pac_target_date - today
+            #     rec.pac_duration = duration.days
 
     def calculated_time_notice_FAC(self):
         for rec in self:
