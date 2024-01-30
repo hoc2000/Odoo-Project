@@ -130,33 +130,39 @@ class Project(models.Model):
     # CALCULATED CASHFLOW TERM NOTICE
     def calculated_time_notice_DAC(self):
         for rec in self:
-            if rec.dac_reality_date:
+            if rec.dac_reality_date and rec.dac_target_date:
                 duration = rec.dac_target_date - rec.dac_reality_date
                 rec.dac_duration = duration.days
-            # else:
-            #     today = datetime.today().date()
-            #     duration = rec.dac_target_date - today
-            #     rec.dac_duration = duration.days
+            elif rec.dac_target_date:
+                today = datetime.today().date()
+                duration = rec.dac_target_date - today
+                rec.dac_duration = duration.days
+            else:
+                rec.dac_duration = False
 
     def calculated_time_notice_PAC(self):
         for rec in self:
-            if rec.dac_reality_date:
+            if rec.dac_reality_date and rec.pac_target_date:
                 duration = rec.pac_target_date - rec.pac_reality_date
                 rec.pac_duration = duration.days
-            # else:
-            #     today = datetime.today().date()
-            #     duration = rec.pac_target_date - today
-            #     rec.pac_duration = duration.days
+            elif rec.pac_target_date:
+                today = datetime.today().date()
+                duration = rec.pac_target_date - today
+                rec.pac_duration = duration.days
+            else:
+                rec.pac_duration = False
 
     def calculated_time_notice_FAC(self):
         for rec in self:
-            if rec.dac_reality_date:
+            if rec.dac_reality_date and rec.fac_target_date:
                 duration = rec.fac_target_date - rec.fac_reality_date
                 rec.fac_duration = duration.days
-            # else:
-            #     today = datetime.today().date()
-            #     duration = rec.fac_target_date - today
-            #     rec.fac_duration = duration.days
+            elif rec.fac_target_date:
+                today = datetime.today().date()
+                duration = rec.fac_target_date - today
+                rec.fac_duration = duration.days
+            else:
+                rec.fac_duration = False
 
     @api.depends('dac_duration', 'pac_duration', 'fac_duration')
     def get_dac_time_notice(self):
