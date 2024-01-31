@@ -4,280 +4,399 @@
         <record id="menu_ticket_form12" model="website.menu">
             <field name="name">Support</field>
             <field name="url">/ticket_webform</field>
-            <field name="parent_id" ref="website.main_menu"/>
+            <field name="parent_id" ref="website.main_menu" />
             <field name="sequence">55</field>
         </record>
 
         <template id="create_ticket" name="Create Ticket">
             <t t-call="website.layout">
+                <t t-set="logged_partner"
+                    t-value="request.env['website.visitor']._get_visitor_from_request().partner_id" />
+                <t t-set="contactus_form_values"
+                    t-value="{                 'email_to': res_company.email,                 'name': request.params.get('name', ''),                 'phone': request.params.get('phone', ''),                 'email_from': request.params.get('email_from', ''),                 'company': request.params.get('company', ''),                 'subject': request.params.get('subject', ''),             }" />
+                <span class="hidden" data-for="contactus_form"
+                    t-att-data-values="contactus_form_values" />
                 <div id="wrap" class="oe_structure oe_empty">
-                    <section class=" s_website_form pt16 pb16 o_colored_level" data-vcss="001"
-                             data-snippet="s_website_form"
-                             data-name="Form"
-                             style="background-image: url('/mock_desk/static/image/form_ticket2.jpg');  background-repeat: no-repeat; background-size: auto;overflow-x: hidden;height: 100%; background-size: 100% 100%;">
-                        <div class="container-fluid px-1 py-5 mx-auto">
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-xl-7 col-lg-8 col-md-9 col-11">
-                                    <div class="ticket-card card" style="border-radius:1.25rem;">
-                                        <h1 style="text-align: center;">
-                                            <font style="font-size: 62px; color: rgb(33, 16, 74);">Service Ticket
-                                            </font>
-                                            <font style="font-size: 62px;"/>
-                                            <br/>
-                                        </h1>
-                                        <form action="/create/webticket" method="POST" enctype="multipart/form-data"
-                                              class="o_mark_required" data-mark="*"
-                                              data-pre-fill="true"
-                                              style="padding-left:10rem">
-                                            <!--csrf-->
-                                            <input type="hidden" name="csrf_token"
-                                                   t-att-value="request.csrf_token()"/>
-                                            <!-- CUSTOMER INFORMATION -->
-                                            <div class="s_website_form_rows row s_col_no_bgcolor">
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-5 s_website_form_custom"
-                                                     data-type="tel"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label" style="width: 200px"
-                                                           for="name">
-                                                        <span class="s_website_form_label_content">Your Name</span>
-                                                        <span style="color: red;" class="s_website_form_mark">*
-                                                        </span>
-                                                    </label>
+                    <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24"
+                        data-vcss="001"
+                        data-snippet="s_title" data-scroll-background-ratio="1">
+                        <span class="s_parallax_bg oe_img_bg"
+                            style="background-image: url('/web/image/website.s_banner_default_image'); background-position: 50% 0;" />
+                        <div class="o_we_bg_filter bg-black-50" />
+                        <div class="container">
+                            <h1>Contact us</h1>
+                        </div>
+                    </section>
+                    <section class="s_text_block pt40 pb40 o_colored_level "
+                        data-snippet="s_text_block">
+                        <div class="container s_allow_columns">
+                            <div class="row">
+                                <div class="col-lg-8 mt-4 mt-lg-0">
+                                    <p> Contact us about anything related to our company or
+                                        services.<br /> We'll do our best to get back to you as soon
+                                        as possible. </p>
+                                    <section class="s_website_form" data-vcss="001"
+                                        data-snippet="s_website_form">
+                                        <div class="container">
+                                            <form id="contactus_form" action="/create/webticket"
+                                                method="post"
+                                                enctype="multipart/form-data"
+                                                class="o_mark_required"
+                                                data-mark="*" data-pre-fill="true">
+                                                <!--csrf-->
+                                                <input type="hidden" name="csrf_token"
+                                                    t-att-value="request.csrf_token()" />
+                                                <!-- CUSTOMER INFORMATION -->
+                                                <div
+                                                    class="s_website_form_rows row s_col_no_bgcolor">
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-4 s_website_form_custom"
+                                                        data-type="tel"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label"
+                                                            style="width: 200px"
+                                                            for="name">
+                                                            <span
+                                                                class="s_website_form_label_content">Your
+                                                                Name</span>
+                                                            <span style="color: red;"
+                                                                class="s_website_form_mark">*
+                                                            </span>
+                                                        </label>
 
-                                                    <input type="text" class="form-control s_website_form_input"
-                                                           name="customer_name" required="1"
-                                                           placeholder="" id="name" data-fill-with="name"/>
-                                                </div>
+                                                        <input type="text"
+                                                            class="form-control s_website_form_input"
+                                                            name="customer_name" required="1"
+                                                            placeholder="" id="name"
+                                                            data-fill-with="name" />
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-5 s_website_form_custom"
-                                                     data-type="tel"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="phone">
-                                                        <span class="s_website_form_label_content">Phone Number
-                                                        </span>
-                                                    </label>
-                                                    <input type="tel" class="form-control s_website_form_input"
-                                                           name="phone"
-                                                           data-fill-with="phone"
-                                                           id="phone"/>
-                                                </div>
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-4 s_website_form_custom"
+                                                        data-type="tel"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="phone">
+                                                            <span
+                                                                class="s_website_form_label_content">Phone
+                                                                Number
+                                                            </span>
+                                                        </label>
+                                                        <input type="tel"
+                                                            class="form-control s_website_form_input"
+                                                            name="phone"
+                                                            data-fill-with="phone"
+                                                            id="phone" />
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 s_website_form_model_required col-lg-5"
-                                                     data-type="email"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="mail">
-                                                        <span class="s_website_form_label_content">Your Email</span>
-                                                        <span style="color: red;" class="s_website_form_mark">*
-                                                        </span>
-                                                    </label>
-                                                    <input type="email" class="form-control s_website_form_input"
-                                                           name="email"
-                                                           required="true"
-                                                           placeholder="" id="mail" data-fill-with="email"/>
-                                                </div>
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 s_website_form_model_required col-lg-4"
+                                                        data-type="email"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="mail">
+                                                            <span
+                                                                class="s_website_form_label_content">Your
+                                                                Email</span>
+                                                            <span style="color: red;"
+                                                                class="s_website_form_mark">*
+                                                            </span>
+                                                        </label>
+                                                        <input type="email"
+                                                            class="form-control s_website_form_input"
+                                                            name="email"
+                                                            required="true"
+                                                            placeholder="" id="mail"
+                                                            data-fill-with="email" />
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 s_website_form_custom col-lg-5"
-                                                     data-type="char"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="o46wvhfl8w7v">
-                                                        <span class="s_website_form_label_content">Your Company
-                                                        </span>
-                                                    </label>
-                                                    <input type="text" class="form-control s_website_form_input"
-                                                           name="company"
-                                                           placeholder=""
-                                                           id="company" data-fill-with="commercial_company_name"/>
-                                                </div>
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 s_website_form_custom col-lg-6"
+                                                        data-type="char"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="o46wvhfl8w7v">
+                                                            <span
+                                                                class="s_website_form_label_content">Your
+                                                                Company
+                                                            </span>
+                                                        </label>
+                                                        <input type="text"
+                                                            class="form-control s_website_form_input"
+                                                            name="company"
+                                                            placeholder=""
+                                                            id="company"
+                                                            data-fill-with="commercial_company_name" />
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-5 "
-                                                     data-type="char"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="ookkfxk1lgsm">
-                                                        <span class="s_website_form_label_content">Location /
-                                                            Department
-                                                        </span>
-                                                    </label>
-                                                    <input type="text" class="form-control s_website_form_input"
-                                                           name="country"
-                                                           required="true"
-                                                           t-att-value='country_id.name' placeholder="" id="country"
-                                                           data-fill-with=""/>
-                                                </div>
-                                                <!-- GENERAL INFOMATION INFO -->
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-10 s_website_form_custom s_website_form_model_required"
-                                                     data-type="many2one" data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="project_select">
-                                                        <span class="s_website_form_label_content">Project Name
-                                                        </span>
-                                                        <span style="color: red;" class="s_website_form_mark">*
-                                                        </span>
-                                                    </label>
-                                                    <select class="form-select s_website_form_input"
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-6 "
+                                                        data-type="char"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="ookkfxk1lgsm">
+                                                            <span
+                                                                class="s_website_form_label_content">Location
+                                                                /
+                                                                Department
+                                                            </span>
+                                                        </label>
+                                                        <input type="text"
+                                                            class="form-control s_website_form_input"
+                                                            name="country"
+                                                            required="true"
+                                                            t-att-value='country_id.name'
+                                                            placeholder=""
+                                                            id="country"
+                                                            data-fill-with="" />
+                                                    </div>
+                                                    <!-- GENERAL INFOMATION INFO -->
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom s_website_form_model_required"
+                                                        data-type="many2one" data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="project_select">
+                                                            <span
+                                                                class="s_website_form_label_content">Project
+                                                                Name
+                                                            </span>
+                                                            <span style="color: red;"
+                                                                class="s_website_form_mark">*
+                                                            </span>
+                                                        </label>
+                                                        <select
+                                                            class="form-select s_website_form_input"
                                                             name="project_id"
                                                             id="project_id" style="">
-                                                        <option value=""/>
-                                                        <t t-foreach='project_rec' t-as="project">
-                                                            <option t-esc='project.project_name'
-                                                                    t-att-value='project.id'/>
-                                                        </t>
-                                                    </select>
-                                                </div>
+                                                            <option value="" />
+                                                            <t t-foreach='project_rec'
+                                                                t-as="project">
+                                                                <option t-esc='project.project_name'
+                                                                    t-att-value='project.id' />
+                                                            </t>
+                                                        </select>
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-5 s_website_form_custom"
-                                                     data-type="many2one"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="product">
-                                                        <span class="s_website_form_label_content">Product Name
-                                                        </span>
-                                                    </label>
-                                                    <select class="hidden form-select s_website_form_input"
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-6 s_website_form_custom"
+                                                        data-type="many2one"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="product">
+                                                            <span
+                                                                class="s_website_form_label_content">Product
+                                                                Name
+                                                            </span>
+                                                        </label>
+                                                        <select
+                                                            class="hidden form-select s_website_form_input"
                                                             name="product_ticket_id"
                                                             id="product" style="">
-<!--                                                        <option value=""/>-->
-<!--                                                        <t t-foreach='product_rec' t-as="product">-->
-<!--                                                            <option t-esc='product.product_name'-->
-<!--                                                                    t-att-value='product.id'/>-->
-<!--                                                        </t>-->
-                                                    </select>
-                                                </div>
+                                                            <!--                                                        <option value=""/>-->
+                                                            <!--                                                        <t t-foreach='product_rec'
+                                                            t-as="product">-->
+                                                            <!--                                                            <option
+                                                            t-esc='product.product_name'-->
+                                                            <!--                                                                    t-att-value='product.id'/>-->
+                                                            <!--                                                        </t>-->
+                                                        </select>
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-5 s_website_form_custom"
-                                                     data-type="many2one"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="version">
-                                                        <span class="s_website_form_label_content">Software version
-                                                        </span>
-                                                    </label>
-                                                    <select class="form-select s_website_form_input" name="product_version"
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-6 s_website_form_custom"
+                                                        data-type="many2one"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="version">
+                                                            <span
+                                                                class="s_website_form_label_content">Software
+                                                                version
+                                                            </span>
+                                                        </label>
+                                                        <select
+                                                            class="form-select s_website_form_input"
+                                                            name="product_version"
                                                             id="version"
                                                             style="">
-                                                        <option value=""/>
-                                                        <t t-foreach='version_rec' t-as="version">
-                                                            <option t-esc='version.version_number'
-                                                                    t-att-value='version.version_number'/>
-                                                        </t>
-                                                    </select>
-                                                </div>
+                                                            <option value="" />
+                                                            <t t-foreach='version_rec'
+                                                                t-as="version">
+                                                                <option
+                                                                    t-esc='version.version_number'
+                                                                    t-att-value='version.version_number' />
+                                                            </t>
+                                                        </select>
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-10 s_website_form_custom s_website_form_model_required"
-                                                     data-type="char" data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="o97qpga8hrf6">
-                                                        <span class="s_website_form_label_content">Ticket Problem
-                                                            Title
-                                                        </span>
-                                                        <span style="color: red;" class="s_website_form_mark">*
-                                                        </span>
-                                                    </label>
-                                                    <input type="text" class="form-control s_website_form_input"
-                                                           name="name"
-                                                           value="" placeholder=""
-                                                           id="name" data-fill-with="undefined"/>
-                                                </div>
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom s_website_form_model_required"
+                                                        data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="o97qpga8hrf6">
+                                                            <span
+                                                                class="s_website_form_label_content">Ticket
+                                                                Problem
+                                                                Title
+                                                            </span>
+                                                            <span style="color: red;"
+                                                                class="s_website_form_mark">*
+                                                            </span>
+                                                        </label>
+                                                        <input type="text"
+                                                            class="form-control s_website_form_input"
+                                                            name="name"
+                                                            value="" placeholder=""
+                                                            id="name" data-fill-with="undefined" />
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-10 s_website_form_custom"
-                                                     data-type="selection"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="own1h9ovxheq">
-                                                        <span class="s_website_form_label_content">Priority</span>
-                                                    </label>
-                                                    <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple"
-                                                         data-name="Priority"
-                                                         data-display="horizontal">
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom"
+                                                        data-type="selection"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="own1h9ovxheq">
+                                                            <span
+                                                                class="s_website_form_label_content">
+                                                                Priority</span>
+                                                        </label>
+                                                        <div
+                                                            class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple"
+                                                            data-name="Priority"
+                                                            data-display="horizontal">
 
-                                                        <div class="radio col-12 col-lg-4 col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio"
-                                                                       class="s_website_form_input form-check-input"
-                                                                       id="priority"
-                                                                       name="priority" value="1"/>
-                                                                <label class="form-check-label s_website_form_check_label"
-                                                                       for="own1h9ovxheq0">
-                                                                    Minor
-                                                                </label>
+                                                            <div
+                                                                class="radio col-12 col-lg-4 col-md-6">
+                                                                <div class="form-check">
+                                                                    <input type="radio"
+                                                                        class="s_website_form_input form-check-input"
+                                                                        id="priority"
+                                                                        name="priority" value="1" />
+                                                                    <label
+                                                                        class="form-check-label s_website_form_check_label"
+                                                                        for="own1h9ovxheq0">
+                                                                        Minor
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="radio col-12 col-lg-4 col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio"
-                                                                       class="s_website_form_input form-check-input"
-                                                                       id="priority"
-                                                                       name="priority" value="2"/>
-                                                                <label class="form-check-label s_website_form_check_label"
-                                                                       for="own1h9ovxheq1">
-                                                                    Major
-                                                                </label>
+                                                            <div
+                                                                class="radio col-12 col-lg-4 col-md-6">
+                                                                <div class="form-check">
+                                                                    <input type="radio"
+                                                                        class="s_website_form_input form-check-input"
+                                                                        id="priority"
+                                                                        name="priority" value="2" />
+                                                                    <label
+                                                                        class="form-check-label s_website_form_check_label"
+                                                                        for="own1h9ovxheq1">
+                                                                        Major
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="radio col-12 col-lg-4 col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio"
-                                                                       class="s_website_form_input form-check-input"
-                                                                       id="priority"
-                                                                       name="priority" value="3"/>
-                                                                <label class="form-check-label s_website_form_check_label"
-                                                                       for="own1h9ovxheq2">
-                                                                    Critical
-                                                                </label>
+                                                            <div
+                                                                class="radio col-12 col-lg-4 col-md-6">
+                                                                <div class="form-check">
+                                                                    <input type="radio"
+                                                                        class="s_website_form_input form-check-input"
+                                                                        id="priority"
+                                                                        name="priority" value="3" />
+                                                                    <label
+                                                                        class="form-check-label s_website_form_check_label"
+                                                                        for="own1h9ovxheq2">
+                                                                        Critical
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-4"
-                                                     data-type="many2many"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="attachments">
-                                                        <span class="s_website_form_label_content">Attachments
-                                                        </span>
-                                                    </label>
-                                                    <input type="file" class="form-control s_website_form_input"
-                                                           name="attachment_ids" multiple="1"
-                                                           id="attachments" data-fill-with="undefined"/>
-                                                </div>
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-3"
+                                                        data-type="many2many"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="attachments">
+                                                            <span
+                                                                class="s_website_form_label_content">
+                                                                Attachments
+                                                            </span>
+                                                        </label>
+                                                        <input type="file"
+                                                            class="form-control s_website_form_input"
+                                                            name="attachment_ids" multiple="1"
+                                                            id="attachments"
+                                                            data-fill-with="undefined" />
+                                                    </div>
 
-                                                <div data-visibility-condition="" data-visibility-between=""
-                                                     class="s_website_form_field mb-3 col-12 col-lg-10 s_website_form_custom"
-                                                     data-type="text"
-                                                     data-name="Field">
-                                                    <label class="s_website_form_label " style="width: 200px"
-                                                           for="o7u0h8glo1hm">
-                                                        <span class="s_website_form_label_content">Descrption Issue
-                                                        </span>
-                                                    </label>
-                                                    <textarea class="editor form-control s_website_form_input"
-                                                              name="description"
-                                                              placeholder=""
-                                                              id="description_ticket" rows="7"/>
+                                                    <div data-visibility-condition=""
+                                                        data-visibility-between=""
+                                                        class="s_website_form_field mb-3 col-12 col-lg-12 s_website_form_custom"
+                                                        data-type="text"
+                                                        data-name="Field">
+                                                        <label class="s_website_form_label "
+                                                            style="width: 200px"
+                                                            for="o7u0h8glo1hm">
+                                                            <span
+                                                                class="s_website_form_label_content">Descrption
+                                                                Issue
+                                                            </span>
+                                                        </label>
+                                                        <textarea
+                                                            class="editor form-control s_website_form_input"
+                                                            name="description"
+                                                            placeholder=""
+                                                            id="description_ticket" rows="7"
+                                                            cols="20" />
+                                                    </div>
+                                                    <div
+                                                        class="mb-0 py-2 col-12 s_website_form_submit"
+                                                        data-name="Submit Button">
+                                                        <button type="submit"
+                                                            class="btn btn-primary pull-left">
+                                                            Submit
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-0 py-2 col-12 s_website_form_submit"
-                                                     data-name="Submit Button">
-                                                    <button type="submit" class="btn btn-primary pull-left">Submit
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <ul class="list-unstyled mb-0 ps-2">
+                                        <li>My Company</li>
+                                        <li>
+                                            <i class="fa fa-map-marker fa-fw me-2" />
+                                            <span class="o_force_ltr">3575 Fake Buena Vista Avenue</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-phone fa-fw me-2" />
+                                            <span class="o_force_ltr">+1 (650) 555-0111</span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-1x fa-fw fa-envelope me-2" />
+                                            <span>info@yourcompany.example.com</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -285,16 +404,16 @@
                 </div>
                 <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
                 <script>
-                        ClassicEditor
-                                .create( document.querySelector( '#description_ticket' ) )
-                                .then( editor => {
-                                        console.log( editor );
-                                } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
+                    ClassicEditor
+                    .create( document.querySelector( '#description_ticket' ) )
+                    .then( editor => {
+                    console.log( editor );
+                    } )
+                    .catch( error => {
+                    console.error( error );
+                    } );
                 </script>
-                <script type="text/javascript" src="/mock_desk/static/src/js/form_customer.js"/>
+                <script type="text/javascript" src="/mock_desk/static/src/js/form_customer.js" />
             </t>
         </template>
 
