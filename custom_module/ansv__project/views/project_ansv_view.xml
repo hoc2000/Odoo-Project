@@ -199,7 +199,8 @@
                     <header>
                         <field name="stage_id" widget="statusbar" context="{'order_display': 'sequence desc' }"
                                options="{'clickable': '1','autosave': False}"/>
-                        <button name="create_cashflow_by_button" class="btn" type="object" string="Add Cashflow"/>
+                        <button name="create_cashflow_by_button" class="btn" type="object" string="Add Cashflow"
+                                invisible="1"/>
                     </header>
                     <sheet string="Project">
                         <div class="oe_button_box" name="button_box">
