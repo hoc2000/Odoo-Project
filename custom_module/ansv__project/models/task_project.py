@@ -1,3 +1,4 @@
+from time import strftime, strptime
 from odoo import models, fields, api
 
 
@@ -25,6 +26,10 @@ class ProjectTasks(models.Model):
     color = fields.Integer(string="Color")
     # header
     name = fields.Text(string="DisplayName")
+    closed_days = fields.Date(string="Closed Date")
+
+    actual_mandays = fields.Integer(string="Actual Mandays", compute="closed_date_onchange")
+    estimate_mandays = fields.Integer(string="Estimate Mandays")
     upper_display_name = fields.Char(string="Upper Display Name", compute='_get_name_upper')
     child_text = fields.Char(compute="_compute_child_text")
     is_favorite = fields.Boolean(string="Favourite Tasks")
@@ -68,6 +73,12 @@ class ProjectTasks(models.Model):
     def depend_project_tags(self):
         for rec in self:
             rec.tag_ids = rec.project_id.tag_ids
+
+    @api.depends('closed_days')
+    def closed_date_onchange(self):
+        for rec in self:
+            create_date = rec.create_date.date()
+            rec.actual_mandays = (rec.closed_days - create_date).days
 
     @api.depends('child_ids')
     def _compute_child_text(self):

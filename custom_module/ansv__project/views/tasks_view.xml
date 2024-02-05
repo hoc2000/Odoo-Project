@@ -240,6 +240,26 @@
                                 </div>
                                 <field name="tag_ids" string="Tags" widget="many2many_tags"
                                        options="{'color_field': 'color'}"/>
+
+                                <!-- <div name="test" class="o_row">
+                                    <span>Actual Mandays </span>
+                                    <field name="actual_mandays" string="Actual Mandays"/>
+                                    <span> days</span>
+                                </div> -->
+
+                                <label for="actual_mandays" string="Actual Mandays"/>
+                                <div class="o_row">
+                                    <!-- <field name="working_time" widget="float_time" class="oe_inline"/> -->
+                                    <field name="actual_mandays" string="Actual Mandays"/>
+                                    <span class="o_field_widget o_readonly_modifier">days</span>
+                                </div>
+                                
+                                <label for="estimate_mandays" string="Estimate Mandays"/>
+                                <div class="o_row">
+                                    <!-- <field name="working_time" widget="float_time" class="oe_inline"/> -->
+                                    <field name="estimate_mandays" string="Estimate Mandays"/>
+                                    <span class="o_field_widget o_readonly_modifier">days</span>
+                                </div>
                             </group>
                             <group>
                                 <field name="priority" string="Priority" widget="priority"
@@ -301,6 +321,7 @@
                                     <group string="Date Create and Edit">
                                         <field name="create_date" string="Task created on"/>
                                         <field name="write_date" string="Task last update on"/>
+                                        <field name="closed_days" string="Closed Date on"/>
                                     </group>
                                 </group>
                             </page>
