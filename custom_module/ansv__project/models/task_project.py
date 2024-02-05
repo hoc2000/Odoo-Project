@@ -77,8 +77,11 @@ class ProjectTasks(models.Model):
     @api.depends('closed_days')
     def closed_date_onchange(self):
         for rec in self:
-            create_date = rec.create_date.date()
-            rec.actual_mandays = (rec.closed_days - create_date).days
+            if rec.closed_days:
+                create_date = rec.create_date.date()
+                rec.actual_mandays = (rec.closed_days - create_date).days
+            else:
+                pass
 
     @api.depends('child_ids')
     def _compute_child_text(self):
