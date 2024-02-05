@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cashflow_project_action" model="ir.actions.act_window">
+            <field name="name">CashFlow Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.cashflow</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="ansv_cashflow_project_action" model="ir.actions.act_window">
+            <field name="name">ANSV CashFlow Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ansv.project.cashflow</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="ansv_project_cashflow_view_tree" model="ir.ui.view">
+            <field name="name">ANSV Project Cashflow</field>
+            <field name="model">ansv.project.cashflow</field>
+            <field name="arch" type="xml">
+                <tree string="ansv_project_cashflow_tree"
+                      editable="bottom"
+                      create="0">
+                    <field name="name"/>
+                    <field name="project_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="base_cash"/>
+                    <field name="base_contact_date"/>
+                    <field name="base_target_date"/>
+                    <field name="base_reality_date"/>
+                    <field name="base_time_notice"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="temp_cashflow_menu"
+                  name="Project CF"
+                  action="cashflow_project_action"
+                  parent="configuration_menu"
+                  sequence="100"/>
+
+        <menuitem id="project_ansv_cashflow_menu"
+                  name="Project ANSV CF"
+                  action="ansv_cashflow_project_action"
+                  parent="configuration_menu"
+                  sequence="110"/>
+
+    </data>
+</odoo>

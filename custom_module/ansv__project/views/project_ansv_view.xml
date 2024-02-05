@@ -120,7 +120,7 @@
                                     <!-- left side-->
                                     <div class="oe_kanban_bottom_left">
                                         <div class="d-flex value-project">
-                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2"
+                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2 me-1"
                                                  attrs="{'invisible':[('product_count','=',0)]}">
                                                 <a class="o_project_kanban_box" name="action_view_products"
                                                    type="object">
@@ -135,7 +135,7 @@
                                                 </a>
                                             </div>
 
-                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2"
+                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2 me-1"
                                                  attrs="{'invisible':[('ticket_count','=',0)]}">
                                                 <a class="o_project_kanban_box" name="action_view_ticket"
                                                    type="object">
@@ -150,7 +150,7 @@
                                                 </a>
                                             </div>
 
-                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2">
+                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2 me-1">
                                                 <a class="o_project_kanban_box" name="action_view_tasks"
                                                    type="object">
                                                     <div>
@@ -199,6 +199,7 @@
                     <header>
                         <field name="stage_id" widget="statusbar" context="{'order_display': 'sequence desc' }"
                                options="{'clickable': '1','autosave': False}"/>
+                        <button name="create_cashflow_by_button" class="btn" type="object" string="Add Cashflow"/>
                     </header>
                     <sheet string="Project">
                         <div class="oe_button_box" name="button_box">
@@ -348,6 +349,9 @@
                             </page>
                             <page string="Cashflow">
                                 <field name="currency_id" invisible="1"/>
+                                <field name="dac_info_id" invisible="1"/>
+                                <field name="pac_info_id" invisible="1"/>
+                                <field name="fac_info_id" invisible="1"/>
                                 <field name="dac_time_notice" invisible="1"/>
                                 <field name="dac_duration" invisible="1"/>
                                 <field name="pac_duration" invisible="1"/>
@@ -375,8 +379,12 @@
                                         </thead>
                                         <tbody>
                                             <tr class="dac-info">
-                                                <td class="tg-mcqj" style="font-weight: bolder;">DAC
-                                                    <i class="fa fa-list" aria-hidden="true"/>
+                                                <td class="tg-mcqj d-flex" style="font-weight: bolder;">
+                                                    <field name="dac_info_id" style="width:80px" widget="selection"/>
+                                                    <a name="dac_modal_tree_view" type="object"
+                                                       class="o_project_kanban_box">
+                                                        <i class="fa fa-list" title="List Icon" aria-hidden="true"/>
+                                                    </a>
                                                 </td>
                                                 <td class="tg-mcqj">
                                                     <field name="dac_cash"/>
@@ -402,8 +410,12 @@
 
                                             </tr>
                                             <tr class="pac-info">
-                                                <td class="tg-mcqj" style="font-weight: bolder;">FAC
-                                                    <i class="fa fa-list" aria-hidden="true"/>
+                                                <td class="tg-mcqj d-flex" style="font-weight: bolder;">
+                                                    <field name="pac_info_id" style="width:80px" widget="selection"/>
+                                                    <a name="pac_modal_tree_view" type="object"
+                                                       class="o_project_kanban_box">
+                                                        <i class="fa fa-list" title="List Icon" aria-hidden="true"/>
+                                                    </a>
                                                 </td>
                                                 <td class="tg-mcqj">
                                                     <field name="pac_cash"/>
@@ -430,8 +442,12 @@
                                             </tr>
 
                                             <tr class="fac-info">
-                                                <td class="tg-mcqj" style="font-weight: bolder;">FAC
-                                                    <i class="fa fa-list" aria-hidden="true"/>
+                                                <td class="tg-mcqj d-flex" style="font-weight: bolder;">
+                                                    <field name="fac_info_id" style="width:80px" widget="selection"/>
+                                                    <a name="fac_modal_tree_view('DAC')" type="object"
+                                                       class="o_project_kanban_box">
+                                                        <i class="fa fa-list" title="List Icon" aria-hidden="true"/>
+                                                    </a>
                                                 </td>
                                                 <td class="tg-mcqj">
                                                     <field name="fac_cash"/>

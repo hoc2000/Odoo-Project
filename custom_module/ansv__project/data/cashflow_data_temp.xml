@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cf_dac1" model="project.cashflow">
+            <field name="sequence">0</field>
+            <field name="name">DAC</field>
+        </record>
+
+        <record id="cf_dac2" model="project.cashflow">
+            <field name="sequence">1</field>
+            <field name="name">DAC2</field>
+        </record>
+
+        <record id="cf_dac3" model="project.cashflow">
+            <field name="sequence">2</field>
+            <field name="name">DAC3</field>
+        </record>
+
+        <record id="cf_dac4" model="project.cashflow">
+            <field name="sequence">3</field>
+            <field name="name">DAC4</field>
+        </record>
+
+        <record id="cf_dac5" model="project.cashflow">
+            <field name="sequence">4</field>
+            <field name="name">DAC5</field>
+        </record>
+        <!--        PAC-->
+        <record id="cf_pac1" model="project.cashflow">
+            <field name="sequence">0</field>
+            <field name="name">PAC</field>
+        </record>
+
+        <record id="cf_pac2" model="project.cashflow">
+            <field name="sequence">1</field>
+            <field name="name">PAC2</field>
+        </record>
+
+        <record id="cf_pac3" model="project.cashflow">
+            <field name="sequence">2</field>
+            <field name="name">PAC3</field>
+        </record>
+
+        <record id="cf_pac4" model="project.cashflow">
+            <field name="sequence">3</field>
+            <field name="name">PAC4</field>
+        </record>
+
+        <record id="cf_pac5" model="project.cashflow">
+            <field name="sequence">4</field>
+            <field name="name">PAC5</field>
+        </record>
+        <!--        FAC-->
+        <record id="cf_fac1" model="project.cashflow">
+            <field name="sequence">0</field>
+            <field name="name">FAC</field>
+        </record>
+
+        <record id="cf_fac2" model="project.cashflow">
+            <field name="sequence">1</field>
+            <field name="name">FAC2</field>
+        </record>
+
+        <record id="cf_fac3" model="project.cashflow">
+            <field name="sequence">2</field>
+            <field name="name">FAC3</field>
+        </record>
+
+        <record id="cf_fac4" model="project.cashflow">
+            <field name="sequence">3</field>
+            <field name="name">FAC4</field>
+        </record>
+        <record id="cf_fac5" model="project.cashflow">
+            <field name="sequence">4</field>
+            <field name="name">FAC5</field>
+        </record>
+    </data>
+
+</odoo>

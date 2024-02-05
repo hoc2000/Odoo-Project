@@ -29,6 +29,7 @@
     "data": [
         "data/mail_template_create.xml",
         "data/sequence_data.xml",
+        "data/cashflow_data_temp.xml",
 
         "security/security_access_data.xml",
         "security/ir.model.access.csv",
@@ -43,6 +44,8 @@
         "views/mail_activity_views.xml",
         "views/dashboard_project.xml",
         "views/graphs_view.xml",
+
+        "views/cashflow_view.xml",
         # data
         # 'data/components_data.xml'
     ],

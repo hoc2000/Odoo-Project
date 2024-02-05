@@ -104,90 +104,157 @@ class Project(models.Model):
     # CASHFLOW
     currency_id = fields.Many2one('res.currency', string="Currency", default=get_default_currency)
 
-    dac_cash = fields.Monetary(string="Cash DAC", help="This is price of the product exchange to VNĐ")
-    dac_contact_date = fields.Date(string="DAC Contact Date")
-    dac_target_date = fields.Date(string="DAC Target Date")
-    dac_reality_date = fields.Date(string="DAC Reality Date")
-    dac_duration = fields.Integer(string="Duration", compute="calculated_time_notice_DAC")
-    dac_time_notice = fields.Char(string="Time Notice String", compute="get_dac_time_notice")
+    # DAC
+    dac_info_id = fields.Many2one('ansv.project.cashflow',
+                                  string="DAC",
+                                  domain="[('project_id', '=', id),('name','ilike','DAC')]",
+                                  )
+    dac_cash = fields.Monetary(string="Cash DAC", help="This is price of the product exchange to VNĐ",
+                               related="dac_info_id.base_cash", store=True,
+                               readonly=False)
+    dac_contact_date = fields.Date(string="DAC Contact Date", related="dac_info_id.base_contact_date", store=True,
+                                   readonly=False)
+    dac_target_date = fields.Date(string="DAC Target Date", related="dac_info_id.base_target_date", store=True,
+                                  readonly=False)
+    dac_reality_date = fields.Date(string="DAC Reality Date", related="dac_info_id.base_reality_date", store=True,
+                                   readonly=False)
+    dac_duration = fields.Integer(string="Duration", related="dac_info_id.base_duration")
+    dac_time_notice = fields.Char(string="Time Notice String", related="dac_info_id.base_time_notice")
 
-    pac_cash = fields.Monetary(string="Cash PAC", help="This is price of the product exchange to VNĐ")
-    pac_contact_date = fields.Date(string="PAC Contact Date")
-    pac_target_date = fields.Date(string="PAC Target Date")
-    pac_reality_date = fields.Date(string="PAC Reality Date")
-    pac_duration = fields.Integer(string="Duration", compute="calculated_time_notice_PAC")
-    pac_time_notice = fields.Char(string="Time Notice String", compute="get_dac_time_notice")
+    # PAC
+    pac_info_id = fields.Many2one('ansv.project.cashflow',
+                                  string="PAC",
+                                  domain="[('project_id', '=', id),('name','ilike','PAC')]",
+                                  )
+    pac_cash = fields.Monetary(string="Cash PAC", help="This is price of the product exchange to VNĐ",
+                               related="pac_info_id.base_cash", store=True,
+                               readonly=False)
+    pac_contact_date = fields.Date(string="PAC Contact Date", related="pac_info_id.base_contact_date", store=True,
+                                   readonly=False)
+    pac_target_date = fields.Date(string="PAC Target Date", related="pac_info_id.base_target_date", store=True,
+                                  readonly=False)
+    pac_reality_date = fields.Date(string="PAC Reality Date", related="pac_info_id.base_reality_date", store=True,
+                                   readonly=False)
+    pac_duration = fields.Integer(string="Duration", related="pac_info_id.base_duration")
+    pac_time_notice = fields.Char(string="Time Notice String", related="pac_info_id.base_time_notice")
 
-    fac_cash = fields.Monetary(string="Cash FAC", help="This is price of the product exchange to VNĐ")
-    fac_contact_date = fields.Date(string="FAC Contact Date")
-    fac_target_date = fields.Date(string="FAC Target Date")
-    fac_reality_date = fields.Date(string="FAC Reality Date")
-    fac_duration = fields.Integer(string="Duration", compute="calculated_time_notice_FAC")
-    fac_time_notice = fields.Char(string="Time Notice String", compute="get_dac_time_notice")
-
+    # FAC
+    fac_info_id = fields.Many2one('ansv.project.cashflow',
+                                  string="FAC",
+                                  domain="[('project_id', '=', id),('name','ilike','FAC')]",
+                                  )
+    fac_cash = fields.Monetary(string="Cash FAC", help="This is price of the product exchange to VNĐ",
+                               related="fac_info_id.base_cash", store=True,
+                               readonly=False)
+    fac_contact_date = fields.Date(string="FAC Contact Date", related="fac_info_id.base_contact_date", store=True,
+                                   readonly=False)
+    fac_target_date = fields.Date(string="FAC Target Date", related="fac_info_id.base_target_date", store=True,
+                                  readonly=False)
+    fac_reality_date = fields.Date(string="FAC Reality Date", related="fac_info_id.base_reality_date", store=True,
+                                   readonly=False)
+    fac_duration = fields.Integer(string="Duration", related="fac_info_id.base_duration")
+    fac_time_notice = fields.Char(string="Time Notice String", related="fac_info_id.base_time_notice")
     summary_target = fields.Monetary(string="Cash Summary", help="This is price of the product exchange to VNĐ")
 
-    # CALCULATED CASHFLOW TERM NOTICE
-    def calculated_time_notice_DAC(self):
-        for rec in self:
-            if rec.dac_reality_date and rec.dac_target_date:
-                duration = rec.dac_target_date - rec.dac_reality_date
-                rec.dac_duration = duration.days
-            elif rec.dac_target_date:
-                today = datetime.today().date()
-                duration = rec.dac_target_date - today
-                rec.dac_duration = duration.days
-            else:
-                rec.dac_duration = False
+    # CASH FLOW
+    @api.model
+    def create(self, vals_list):
+        new_project = super(Project, self).create(vals_list)
+        project_id = new_project.id
+        self.create_cashflow(project_id)
+        # add default value
+        for name in ['DAC', 'PAC', 'FAC']:
+            default_cf = self.env['ansv.project.cashflow'].search(
+                [('project_id', '=', new_project.id), ('sequence', '=', '0'), ('name', 'ilike', name)],
+                limit=1
+            )
+            setattr(new_project, f'{name.lower()}_info_id', default_cf)
+        return new_project
 
-    def calculated_time_notice_PAC(self):
-        for rec in self:
-            if rec.dac_reality_date and rec.pac_target_date:
-                duration = rec.pac_target_date - rec.pac_reality_date
-                rec.pac_duration = duration.days
-            elif rec.pac_target_date:
-                today = datetime.today().date()
-                duration = rec.pac_target_date - today
-                rec.pac_duration = duration.days
-            else:
-                rec.pac_duration = False
+    def create_cashflow(self, project_id):
+        # cf_ansv = self.env['ansv.project.cashflow'].search_count([])
+        # if cf_ansv == 0:
+        amount_of_cf = self.env['project.cashflow'].search([])
+        for cf in amount_of_cf:
+            cf_dict = {}
+            cf_dict.update({
+                'sequence': cf.sequence,
+                'name': cf.name,
+                'currency_id': cf.currency_id.id,
+                'project_id': project_id,
+                'base_cash': cf.base_cash,
+                'base_contact_date': cf.base_contact_date,
+                'base_target_date': cf.base_target_date,
+                'base_reality_date': cf.base_reality_date,
+            })
+            self.env['ansv.project.cashflow'].create(cf_dict)
+        for name in ['DAC', 'PAC', 'FAC']:
+            default_cf = self.env['ansv.project.cashflow'].search(
+                [('project_id', '=', self.id), ('sequence', '=', '0'), ('name', 'ilike', name)],
+                limit=1
+            )
+            setattr(self, f'{name.lower()}_info_id', default_cf)
 
-    def calculated_time_notice_FAC(self):
-        for rec in self:
-            if rec.dac_reality_date and rec.fac_target_date:
-                duration = rec.fac_target_date - rec.fac_reality_date
-                rec.fac_duration = duration.days
-            elif rec.fac_target_date:
-                today = datetime.today().date()
-                duration = rec.fac_target_date - today
-                rec.fac_duration = duration.days
-            else:
-                rec.fac_duration = False
+    def create_cashflow_by_button(self):
+        # cf_ansv = self.env['ansv.project.cashflow'].search_count([])
+        # if cf_ansv == 0:
+        amount_of_cf = self.env['project.cashflow'].search([])
+        for cf in amount_of_cf:
+            cf_dict = {}
+            cf_dict.update({
+                'sequence': cf.sequence,
+                'name': cf.name,
+                'currency_id': cf.currency_id.id,
+                'project_id': self.id,
+                'base_cash': cf.base_cash,
+                'base_contact_date': cf.base_contact_date,
+                'base_target_date': cf.base_target_date,
+                'base_reality_date': cf.base_reality_date,
+            })
+            self.env['ansv.project.cashflow'].create(cf_dict)
 
-    @api.depends('dac_duration', 'pac_duration', 'fac_duration')
-    def get_dac_time_notice(self):
+    # MODAL VIEW TREE OF CASHFLOW
+    def dac_modal_tree_view(self):
         for rec in self:
-            # DAC
-            if rec.dac_duration > 0:
-                rec.dac_time_notice = f"{abs(rec.dac_duration)} days sooner"
-            elif rec.dac_duration < 0:
-                rec.dac_time_notice = f"{abs(rec.dac_duration)} days late"
-            elif rec.dac_duration == 0:
-                rec.dac_time_notice = "On time"
-            # PAC
-            if rec.pac_duration > 0:
-                rec.pac_time_notice = f"{abs(rec.pac_duration)} days sooner"
-            elif rec.pac_duration < 0:
-                rec.pac_time_notice = f"{abs(rec.pac_duration)} days late"
-            elif rec.pac_duration == 0:
-                rec.pac_time_notice = "On time"
-            # FAC
-            if rec.fac_duration > 0:
-                rec.fac_time_notice = f"{abs(rec.fac_duration)} days sooner"
-            elif rec.fac_duration < 0:
-                rec.fac_time_notice = f"{abs(rec.fac_duration)} days late"
-            elif rec.fac_duration == 0:
-                rec.fac_time_notice = "On time"
+            currProjectId = rec.id
+            return {
+                'name': 'DAC CashFlow',
+                'type': 'ir.actions.act_window',
+                'res_model': 'ansv.project.cashflow',  # Replace with the actual model name
+                'view_mode': 'tree',
+                'view_id': self.env.ref('ansv__project.ansv_project_cashflow_view_tree').id,
+                # Replace with the actual tree view ID
+                'target': 'new',
+                'domain': [('project_id', '=', currProjectId), ('name', 'ilike', 'DAC')],
+            }
+
+    def pac_modal_tree_view(self):
+        for rec in self:
+            currProjectId = rec.id
+            return {
+                'name': 'PAC CashFlow',
+                'type': 'ir.actions.act_window',
+                'res_model': 'ansv.project.cashflow',  # Replace with the actual model name
+                'view_mode': 'tree',
+                'view_id': self.env.ref('ansv__project.ansv_project_cashflow_view_tree').id,
+                # Replace with the actual tree view ID
+                'target': 'new',
+                'domain': [('project_id', '=', currProjectId), ('name', 'ilike', 'PAC')],
+            }
+
+    def fac_modal_tree_view(self):
+        for rec in self:
+            currProjectId = rec.id
+            return {
+                'name': 'FAC CashFlow',
+                'type': 'ir.actions.act_window',
+                'res_model': 'ansv.project.cashflow',  # Replace with the actual model name
+                'view_mode': 'tree',
+                'view_id': self.env.ref('ansv__project.ansv_project_cashflow_view_tree').id,
+                # Replace with the actual tree view ID
+                'target': 'new',
+                'domain': [('project_id', '=', currProjectId), ('name', 'ilike', 'FAC')],
+            }
 
     # Count ORM###################
     def _count_product(self):

@@ -222,7 +222,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="project_id" string="Project" widget="selection"/>
+                                <field name="project_id" string="Project"/>
                                 <field name="assignees_id" widget="many2many_avatar_user"
                                        options="{'no_open':True, 'no_quick_create':True}"
                                        attrs="{'readonly':[('active','=',False)]}"/>
