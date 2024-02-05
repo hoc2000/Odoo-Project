@@ -81,7 +81,7 @@ class ProjectTasks(models.Model):
                 create_date = rec.create_date.date()
                 rec.actual_mandays = (rec.closed_days - create_date).days
             else:
-                pass
+                rec.actual_mandays = 0
 
     @api.depends('child_ids')
     def _compute_child_text(self):
