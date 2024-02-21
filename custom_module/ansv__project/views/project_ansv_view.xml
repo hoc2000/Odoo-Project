@@ -17,7 +17,8 @@
             <field name="name">ansv.project.view.kanban</field>
             <field name="model">project.ansv</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_dashboard o_project_ansv_kanban oe_kanban_card" records_draggable="1"
+                <kanban default_group_by="stage_id"
+                        class="o_kanban_dashboard o_project_ansv_kanban oe_kanban_card" records_draggable="1"
                         type="object">
                     <field name="project_name"/>
                     <field name="manager_id"/>
@@ -31,6 +32,10 @@
                     <field name="ticket_count"/>
                     <field name="label_tasks"/>
                     <field name="sequence" widget="handle"/>
+                    <field name="last_update_status"/>
+                    <field name="last_update_color"/>
+                    <progressbar field="last_update_status"
+                                 colors="{&quot;on_track&quot;: &quot;success&quot;, &quot;at_risk&quot;: &quot;warning&quot;, &quot;off_track&quot;: &quot;danger&quot;, &quot;on_hold&quot;: &quot;info&quot;}"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click">
@@ -43,6 +48,19 @@
                                                       t-att-title="record.project_name.raw_value">
                                                     <t t-esc="record.project_name.raw_value"/>
                                                 </span>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                                         aria-valuenow="record.last_update_progress.raw_value"
+                                                         aria-valuemin="0" aria-valuemax="100">
+                                                        <field name="last_update_progress_percentage"
+                                                               widget="percentage"/>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex text-muted pb-2">
+                                                    <field name="manager_id" widget="many2one_avatar_user"
+                                                           t-if="record.manager_id.raw_value"/>
+                                                    <t t-esc="record.manager_id.value"/>
+                                                </div>
                                                 <!-- Nếu có partner-->
                                                 <span class="text-muted"
                                                       t-if="record.partner_ids.value">
@@ -79,6 +97,9 @@
                                                 </div>
                                                 <div role="menuitem">
                                                     <a name="action_view_products" type="object">Products</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="action_view_updates" type="object">Project Updates</a>
                                                 </div>
                                             </div>
                                             <div class="col-6 o_kanban_card_manage_section o_kanban_manage_reporting">
@@ -120,7 +141,7 @@
                                     <!-- left side-->
                                     <div class="oe_kanban_bottom_left">
                                         <div class="d-flex value-project">
-                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2 me-1"
+                                            <div class="project_comp border rounded d-flex align-items-baseline p-2 mb-2 me-1 btn btn-outline-primary"
                                                  attrs="{'invisible':[('product_count','=',0)]}">
                                                 <a class="o_project_kanban_box" name="action_view_products"
                                                    type="object">
@@ -135,7 +156,7 @@
                                                 </a>
                                             </div>
 
-                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2 me-1"
+                                            <div class="project_comp border rounded d-flex align-items-baseline p-2 mb-2 me-1 btn btn-outline-primary"
                                                  attrs="{'invisible':[('ticket_count','=',0)]}">
                                                 <a class="o_project_kanban_box" name="action_view_ticket"
                                                    type="object">
@@ -150,7 +171,7 @@
                                                 </a>
                                             </div>
 
-                                            <div class="border rounded d-flex align-items-baseline p-2 mb-2 me-1">
+                                            <div class="project_comp border rounded d-flex align-items-baseline p-2 mb-2 me-1 btn btn-outline-primary">
                                                 <a class="o_project_kanban_box" name="action_view_tasks"
                                                    type="object">
                                                     <div>
@@ -167,20 +188,13 @@
                                         <field name="activity_ids" widget="kanban_activity" class="mb-2"/>
                                     </div>
                                     <!-- right side-->
+                                    <!-- project_state_selection-->
                                     <div class="oe_kanban_bottom_right">
-                                        <!--                                    <field t-if="widget.editable"-->
-                                        <!--                                           name="last_update_status" widget="project_state_selection"-->
-                                        <!--                                           options="{'color_field': 'last_update_color', 'hide_label': 1}"/>-->
-                                        <!--                                    <span t-if="!widget.editable"-->
-                                        <!--                                          t-att-class="'o_status_bubble mx-0 o_color_bubble_' + record.last_update_color.value"-->
-                                        <!--                                          t-att-title="record.last_update_status.value"/>-->
-                                        <div class="d-flex align-items-end">
-                                            <span style="font-size:11px">
-                                                manager:
-                                            </span>
-                                            <field name="manager_id" widget="many2one_avatar_user"
-                                                   t-if="record.manager_id.raw_value"/>
-                                        </div>
+                                        <span class="d-flex">
+                                            <field t-if="widget.editable"
+                                                   name="last_update_status" widget="project_state_selection"
+                                                   options="{'color_field': 'last_update_color'}"/>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

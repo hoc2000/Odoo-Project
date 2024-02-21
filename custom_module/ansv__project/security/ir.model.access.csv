@@ -13,3 +13,4 @@ ansv__project.access_project_stage,access_project_stage,ansv__project.model_proj
 ansv__project.access_project_teams,access_project_teams,ansv__project.model_project_teams,base.group_user,1,1,1,1
 ansv__project.access_project_cashflow,access_project_cashflow,ansv__project.model_project_cashflow,base.group_user,1,1,1,1
 ansv__project.access_ansv_project_cashflow,access_ansv_project_cashflow,ansv__project.model_ansv_project_cashflow,base.group_user,1,1,1,1
+ansv__project.access_project_update,access_project_update,ansv__project.model_project_update,base.group_user,1,1,1,1

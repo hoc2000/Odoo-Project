@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_update_view_action" model="ir.actions.act_window">
+        <field name="name">Project Update</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.update</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <!--    kanban-->
+    <record id="project_update_kanban_view" model="ir.ui.view">
+        <field name="name">Project Kanban Updates</field>
+        <field name="model">project.update</field>
+        <field name="arch" type="xml">
+            <kanban class="o_project_update_ansv_card">
+                <templates>
+                    <field name="status"/>
+                    <field name="color"/>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click o_pupdate_kanban_card o_card_update_zoom">
+                            <!-- Project Update Kanban View is always ungrouped - see js_class -->
+                            <div class="o_kanban_detail_ungrouped row">
+                                <div class="col-sm-4 col-6 o_pupdate_name">
+                                    <b>
+                                        <field name="title"/>
+                                    </b>
+                                    <div>
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                        <t t-esc="record.user_id.value"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 text-sm-start col-6 align-end">
+                                    <field name="color" invisible="1"/>
+                                    <b>
+                                        <field name="status" widget="project_state_selection"
+                                               options="{'color_field': 'color'}"
+                                               readonly="1"/>
+                                    </b>
+                                </div>
+                                <div class="col-sm-2 col-6 pb-0">
+                                    <b>
+                                        <field name="progress_percentage" widget="percentage"/>
+                                    </b>
+                                    <div>Progress</div>
+                                </div>
+                                <div class="col-sm-2 col-6 pb-0">
+                                    <b>
+                                        <field name="update_date"/>
+                                    </b>
+                                    <div>Date</div>
+                                </div>
+                            </div>
+                            <div class="go-corner" href="#">
+                                <div class="go-arrow">
+                                    →
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <!--    kanban-->
+
+    <!--    form-->
+    <record id="project_update_view_form" model="ir.ui.view">
+        <field name="name">project_update_view_form</field>
+        <field name="model">project.update</field>
+        <field name="arch" type="xml">
+            <form string="project_update_form">
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="d-flex flex-row">
+                            <field name="title" class="o_text_overflow" placeholder="e.g. Update Title example"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" invisible="1"/>
+                            <field name="status" widget="project_state_selection"
+                                   options="{'color_field': 'color'}"/>
+                            <field name="progress" widget="progressbar" options="{'editable': true}" string="Progress"/>
+                        </group>
+                        <group>
+                            <field name="user_id" widget="many2one_avatar_user" readonly="1" string="Author"/>
+                            <field name="update_date" string="Update Date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="summary" string="Summary">
+                            <field name="summary" nolabel="1" options="{'resizable': false}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--    form-->
+
+</odoo>

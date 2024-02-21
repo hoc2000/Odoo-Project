@@ -21,7 +21,7 @@
         "base",
         "web",
         "portal",
-        "website",
+        # "website",
         "contact_inheritence",
     ],
     "application": True,
@@ -39,6 +39,7 @@
         "views/configure_view.xml",
         "views/tasks_view.xml",
         "views/project_stages.xml",
+        "views/project_update_view.xml",
         "views/task_stages.xml",
         "views/team_project.xml",
         "views/mail_activity_views.xml",
@@ -54,6 +55,9 @@
     "assets": {
         "web.assets_backend": [
             "ansv__project/static/src/**/*.css",
+            "ansv__project/static/src/scss/*.scss",
+            'ansv__project/static/src/utils/**/*',
+            "ansv__project/static/src/js/widget/ansv_project_state_selection.js",
             # "ansv__project/static/src/components/project_task_name_with_subtask_count_char_field/*.js",
             # "ansv__project/static/src/components/project_task_name_with_subtask_count_char_field/*.xml",
             "ansv__project/static/src/components/**/*.js",

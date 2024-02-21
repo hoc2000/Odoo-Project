@@ -53,9 +53,13 @@
 
 .o_kanban_record {
     width: 100%;
-    padding-top:5px !important
+    margin-top: 5px !important;
 }
 
 .o_kanban_renderer.o_project_ansv_kanban {
     --KanbanRecord-width: 350px;
+}
+
+.project_comp a:hover {
+    color: white;
 }

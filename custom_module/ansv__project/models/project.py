@@ -42,6 +42,7 @@ class Project(models.Model):
                 'mail.activity.mixin', 'portal.mixin']
     _description = 'Project'
     _rec_name = 'project_name'
+    _order = 'id desc'
 
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True, )
@@ -88,6 +89,15 @@ class Project(models.Model):
 
     description_project = fields.Text(string="Description")
     product_lines_id = fields.One2many('product.ansv', 'project_id', string="Product")
+    # PROJECT UPDATE
+    project_update_id = fields.Many2one('project.update',
+                                        help="This is the update status or in progress of the project add by weekly")
+    last_update_id = fields.Many2one('project.update',
+                                     help="This is the last update state of the project")
+    last_update_status = fields.Selection(related="last_update_id.status", store=True, readonly=False)
+    last_update_color = fields.Integer(related="last_update_id.color")
+    last_update_progress = fields.Integer(related="last_update_id.progress")
+    last_update_progress_percentage = fields.Float(related="last_update_id.progress_percentage")
     # Properties fields
     task_properties_definition = fields.PropertiesDefinition('Task Properties')
     project_properties_definition = fields.PropertiesDefinition('ProjectDefinition')
@@ -102,12 +112,13 @@ class Project(models.Model):
     sla_failed = fields.Integer(string="sla failed", compute="get_sla_failed_ticket")
 
     # CASHFLOW
+    show_cashflow = fields.Boolean(name="CF show", default=False)
     currency_id = fields.Many2one('res.currency', string="Currency", default=get_default_currency)
 
     # DAC
     dac_info_id = fields.Many2one('ansv.project.cashflow',
                                   string="DAC",
-                                  domain="[('project_id', '=', id),('name','ilike','DAC')]",
+                                  domain="[('project_id', '=', id),('name','ilike','DAC')]"
                                   )
     dac_cash = fields.Monetary(string="Cash DAC", help="This is price of the product exchange to VNĐ",
                                related="dac_info_id.base_cash", store=True,
@@ -415,6 +426,19 @@ class Project(models.Model):
                 'context': {'default_project_id': rec.id},
                 'domain': [('project_id', '=', currProjectId), ('is_failed', '=', 'false')],
 
+            }
+
+    # UPDATE PROJECT ACTION
+    def action_view_updates(self):
+        for rec in self:
+            return {
+                'name': f"{rec.project_name}'s Updates",
+                'type': 'ir.actions.act_window',
+                'view_mode': 'kanban,tree,form',
+                'res_model': 'project.update',
+                # 'view_id': self.env.ref("mockdesk.all_ticket_view_kanban").id,
+                'context': {'default_project_id': rec.id},
+                'domain': [('project_id', '=', rec.id)],
             }
 
     @api.onchange('partner_ids')

@@ -15,6 +15,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!--        tree-->
         <record id="ansv_project_cashflow_view_tree" model="ir.ui.view">
             <field name="name">ANSV Project Cashflow</field>
             <field name="model">ansv.project.cashflow</field>
@@ -23,7 +24,7 @@
                       editable="bottom"
                       create="0">
                     <field name="name"/>
-                    <field name="project_id" invisible="1"/>
+                    <field name="project_id" invisible="0"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="base_cash"/>
                     <field name="base_contact_date"/>
