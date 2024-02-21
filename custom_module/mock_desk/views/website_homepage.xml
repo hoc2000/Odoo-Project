@@ -144,7 +144,7 @@
 
                             <div
                                 class="carousel-item pt128 pb128 o_colored_level oe_img_bg o_bg_img_center"
-                                style="background-image: url(&quot;/mock_desk/static/image/IT.jpg&quot;);"
+                                style="background-image: url(&quot;/mock_desk/static/image/IT2.jpg&quot;);"
                                 data-name="Slide">
                                 <div class="container oe_unremovable">
                                     <div class="row content">
@@ -239,8 +239,8 @@
                                     aria-describedby="tooltip40218" />
                             </div>
                             <div class="col-lg-6 pt16 pb16 o_colored_level">
-                                <h2 class="o_default_snippet_text">Destiny</h2>
-                                <p class="o_default_snippet_text">ANSV is based on the application
+                                <h2 class="o_default_snippet_text o_animate o_anim_slide_in o_anim_from_right o_visible">Destiny</h2>
+                                <p class="o_default_snippet_text o_animate o_anim_slide_in o_anim_from_right o_visible">ANSV is based on the application
                                     of Science, Technology - IT - Telecommunications along with
                                     continuous innovation and the connecting power of international
                                     technological achievements with Vietnamese experts and
@@ -265,8 +265,8 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-lg-6 pt16 pb16 o_colored_level">
-                                <h2 class="o_default_snippet_text">Vision</h2>
-                                <p class="o_default_snippet_text">ANSV aims to become a leading
+                                <h2 class="o_default_snippet_text o_animate o_anim_slide_in o_anim_from_left o_visible">Vision</h2>
+                                <p class="o_default_snippet_text o_animate o_anim_slide_in o_anim_from_left o_visible">ANSV aims to become a leading
                                     enterprise in the field of digital transformation, IT -
                                     telecommunications system integration, and retail distribution
                                     of technology products in the Vietnamese and regional markets.
