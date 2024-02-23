@@ -131,11 +131,10 @@
                                 </div>
                                 <!-- Progress-bar kanban -->
                                 <div class="progress">
-                                    <div id="project_progress" class="progress-bar bg-info text-left" role="progressbar" t-attf-style="width:#{record.last_update_progress.value}%;"
-                                         t-att-aria-valuenow="record.last_update_progress.value"
-                                         aria-valuemin="0" aria-valuemax="100" name="10">
-                                        <field name="last_update_progress_percentage"
-                                               widget="percentage"/>
+                                    <div class="progress-bar bg-info text-left"
+                                         role="progressbar" t-att-aria-valuenow="record.last_update_progress.value" aria-valuemin="0"
+                                         aria-valuemax="100" t-attf-style="width:#{record.last_update_progress.value}%">
+                                        <field name="last_update_progress_percentage" widget="percentage"/>
                                     </div>
                                 </div>
                                 <!--footer kanban-->

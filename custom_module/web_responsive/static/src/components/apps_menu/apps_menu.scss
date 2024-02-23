@@ -33,13 +33,8 @@
     }
     .dropdown-menu-custom {
         @include full-screen-dropdown();
-        cursor: pointer;
-        background: url("../../img/home-menu-bg-overlay.svg"),
-            linear-gradient(
-                to bottom,
-                $o-brand-odoo,
-                desaturate(lighten($o-brand-odoo, 20%), 15)
-            );
+//         cursor: pointer;
+        background: url("../../img/bow-to-the-dirtmouth.jpg");
         background-size: cover;
         border-radius: 0;
         // Display apps in a grid
