@@ -1,9 +1,9 @@
 from odoo import api, fields, models
 
 STATUS_COLOR = {
-    'on_track': 20,  # green / success
+    'on_track': 10,  # green / success
     'at_risk': 2,  # orange
-    'off_track': 23,  # red / danger
+    'off_track': 1,  # red / danger
     'on_hold': 4,  # light blue
     False: 0,  # default grey -- for studio
     # Only used in project.task
